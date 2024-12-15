@@ -1,0 +1,1117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuanLyTaiSanCtyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Credential">
+    <Key>
+      <PropertyRef Name="UserGroupID" />
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="UserGroupID" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="RoleID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DestructivelDevice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DeviceId" Type="int" />
+    <Property Name="DateOfDestructive" Type="date" />
+    <Property Name="TypeOfDestructive" Type="int" />
+    <Property Name="AddressOfDestructive" Type="nvarchar" MaxLength="500" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="1000" />
+    <Property Name="CreatedDate" Type="date" />
+  </EntityType>
+  <EntityType Name="DestructiveType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="1000" />
+  </EntityType>
+  <EntityType Name="Device">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DeviceCode" Type="char" MaxLength="50" />
+    <Property Name="DeviceName" Type="nvarchar" MaxLength="200" />
+    <Property Name="TypeOfDevice" Type="int" />
+    <Property Name="ParentId" Type="int" />
+    <Property Name="Configuration" Type="nvarchar" MaxLength="500" />
+    <Property Name="Price" Type="float" />
+    <Property Name="PurchaseContract" Type="nvarchar" MaxLength="500" />
+    <Property Name="DateOfPurchase" Type="date" />
+    <Property Name="SupplierId" Type="int" />
+    <Property Name="Guarantee" Type="date" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="2000" />
+    <Property Name="CreatedDate" Type="date" />
+    <Property Name="ModifiedDate" Type="date" />
+    <Property Name="Status" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="StatusRepair" Type="int" />
+    <Property Name="NewCode" Type="char" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'QuanLyTaiSanCtyDATN.dbo.DeviceDevice' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="DeviceDevice">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DeviceCodeParents" Type="int" />
+    <Property Name="DeviceCodeChildren" Type="int" />
+    <Property Name="TypeSymbolParents" Type="int" />
+    <Property Name="TypeSymbolChildren" Type="int" />
+    <Property Name="CreatedDate" Type="date" />
+    <Property Name="ModifiedDate" Type="date" />
+    <Property Name="UserCreated" Type="int" />
+    <Property Name="UserModified" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="500" />
+    <Property Name="TypeComponant" Type="int" />
+  </EntityType>
+  <EntityType Name="DeviceOfProject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProjectId" Type="int" />
+    <Property Name="DeviceId" Type="int" />
+    <Property Name="DateOfDelivery" Type="date" />
+    <Property Name="DateOfReturn" Type="date" />
+    <Property Name="Status" Type="int" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="2000" />
+    <Property Name="IsDeleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="DeviceType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeName" Type="nvarchar" MaxLength="100" />
+    <Property Name="TypeSymbol" Type="nchar" MaxLength="50" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="1000" />
+    <Property Name="OrderCode" Type="int" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'QuanLyTaiSanCtyDATN.dbo.DeviceTypeComponantType' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="DeviceTypeComponantType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeSymbolParents" Type="int" />
+    <Property Name="TypeSymbolChildren" Type="int" />
+    <Property Name="CreatedDate" Type="date" />
+    <Property Name="ModifiedDate" Type="date" />
+    <Property Name="UserCreated" Type="int" />
+    <Property Name="UserModified" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="TypeComponant" Type="int" />
+  </EntityType>
+  <EntityType Name="ProjectDKC">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ProjectName" Type="nvarchar" MaxLength="200" />
+    <Property Name="ProjectSymbol" Type="nchar" MaxLength="50" />
+    <Property Name="ManagerProject" Type="int" />
+    <Property Name="Address" Type="nvarchar" MaxLength="1000" />
+    <Property Name="FromDate" Type="date" />
+    <Property Name="ToDate" Type="date" />
+    <Property Name="CreatedDate" Type="date" />
+    <Property Name="ModifiedDate" Type="date" />
+    <Property Name="Status" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="TypeProject" Type="int" />
+  </EntityType>
+  <EntityType Name="RepairDetails">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DeviceId" Type="int" />
+    <Property Name="DateOfRepair" Type="date" />
+    <Property Name="NextDateOfRepair" Type="date" />
+    <Property Name="TimeOrder" Type="int" />
+    <Property Name="TypeOfRepair" Type="int" />
+    <Property Name="AddressOfRepair" Type="nvarchar" MaxLength="500" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="1000" />
+    <Property Name="CreateDate" Type="date" />
+    <Property Name="Price" Type="float" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="RepairType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TypeName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="1000" />
+  </EntityType>
+  <EntityType Name="RequestDevice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserRequest" Type="int" />
+    <Property Name="DateOfRequest" Type="date" />
+    <Property Name="DateOfUse" Type="date" />
+    <Property Name="DeviceName" Type="nvarchar" MaxLength="200" />
+    <Property Name="TypeOfDevice" Type="int" />
+    <Property Name="Configuration" Type="nvarchar" MaxLength="2000" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="2000" />
+    <Property Name="Approved" Type="bit" />
+    <Property Name="UserApproved" Type="int" />
+    <Property Name="CreatedDate" Type="date" />
+    <Property Name="Status" Type="int" />
+    <Property Name="NumDevice" Type="int" />
+    <Property Name="NoteProcess" Type="nvarchar" MaxLength="2000" />
+    <Property Name="NoteReasonRefuse" Type="nvarchar" MaxLength="2000" />
+    <Property Name="NameUserApproved" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ScheduleTest">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DeviceId" Type="int" />
+    <Property Name="DateOfTest" Type="date" />
+    <Property Name="NextDateOfTest" Type="date" />
+    <Property Name="CategoryTest" Type="nvarchar" MaxLength="2000" />
+    <Property Name="UserTest" Type="int" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="2000" />
+    <Property Name="Status" Type="int" />
+    <Property Name="CreateDate" Type="date" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="200" />
+    <Property Name="Email" Type="char" MaxLength="50" />
+    <Property Name="Phone" Type="char" MaxLength="15" />
+    <Property Name="Address" Type="nvarchar" MaxLength="500" />
+    <Property Name="Support" Type="nvarchar" MaxLength="500" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <EntityType Name="UsageDevice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DateUse" Type="date" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="ProjectId" Type="int" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="500" />
+    <Property Name="DeviceId" Type="int" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="char" MaxLength="50" />
+    <Property Name="PassWord" Type="char" MaxLength="200" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Email" Type="char" MaxLength="50" />
+    <Property Name="PhoneNumber" Type="char" MaxLength="15" />
+    <Property Name="Address" Type="nvarchar" MaxLength="500" />
+    <Property Name="Department" Type="nvarchar" MaxLength="100" />
+    <Property Name="Position" Type="nvarchar" MaxLength="100" />
+    <Property Name="RoleId" Type="int" />
+    <Property Name="Status" Type="int" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="GroupID" Type="varchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="UserGroup">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="UserLogin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="char" MaxLength="50" />
+    <Property Name="PassWord" Type="char" MaxLength="50" />
+    <Property Name="GroupID" Type="varchar" MaxLength="20" />
+    <Property Name="FullName" Type="nvarchar" MaxLength="100" />
+    <Property Name="Email" Type="char" MaxLength="50" />
+    <Property Name="IsDeleted" Type="bit" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <Association Name="FK_CancelDevice_CancelType">
+    <End Role="DestructiveType" Type="Self.DestructiveType" Multiplicity="0..1" />
+    <End Role="DestructivelDevice" Type="Self.DestructivelDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DestructiveType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DestructivelDevice">
+        <PropertyRef Name="TypeOfDestructive" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CancelDevice_Device">
+    <End Role="Device" Type="Self.Device" Multiplicity="0..1" />
+    <End Role="DestructivelDevice" Type="Self.DestructivelDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DestructivelDevice">
+        <PropertyRef Name="DeviceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CancelDevice_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="DestructivelDevice" Type="Self.DestructivelDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DestructivelDevice">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Credential_UserGroup">
+    <End Role="Role" Type="Self.Role" Multiplicity="1" />
+    <End Role="Credential" Type="Self.Credential" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Credential">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Credential_UserGroup1">
+    <End Role="UserGroup" Type="Self.UserGroup" Multiplicity="1" />
+    <End Role="Credential" Type="Self.Credential" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserGroup">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Credential">
+        <PropertyRef Name="UserGroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Device_DeviceType">
+    <End Role="DeviceType" Type="Self.DeviceType" Multiplicity="0..1" />
+    <End Role="Device" Type="Self.Device" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeviceType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Device">
+        <PropertyRef Name="TypeOfDevice" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Device_Supplier">
+    <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
+    <End Role="Device" Type="Self.Device" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Device">
+        <PropertyRef Name="SupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Device_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Device" Type="Self.Device" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Device">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeviceDevice_Device">
+    <End Role="Device" Type="Self.Device" Multiplicity="0..1" />
+    <End Role="DeviceDevice" Type="Self.DeviceDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeviceDevice">
+        <PropertyRef Name="DeviceCodeChildren" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeviceDevice_Device1">
+    <End Role="Device" Type="Self.Device" Multiplicity="0..1" />
+    <End Role="DeviceDevice" Type="Self.DeviceDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeviceDevice">
+        <PropertyRef Name="DeviceCodeParents" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeviceOfProject_Device">
+    <End Role="Device" Type="Self.Device" Multiplicity="0..1" />
+    <End Role="DeviceOfProject" Type="Self.DeviceOfProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeviceOfProject">
+        <PropertyRef Name="DeviceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeviceOfProject_ProjectDKC">
+    <End Role="ProjectDKC" Type="Self.ProjectDKC" Multiplicity="0..1" />
+    <End Role="DeviceOfProject" Type="Self.DeviceOfProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectDKC">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeviceOfProject">
+        <PropertyRef Name="ProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeviceTypeComponantType_DeviceType">
+    <End Role="DeviceType" Type="Self.DeviceType" Multiplicity="0..1" />
+    <End Role="DeviceTypeComponantType" Type="Self.DeviceTypeComponantType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeviceType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeviceTypeComponantType">
+        <PropertyRef Name="TypeSymbolChildren" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeviceTypeComponantType_DeviceType1">
+    <End Role="DeviceType" Type="Self.DeviceType" Multiplicity="0..1" />
+    <End Role="DeviceTypeComponantType" Type="Self.DeviceTypeComponantType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeviceType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeviceTypeComponantType">
+        <PropertyRef Name="TypeSymbolParents" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectDKC_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="ProjectDKC" Type="Self.ProjectDKC" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProjectDKC">
+        <PropertyRef Name="ManagerProject" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RepairDetails_Device">
+    <End Role="Device" Type="Self.Device" Multiplicity="0..1" />
+    <End Role="RepairDetails" Type="Self.RepairDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RepairDetails">
+        <PropertyRef Name="DeviceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RepairDetails_RepairType">
+    <End Role="RepairType" Type="Self.RepairType" Multiplicity="0..1" />
+    <End Role="RepairDetails" Type="Self.RepairDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RepairType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RepairDetails">
+        <PropertyRef Name="TypeOfRepair" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RepairDetails_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="RepairDetails" Type="Self.RepairDetails" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RepairDetails">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequestDevice_DeviceType">
+    <End Role="DeviceType" Type="Self.DeviceType" Multiplicity="0..1" />
+    <End Role="RequestDevice" Type="Self.RequestDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeviceType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RequestDevice">
+        <PropertyRef Name="TypeOfDevice" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequestDevice_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="RequestDevice" Type="Self.RequestDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RequestDevice">
+        <PropertyRef Name="UserRequest" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ScheduleTest_Device">
+    <End Role="Device" Type="Self.Device" Multiplicity="0..1" />
+    <End Role="ScheduleTest" Type="Self.ScheduleTest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ScheduleTest">
+        <PropertyRef Name="DeviceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ScheduleTest_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="ScheduleTest" Type="Self.ScheduleTest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ScheduleTest">
+        <PropertyRef Name="UserTest" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsageDevice_Device">
+    <End Role="Device" Type="Self.Device" Multiplicity="0..1" />
+    <End Role="UsageDevice" Type="Self.UsageDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsageDevice">
+        <PropertyRef Name="DeviceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsageDevice_ProjectDKC">
+    <End Role="ProjectDKC" Type="Self.ProjectDKC" Multiplicity="0..1" />
+    <End Role="UsageDevice" Type="Self.UsageDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectDKC">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsageDevice">
+        <PropertyRef Name="ProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsageDevice_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="UsageDevice" Type="Self.UsageDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsageDevice">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserLogin_UserGroup">
+    <End Role="UserGroup" Type="Self.UserGroup" Multiplicity="0..1" />
+    <End Role="UserLogin" Type="Self.UserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserGroup">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserLogin">
+        <PropertyRef Name="GroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="AddDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DeviceCode" Type="char" Mode="In" />
+    <Parameter Name="NewCode" Type="char" Mode="In" />
+    <Parameter Name="DeviceName" Type="nvarchar" Mode="In" />
+    <Parameter Name="TypeOfDevice" Type="int" Mode="In" />
+    <Parameter Name="ParentId" Type="int" Mode="In" />
+    <Parameter Name="Configuration" Type="nvarchar" Mode="In" />
+    <Parameter Name="Price" Type="float" Mode="In" />
+    <Parameter Name="PurchaseContract" Type="nvarchar" Mode="In" />
+    <Parameter Name="DateOfPurchase" Type="date" Mode="In" />
+    <Parameter Name="SupplierId" Type="int" Mode="In" />
+    <Parameter Name="ProjectId" Type="int" Mode="In" />
+    <Parameter Name="Guarantee" Type="date" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="AddDeviceOfDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdParent" Type="int" Mode="In" />
+    <Parameter Name="IdChild" Type="int" Mode="In" />
+    <Parameter Name="TypeChild" Type="int" Mode="In" />
+    <Parameter Name="TypeParent" Type="int" Mode="In" />
+    <Parameter Name="TypeComponant" Type="int" Mode="In" />
+  </Function>
+  <Function Name="AddDeviceOfProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ProjectId" Type="int" Mode="In" />
+    <Parameter Name="DeviceId" Type="int" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="AddDeviceType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TypeName" Type="nvarchar" Mode="In" />
+    <Parameter Name="TypeSymbol" Type="nchar" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="AddProject_" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" StoreFunctionName="AddProject ">
+    <Parameter Name="ProjectSymbol" Type="nchar" Mode="In" />
+    <Parameter Name="ProjectName" Type="nvarchar" Mode="In" />
+    <Parameter Name="ManagerProject" Type="int" Mode="In" />
+    <Parameter Name="Address" Type="nvarchar" Mode="In" />
+    <Parameter Name="FromDate" Type="date" Mode="In" />
+    <Parameter Name="ToDate" Type="date" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="AddRepairDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DeviceId" Type="int" Mode="In" />
+    <Parameter Name="DateOfRepair" Type="date" Mode="In" />
+    <Parameter Name="NextDateOfRepair" Type="date" Mode="In" />
+    <Parameter Name="TimeOrder" Type="int" Mode="In" />
+    <Parameter Name="TypeOfRepair" Type="int" Mode="In" />
+    <Parameter Name="AddressOfRepair" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="AddRepairType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TypeName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="AddRequestDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserRequest" Type="int" Mode="In" />
+    <Parameter Name="DateOfRequest" Type="date" Mode="In" />
+    <Parameter Name="DateOfUse" Type="date" Mode="In" />
+    <Parameter Name="DeviceName" Type="nvarchar" Mode="In" />
+    <Parameter Name="TypeOfDevice" Type="int" Mode="In" />
+    <Parameter Name="Configuration" Type="nvarchar" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+    <Parameter Name="NumDevice" Type="int" Mode="In" />
+    <Parameter Name="UserApproved" Type="int" Mode="In" />
+  </Function>
+  <Function Name="AddScheduleTest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DeviceId" Type="int" Mode="In" />
+    <Parameter Name="DateOfTest" Type="date" Mode="In" />
+    <Parameter Name="NextDateOfTest" Type="date" Mode="In" />
+    <Parameter Name="CategoryTest" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserTest" Type="int" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="AddSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Name" Type="nvarchar" Mode="In" />
+    <Parameter Name="Email" Type="char" Mode="In" />
+    <Parameter Name="Phone" Type="char" Mode="In" />
+    <Parameter Name="Address" Type="nvarchar" Mode="In" />
+    <Parameter Name="Support" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="AddTypeChidren" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TypeChidren" Type="int" Mode="In" />
+    <Parameter Name="TypeParent" Type="int" Mode="In" />
+    <Parameter Name="Type_TypeCom" Type="int" Mode="In" />
+  </Function>
+  <Function Name="AddUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="UserName" Type="char" Mode="In" />
+    <Parameter Name="PassWord" Type="char" Mode="In" />
+    <Parameter Name="FullName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Email" Type="char" Mode="In" />
+    <Parameter Name="PhoneNumber" Type="char" Mode="In" />
+    <Parameter Name="Address" Type="nvarchar" Mode="In" />
+    <Parameter Name="Department" Type="nvarchar" Mode="In" />
+    <Parameter Name="Position" Type="nvarchar" Mode="In" />
+    <Parameter Name="RoleId" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ChildrenOfDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DeviceCodeParents" Type="int" Mode="In" />
+    <Parameter Name="TypeSymbolChildren" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteAllRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="GroupId" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="DeleteDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteDevice1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="char" Mode="In" />
+  </Function>
+  <Function Name="DeleteDeviceOfDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdParent" Type="int" Mode="In" />
+    <Parameter Name="IdChild" Type="int" Mode="In" />
+    <Parameter Name="Resons" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="DeleteDeviceOfProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteDeviceType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteProject1" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="char" Mode="In" />
+  </Function>
+  <Function Name="DeleteRepairDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="char" Mode="In" />
+  </Function>
+  <Function Name="DeleteRepairDetailsOne" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteRepairType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="char" Mode="In" />
+  </Function>
+  <Function Name="DeleteRequestDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="char" Mode="In" />
+  </Function>
+  <Function Name="DeleteRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteScheduleTest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="char" Mode="In" />
+  </Function>
+  <Function Name="DeleteSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteTypeParentTypeChild" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TypeChidren" Type="int" Mode="In" />
+    <Parameter Name="TypeParent" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeleteUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeviceById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeviceHistory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="DeviceOfProjectAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ProjectId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="DeviceTypeById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="EditRepairDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="DeviceId" Type="int" Mode="In" />
+    <Parameter Name="DateOfRepair" Type="date" Mode="In" />
+    <Parameter Name="NextDateOfRepair" Type="date" Mode="In" />
+    <Parameter Name="TimeOrder" Type="int" Mode="In" />
+    <Parameter Name="TypeOfRepair" Type="int" Mode="In" />
+    <Parameter Name="AddressOfRepair" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+    <Parameter Name="Price" Type="float" Mode="In" />
+  </Function>
+  <Function Name="EditRepairType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="TypeName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="HistoryRepairDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="HistoryScheduleTestById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="LiquidationDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="char" Mode="In" />
+  </Function>
+  <Function Name="OderCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ProjectById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="RepairDetailsAll" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="RepairDetailsById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ReturnDeviceOfProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ProjectId" Type="int" Mode="In" />
+    <Parameter Name="DeviceId" Type="int" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="ReturnDeviceProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DeviceId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="RoleById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="ScheduleTestById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SeachDeviceOfProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="devicetypes" Type="int" Mode="In" />
+    <Parameter Name="status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SearchDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="status" Type="int" Mode="In" />
+    <Parameter Name="devicetype" Type="int" Mode="In" />
+    <Parameter Name="guarantee" Type="int" Mode="In" />
+    <Parameter Name="projectid" Type="int" Mode="In" />
+    <Parameter Name="devicecode" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="SearchDeviceType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SearchProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="managerProject" Type="int" Mode="In" />
+    <Parameter Name="status" Type="int" Mode="In" />
+    <Parameter Name="TypeProject" Type="int" Mode="In" />
+    <Parameter Name="ProjectSymbol" Type="nchar" Mode="In" />
+  </Function>
+  <Function Name="SearchRepairDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="repairtypes" Type="int" Mode="In" />
+    <Parameter Name="user" Type="int" Mode="In" />
+    <Parameter Name="iddevice" Type="int" Mode="In" />
+    <Parameter Name="status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SearchRepairDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SearchRequestDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="status" Type="int" Mode="In" />
+    <Parameter Name="approved" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="SearchRequestDeviceNew" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="status" Type="int" Mode="In" />
+    <Parameter Name="approved" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="SearchRole" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SearchScheduleTest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="user" Type="int" Mode="In" />
+    <Parameter Name="status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SearchSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SearchUseDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="DeviceId" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SearchUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="SelectList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="char" Mode="In" />
+  </Function>
+  <Function Name="splitstring" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="stringToSplit" Type="varchar(max)" Mode="In" />
+    <ReturnType>
+      <CollectionType>
+        <RowType>
+          <Property Name="Name" Type="nvarchar" MaxLength="500" />
+        </RowType>
+      </CollectionType>
+    </ReturnType>
+  </Function>
+  <Function Name="StatisticalDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="StatisticProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SupplierById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="TypeComponantOfDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="TypeParent" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="DeviceCode" Type="char" Mode="In" />
+    <Parameter Name="NewCode" Type="char" Mode="In" />
+    <Parameter Name="DeviceName" Type="nvarchar" Mode="In" />
+    <Parameter Name="TypeOfDevice" Type="int" Mode="In" />
+    <Parameter Name="ParentId" Type="int" Mode="In" />
+    <Parameter Name="Configuration" Type="nvarchar" Mode="In" />
+    <Parameter Name="Price" Type="float" Mode="In" />
+    <Parameter Name="PurchaseContract" Type="nvarchar" Mode="In" />
+    <Parameter Name="DateOfPurchase" Type="date" Mode="In" />
+    <Parameter Name="SupplierId" Type="int" Mode="In" />
+    <Parameter Name="Guarantee" Type="date" Mode="In" />
+    <Parameter Name="UserId" Type="int" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+    <Parameter Name="CreatedDate" Type="date" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateDeviceOfProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="ProjectId" Type="int" Mode="In" />
+    <Parameter Name="DeviceId" Type="int" Mode="In" />
+    <Parameter Name="DateOfDelivery" Type="date" Mode="In" />
+    <Parameter Name="DateOfReturn" Type="date" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+    <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="UpdateDeviceType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="TypeName" Type="nvarchar" Mode="In" />
+    <Parameter Name="TypeSymbol" Type="nchar" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="UpdateProject" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="ProjectSymbol" Type="nchar" Mode="In" />
+    <Parameter Name="ProjectName" Type="nvarchar" Mode="In" />
+    <Parameter Name="ManagerProject" Type="int" Mode="In" />
+    <Parameter Name="Address" Type="nvarchar" Mode="In" />
+    <Parameter Name="FromDate" Type="date" Mode="In" />
+    <Parameter Name="ToDate" Type="date" Mode="In" />
+    <Parameter Name="CreatedDate" Type="date" Mode="In" />
+    <Parameter Name="ModifiedDate" Type="date" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+    <Parameter Name="IsDeleted" Type="bit" Mode="In" />
+  </Function>
+  <Function Name="UpdateRequestDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="UserRequest" Type="int" Mode="In" />
+    <Parameter Name="DateOfRequest" Type="date" Mode="In" />
+    <Parameter Name="DateOfUse" Type="date" Mode="In" />
+    <Parameter Name="DeviceName" Type="nvarchar" Mode="In" />
+    <Parameter Name="TypeOfDevice" Type="int" Mode="In" />
+    <Parameter Name="Configuration" Type="nvarchar" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+    <Parameter Name="Approved" Type="bit" Mode="In" />
+    <Parameter Name="UserApproved" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+    <Parameter Name="NumDevice" Type="int" Mode="In" />
+    <Parameter Name="NoteProcess" Type="nvarchar" Mode="In" />
+    <Parameter Name="NoteReasonRefuse" Type="nvarchar" Mode="In" />
+    <Parameter Name="NameUserApproved" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="UpdateScheduleTest" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="DeviceId" Type="int" Mode="In" />
+    <Parameter Name="DateOfTest" Type="date" Mode="In" />
+    <Parameter Name="NextDateOfTest" Type="date" Mode="In" />
+    <Parameter Name="CategoryTest" Type="nvarchar" Mode="In" />
+    <Parameter Name="UserTest" Type="int" Mode="In" />
+    <Parameter Name="Notes" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateSupplier" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="Name" Type="nvarchar" Mode="In" />
+    <Parameter Name="Email" Type="char" Mode="In" />
+    <Parameter Name="Phone" Type="char" Mode="In" />
+    <Parameter Name="Address" Type="nvarchar" Mode="In" />
+    <Parameter Name="Support" Type="nvarchar" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+    <Parameter Name="UserName" Type="char" Mode="In" />
+    <Parameter Name="PassWord" Type="char" Mode="In" />
+    <Parameter Name="FullName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Email" Type="char" Mode="In" />
+    <Parameter Name="PhoneNumber" Type="char" Mode="In" />
+    <Parameter Name="Address" Type="nvarchar" Mode="In" />
+    <Parameter Name="Department" Type="nvarchar" Mode="In" />
+    <Parameter Name="Position" Type="nvarchar" Mode="In" />
+    <Parameter Name="RoleId" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UpdateUserDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="IdDv" Type="int" Mode="In" />
+    <Parameter Name="IdUser" Type="int" Mode="In" />
+  </Function>
+  <Function Name="UserById" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="int" Mode="In" />
+  </Function>
+  <EntityContainer Name="QuanLyTaiSanCtyModelStoreContainer">
+    <EntitySet Name="Credential" EntityType="Self.Credential" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DestructivelDevice" EntityType="Self.DestructivelDevice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DestructiveType" EntityType="Self.DestructiveType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Device" EntityType="Self.Device" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DeviceOfProject" EntityType="Self.DeviceOfProject" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DeviceType" EntityType="Self.DeviceType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ProjectDKC" EntityType="Self.ProjectDKC" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RepairDetails" EntityType="Self.RepairDetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RepairType" EntityType="Self.RepairType" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RequestDevice" EntityType="Self.RequestDevice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ScheduleTest" EntityType="Self.ScheduleTest" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UsageDevice" EntityType="Self.UsageDevice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserGroup" EntityType="Self.UserGroup" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserLogin" EntityType="Self.UserLogin" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DeviceDevice" EntityType="Self.DeviceDevice" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [DeviceDevice].[id] AS [id], 
+    [DeviceDevice].[DeviceCodeParents] AS [DeviceCodeParents], 
+    [DeviceDevice].[DeviceCodeChildren] AS [DeviceCodeChildren], 
+    [DeviceDevice].[TypeSymbolParents] AS [TypeSymbolParents], 
+    [DeviceDevice].[TypeSymbolChildren] AS [TypeSymbolChildren], 
+    [DeviceDevice].[CreatedDate] AS [CreatedDate], 
+    [DeviceDevice].[ModifiedDate] AS [ModifiedDate], 
+    [DeviceDevice].[UserCreated] AS [UserCreated], 
+    [DeviceDevice].[UserModified] AS [UserModified], 
+    [DeviceDevice].[IsDeleted] AS [IsDeleted], 
+    [DeviceDevice].[Notes] AS [Notes], 
+    [DeviceDevice].[TypeComponant] AS [TypeComponant]
+    FROM [dbo].[DeviceDevice] AS [DeviceDevice]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="DeviceTypeComponantType" EntityType="Self.DeviceTypeComponantType" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [DeviceTypeComponantType].[id] AS [id], 
+    [DeviceTypeComponantType].[TypeSymbolParents] AS [TypeSymbolParents], 
+    [DeviceTypeComponantType].[TypeSymbolChildren] AS [TypeSymbolChildren], 
+    [DeviceTypeComponantType].[CreatedDate] AS [CreatedDate], 
+    [DeviceTypeComponantType].[ModifiedDate] AS [ModifiedDate], 
+    [DeviceTypeComponantType].[UserCreated] AS [UserCreated], 
+    [DeviceTypeComponantType].[UserModified] AS [UserModified], 
+    [DeviceTypeComponantType].[IsDeleted] AS [IsDeleted], 
+    [DeviceTypeComponantType].[TypeComponant] AS [TypeComponant]
+    FROM [dbo].[DeviceTypeComponantType] AS [DeviceTypeComponantType]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_CancelDevice_CancelType" Association="Self.FK_CancelDevice_CancelType">
+      <End Role="DestructiveType" EntitySet="DestructiveType" />
+      <End Role="DestructivelDevice" EntitySet="DestructivelDevice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CancelDevice_Device" Association="Self.FK_CancelDevice_Device">
+      <End Role="Device" EntitySet="Device" />
+      <End Role="DestructivelDevice" EntitySet="DestructivelDevice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CancelDevice_User" Association="Self.FK_CancelDevice_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="DestructivelDevice" EntitySet="DestructivelDevice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Credential_UserGroup" Association="Self.FK_Credential_UserGroup">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="Credential" EntitySet="Credential" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Credential_UserGroup1" Association="Self.FK_Credential_UserGroup1">
+      <End Role="UserGroup" EntitySet="UserGroup" />
+      <End Role="Credential" EntitySet="Credential" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Device_DeviceType" Association="Self.FK_Device_DeviceType">
+      <End Role="DeviceType" EntitySet="DeviceType" />
+      <End Role="Device" EntitySet="Device" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Device_Supplier" Association="Self.FK_Device_Supplier">
+      <End Role="Supplier" EntitySet="Supplier" />
+      <End Role="Device" EntitySet="Device" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Device_User" Association="Self.FK_Device_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="Device" EntitySet="Device" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeviceDevice_Device" Association="Self.FK_DeviceDevice_Device">
+      <End Role="Device" EntitySet="Device" />
+      <End Role="DeviceDevice" EntitySet="DeviceDevice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeviceDevice_Device1" Association="Self.FK_DeviceDevice_Device1">
+      <End Role="Device" EntitySet="Device" />
+      <End Role="DeviceDevice" EntitySet="DeviceDevice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeviceOfProject_Device" Association="Self.FK_DeviceOfProject_Device">
+      <End Role="Device" EntitySet="Device" />
+      <End Role="DeviceOfProject" EntitySet="DeviceOfProject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeviceOfProject_ProjectDKC" Association="Self.FK_DeviceOfProject_ProjectDKC">
+      <End Role="ProjectDKC" EntitySet="ProjectDKC" />
+      <End Role="DeviceOfProject" EntitySet="DeviceOfProject" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeviceTypeComponantType_DeviceType" Association="Self.FK_DeviceTypeComponantType_DeviceType">
+      <End Role="DeviceType" EntitySet="DeviceType" />
+      <End Role="DeviceTypeComponantType" EntitySet="DeviceTypeComponantType" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeviceTypeComponantType_DeviceType1" Association="Self.FK_DeviceTypeComponantType_DeviceType1">
+      <End Role="DeviceType" EntitySet="DeviceType" />
+      <End Role="DeviceTypeComponantType" EntitySet="DeviceTypeComponantType" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectDKC_User" Association="Self.FK_ProjectDKC_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="ProjectDKC" EntitySet="ProjectDKC" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RepairDetails_Device" Association="Self.FK_RepairDetails_Device">
+      <End Role="Device" EntitySet="Device" />
+      <End Role="RepairDetails" EntitySet="RepairDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RepairDetails_RepairType" Association="Self.FK_RepairDetails_RepairType">
+      <End Role="RepairType" EntitySet="RepairType" />
+      <End Role="RepairDetails" EntitySet="RepairDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RepairDetails_User" Association="Self.FK_RepairDetails_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="RepairDetails" EntitySet="RepairDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequestDevice_DeviceType" Association="Self.FK_RequestDevice_DeviceType">
+      <End Role="DeviceType" EntitySet="DeviceType" />
+      <End Role="RequestDevice" EntitySet="RequestDevice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequestDevice_User" Association="Self.FK_RequestDevice_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="RequestDevice" EntitySet="RequestDevice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ScheduleTest_Device" Association="Self.FK_ScheduleTest_Device">
+      <End Role="Device" EntitySet="Device" />
+      <End Role="ScheduleTest" EntitySet="ScheduleTest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ScheduleTest_User" Association="Self.FK_ScheduleTest_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="ScheduleTest" EntitySet="ScheduleTest" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsageDevice_Device" Association="Self.FK_UsageDevice_Device">
+      <End Role="Device" EntitySet="Device" />
+      <End Role="UsageDevice" EntitySet="UsageDevice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsageDevice_ProjectDKC" Association="Self.FK_UsageDevice_ProjectDKC">
+      <End Role="ProjectDKC" EntitySet="ProjectDKC" />
+      <End Role="UsageDevice" EntitySet="UsageDevice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsageDevice_User" Association="Self.FK_UsageDevice_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="UsageDevice" EntitySet="UsageDevice" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserLogin_UserGroup" Association="Self.FK_UserLogin_UserGroup">
+      <End Role="UserGroup" EntitySet="UserGroup" />
+      <End Role="UserLogin" EntitySet="UserLogin" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,75 @@
+﻿<div class="modal fade" id="edittype" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Loại sửa chữa</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group m-bot15 clearfix ">
+                    <label class="control-label col-md-4 ">Tên Loại</label>
+                    <div class="col-md-8 ">
+                        <input type="text" class="form-control myctr form" id="TypeNames" name="TypeNames">
+                        <input type="hidden" id="hidID" />
+                    </div>
+                </div>
+                <div class="form-group m-bot15 clearfix">
+                    <label class="control-label col-md-4 ">Notes</label>
+                    <div class="col-md-8">
+                        <textarea class="form-control form myctr" rows="5" id="Notes" name="Notes"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="EditType()">Lưu</button>
+                <button data-dismiss="modal" class="btn btn-white" type="button">Hủy</button>
+            
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var GetDetail= function(Id){
+        $('#edittype').modal('show');
+        var id = Id;
+        $.ajax({
+            url: '/RepairType/GetDetail',
+            data: {
+                id: id
+            },
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                    var data = response.data;
+                    $('#hidID').val(data.Id);
+                    $('#TypeNames').val(data.TypeName);
+                    $('#Notes').val(data.Notes);
+            },
+        });
+    }
+    var EditType = function () {
+        var dvId = $("#hidID").val();
+        var TypeName = $("#TypeNames").val();
+        var Notes = $("#Notes").val();
+        $.ajax({
+            url: '/RepairType/EditRepairType',
+            data: {
+                Id: dvId,
+                TypeName: TypeName,
+                Notes: Notes
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+                if (result) {
+                    $("#edittype").modal("hide");
+                    window.location = '@Url.Action("RepairType", "RepairType")';
+                } else {
+                    $("#edittype").modal("hide");
+                    alert("Sửa lỗi");
+                }
+            }
+        });
+    }
+</script>
+

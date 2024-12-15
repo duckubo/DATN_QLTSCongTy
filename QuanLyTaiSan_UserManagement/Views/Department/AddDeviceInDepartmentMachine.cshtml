@@ -1,0 +1,126 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@*@model  IEnumerable<QuanLyTaiSan_UserManagement.Models.SearchDevice_Result>*@
+@model QuanLyTaiSan_UserManagement.Models.ProjectDKC
+@using QuanLyTaiSan_UserManagement.Helper
+@{
+
+    ViewBag.Title = "Thêm thiết bị vào Phòng ban " + Model.ProjectSymbol;
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<section class="panel">
+    <header class="panel-heading m-bot15 " style="padding-bottom:20px">
+        <a class="edit panel-default" style="margin-right:10px" href="@Url.Action("EditDepartment", "Department", new { id = Model.Id })">
+            <span class="icon-border">
+                <i class="icon-arrow-left"> </i>
+            </span>
+        </a>
+        <h4 style="display:inline">  Thêm thiết bị vào   @Model.ProjectName</h4>
+        <button type="button" class="btn btn-success btn-large tcssLeft" href="javascript:void(0)" onclick="StartScaner()">Bắt đầu quét</button>
+    </header>
+    <!--Tabale Device of Project-->
+    <div class="col-md-3 m-bot15">
+        <input class="form-control input-sm myctr " size="100" name="DeviceBarcode" id="DeviceBarcode" onchange="ClickScanner()" autocomplete="off">
+    </div>
+    <div class="col-md-9 ">
+            <button type="button" class="btn btn-primary btn-large tcssLeft" href="javascript:void(0)" onclick="AddDeviceInProjectAll()"> Thêm </button>
+    </div>
+    <section class="panel-body">
+        <div class="tcssMarT m-bot15">
+            <div class="adv-table">
+                <table class="display panel-body  table-bordered table-striped" id="exampleMT">
+                    <thead>
+                        <tr>
+                            <th style="width:3% ;text-align:center"><input id="checkAll" type="checkbox" name="check" checked /></th>
+                            <th>Mã thiết bị </th>
+                            <th>Tên thiết bị </th>
+                            <th>Loại thiết bị</th>
+                            <th>Cấu hình</th>
+                            <th style="width:5%; text-align:center">Bỏ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabledvdiv"></tbody>
+                </table>
+                <input type="hidden" id="hiddenIddv" name="hiddenIddv" />
+                <input type="hidden" id="hiddenIdpr" name="hiddenIdpr" value="@Model.Id" />
+                <input type="hidden" id="hiddenId" />
+            </div>
+        </div>
+    </section>
+    <div class="col-md-12 form-group ">
+        <div class="FontHeader">
+                <button type="button" class="btn btn-primary btn-large" href="javascript:void(0)" onclick="AddDeviceInProjectAll()"> Thêm </button>
+            <a class="btn btn-white" href="@Url.Action("EditDepartment","Department",new {id = Model.Id })">Hủy</a>
+        </div>
+    </div>
+    @Html.Partial("AddDeviceInDepartmentAllPartial")
+</section>
+<!--The end table-->
+<script>
+    $(document).ready(function () {
+
+    });
+    var ClickScanner = function () {
+        var DeviceCode = $('#DeviceBarcode').val()
+        var Code = DeviceCode.trim()
+        $("#exampleMT .DeviceId").each(function () {
+            var a = $(this).html();
+            if (a.trim() == Code) {
+                Code = 1;
+            }
+        });
+        if (Code == 1) { alert('Thiết Bị Đã Được Quét!'); $('#DeviceBarcode').val('') }
+        else
+            $.ajax({
+                url: '/Department/GetDeviceInDepartmentMachine',
+                data: {
+                    dvc: Code
+                },
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var data = response.model;
+                    var Status = response.Result;
+                    if (data == null) {
+
+                        if (Status == 1) {
+                            alert("Thiết bị đang trong Phòng ")
+                            $('#DeviceBarcode').val('');
+                            $('#DeviceBarcode').focus();
+                        }
+                        if (Status == 2) {
+                            alert("Thiết bị đã thanh lí")
+                            $('#DeviceBarcode').val('');
+                            $('#DeviceBarcode').focus();
+                        }
+                        if (Status == 3) {
+                            alert("Thiết bị hỏng")
+                            $('#DeviceBarcode').val('');
+                            $('#DeviceBarcode').focus();
+                        }
+                        if (Status == 4) {
+                            alert("Thiết bị là thiết bị con nằm trong thiết bị cha")
+                            $('#DeviceBarcode').val('');
+                            $('#DeviceBarcode').focus();
+                        }
+                        //if (data.Status == 0) {
+                        //    $('#exampleMT tbody').append("<tr class=" + 'gradeA' + " id=" + 'row_' + data.Id + " ><td><input type = " + 'checkbox' + " class=" + 'check' + " name =" + 'check' + " id =" + 'check' + " value=" + data.Id + " checked></td><td  class=" + 'DeviceId' + ">" + data.DeviceCode + "</td><td>" + data.DeviceName + "</td><td>" + data.TypeName + "</td><td>" + data.Configuration + "</td><td  class=" + 'center' + " ><a onclick=" + 'ConfirmDelete(' + data.Id + ')' + "  href=" + 'javascript:void(0)' + "> <i class=" + 'icon-remove' + "></i> </a></td></tr>");
+                        //    $('#DeviceBarcode').val('')
+                        //}
+                    }
+                    else {
+                        $('#exampleMT tbody').append("<tr class=" + 'gradeA' + " id=" + 'row_' + data.Id + " ><td><input type = " + 'checkbox' + " class=" + 'check' + " name =" + 'check' + " id =" + 'check' + " value=" + data.Id + " checked></td><td  class=" + 'DeviceId' + ">" + data.DeviceCode + "</td><td>" + data.DeviceName + "</td><td>" + data.TypeName + "</td><td>" + data.Configuration + "</td><td  class=" + 'center' + " ><a onclick=" + 'ConfirmDelete(' + data.Id + ')' + "  href=" + 'javascript:void(0)' + "> <i class=" + 'icon-remove' + "></i> </a></td></tr>");
+                        $('#DeviceBarcode').val('')
+                    }
+                },
+            });
+    }
+    var StartScaner = function () {
+        $('#DeviceBarcode').focus();
+        $('#DeviceBarcode').val('')
+    }
+    var ConfirmDelete = function (Id) {
+        $("#hiddenId").val(Id);
+        var prId = $("#hiddenId").val();
+        $("#row_" + prId).remove();
+    }
+</script>

@@ -1,0 +1,115 @@
+﻿<!--Popup DELETE All -->
+<div id="myModaldelete1" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Xóa yêu cầu</h4>
+            </div>
+            <div class="modal-body">
+                <!--Containt-->
+                <p>Bạn chắc chắn muốn xóa yêu cầu thiết bị</p>
+                <div style="text-align:center;display:none" id="loaderDiv">
+                    <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                </div>
+                <!--The end Containt-->
+            </div>
+            <div class="modal-footer">
+                <a id="btnContinueDelete1" class="btn btn-primary">Xóa</a>
+                <button type="button" class="btn btn-white" data-dismiss="modal">Hủy</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--The end popup-->
+<!--Popup DELETE ONE-->
+<div id="myModaldelete" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Xóa yêu cầu</h4>
+            </div>
+            <div class="modal-body">
+                <!--Containt-->
+                <p>Bạn chắc chắn muốn xóa yêu cầu thiết bị</p>
+                <div style="text-align:center;display:none" id="loaderDiv">
+                    <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                </div>
+                <!--The end Containt-->
+            </div>
+            <div class="modal-footer">
+                <a id="btnContinueDelete" class="btn btn-primary" onclick="DeleteProject()">Xóa</a>
+                <button type="button" class="btn btn-white" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--The end popup-->
+<!--Scrip All -->
+<script>
+    var ConfirmDelete1 = function () {
+        var chkArray = [];
+        $(".check:checked").each(function () {
+            chkArray.push($(this).val());
+        });
+        var selected;
+        selected = chkArray.join(',');
+        if (selected.length > 0) {
+            $("#hiddenId1").val(chkArray);
+            $("#myModaldelete1").modal('show');
+            $('#btnContinueDelete1').click(function () {
+                $("#loaderDiv").show();
+                var PrId = $("#hiddenId1").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/RequestDevice/DeleteRequestDevice",
+                    data: { Id: PrId },
+                    success: function (result) {
+                        if (result) {
+                            $("#loaderDiv").hide();
+                            $("#myModaldelete1").modal("hide");
+                            window.location = '@Url.Action("RequestDevice", "RequestDevice")';
+                        } else {
+
+                            $("#loaderDiv").hide();
+                            $("#myModaldelete1").modal("hide");
+                            alert("Xóa sửa chữa bị lỗi");
+                        }
+                    }
+                })
+            });
+        }
+    }
+</script>
+<!--end scrip-->
+<!--Script ONE-->
+<script>
+    var ConfirmDelete = function (Id) {
+        $("#hiddenId").val(Id);
+        $("#myModaldelete").modal('show')
+    }
+    var DeleteProject = function () {
+        var prId = $("#hiddenId").val();
+        $("#loaderDiv").show();
+        $.ajax({
+            type: "POST",
+            url: "/RequestDevice/DeleteRequestDevice",
+            data: { Id: prId },
+            success: function (result) {
+                if (result) {
+                    $("#loaderDiv").hide();
+                    $("#myModaldelete").modal("hide");
+                    window.location = '@Url.Action("RequestDevice", "RequestDevice")';
+                }
+                else {
+                    $("#loaderDiv").hide();
+                    $("#myModaldelete").modal("hide");
+                    alert("Xóa sửa chữa bị lỗi");
+                }
+            }
+        })
+    }
+</script>
+<!--Script end-->

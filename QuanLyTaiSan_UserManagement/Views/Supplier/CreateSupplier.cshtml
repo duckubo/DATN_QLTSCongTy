@@ -1,0 +1,57 @@
+﻿<div class="modal fade" id="myModals" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="NoAdd()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Thêm Nhà cung cấp</h4>
+            </div>
+            @using (Html.BeginForm("AddSupplier", "Supplier", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-4 ">Tên Nhà cung cấp</label>
+                        <div class="col-md-8 ">
+                            <input class="form-control myctr form" data-val="true" data-val-required="Tên Nhà Cung Cấp Không Được Trống." name="Name" type="text" value="" autocomplete="off">
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-4 ">Email</label>
+                        <div class="col-md-8 ">
+                            <input type="email" class="form-control myctr form" name="Email" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-4 ">Phone</label>
+                        <div class="col-md-8 ">
+                            <input type="text" class="form-control myctr form" name="PhoneNumber">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-4 ">Địa chỉ</label>
+                        <div class="col-md-8 ">
+                            <input type="text" class="form-control myctr form" name="Address">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <label class="control-label col-md-4 ">Liên lạc bảo hành</label>
+                        <div class="col-md-8">
+                            <textarea class="form-control form myctr" rows="2" id="comment" name="Support"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" onclick="NoAdd()" class="btn btn-default" type="button">Hủy</button>
+                    <button class="btn btn-warning" type="submit">Thêm</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script>
+    var NoAdd = function () {
+        $("#myModals").load(location.href + " #myModals>*", "");
+    }
+</script>
+@Scripts.Render("~/bundles/jqueryval")

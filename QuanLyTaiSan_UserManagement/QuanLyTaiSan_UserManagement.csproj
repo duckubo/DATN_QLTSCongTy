@@ -1,0 +1,1046 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DBBDA718-1B5D-487F-9283-48E390E5A9CC}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>QuanLyTaiSan_UserManagement</RootNamespace>
+    <AssemblyName>QuanLyTaiSan_UserManagement</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.2.1\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin">
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\packages\Microsoft.Owin.Security.3.0.1\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.3.0.1\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.3.0.1\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Attribute\AuthorizationHandler.cs" />
+    <Compile Include="Attribute\AuthorizationViewHandler.cs" />
+    <Compile Include="Common\AuthorLoginAttribute.cs" />
+    <Compile Include="Common\CommonBMT.cs" />
+    <Compile Include="Common\CommonConstants.cs" />
+    <Compile Include="Common\CommonConstants1.cs" />
+    <Compile Include="Common\Encryptor.cs" />
+    <Compile Include="Common\HasCredentialAttribute.cs" />
+    <Compile Include="Common\UserDao.cs" />
+    <Compile Include="Common\UserLogin.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Account_App_NewController.cs" />
+    <Compile Include="Controllers\AuthenticationController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\DeviceController.cs" />
+    <Compile Include="Controllers\DeviceTypeController.cs" />
+    <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\RepairDetailsController.cs" />
+    <Compile Include="Controllers\RepairTypeController.cs" />
+    <Compile Include="Controllers\RequestDeviceController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\ScheduleTestController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\UserRoleController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helper\eStatus.cs" />
+    <Compile Include="Helper\Helper.cs" />
+    <Compile Include="Migrations\201901230902214_InitialCreate.cs" />
+    <Compile Include="Migrations\201901230902214_InitialCreate.Designer.cs">
+      <DependentUpon>201901230902214_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901280209554_UserAuthorization.cs" />
+    <Compile Include="Migrations\201901280209554_UserAuthorization.Designer.cs">
+      <DependentUpon>201901280209554_UserAuthorization.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ChildrenOfDevice_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ClassDeviceDevice.cs" />
+    <Compile Include="Models\Credential.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DestructivelDevice.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DestructiveType.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Device.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeviceById_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeviceDevice.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeviceHistory_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeviceOfProject.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeviceOfProjectAll_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeviceType.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeviceTypeById_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeviceTypeComponantType.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HistoryRepairDetails_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HistoryScheduleTestById_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\OderCode.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectById_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProjectDKC.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuanLyTaiSanCty.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyTaiSanCty.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuanLyTaiSanCty.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuanLyTaiSanCty.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyTaiSanCty.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QuanLyTaiSanCty1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QuanLyTaiSanCty.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepairDetail.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepairDetailsAll_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepairDetailsById_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepairType.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RequestDevice.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Role.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RoleById_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ScheduleTest.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ScheduleTestById_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SearchDeviceType_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SearchDevice_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SearchProject_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SearchRepairDetails_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SearchRepairDevice_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SearchRequestDeviceNew_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SearchRole_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SearchScheduleTest_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SearchUseDevice_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SearchUser_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SelectList_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StatisticalDevice_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StatisticProject_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supplier.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierById_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SystemFeatureModels.cs" />
+    <Compile Include="Models\TypeComponantOfDevice_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UsageDevice.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserAuthorizationContext.cs" />
+    <Compile Include="Models\UserById_Result.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserGroup.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserLogin.cs">
+      <DependentUpon>QuanLyTaiSanCty.tt</DependentUpon>
+    </Compile>
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.6.1.AssemblyAttributes.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Common\ScriptCommon.js" />
+    <Content Include="Content\assets\advanced-datatable\media\css\demo_page.css" />
+    <Content Include="Content\assets\advanced-datatable\media\css\demo_table.css" />
+    <Content Include="Content\assets\advanced-datatable\media\images\back_disabled.png" />
+    <Content Include="Content\assets\advanced-datatable\media\images\back_enabled.png" />
+    <Content Include="Content\assets\advanced-datatable\media\images\back_enabled_hover.png" />
+    <Content Include="Content\assets\advanced-datatable\media\images\favicon.ico" />
+    <Content Include="Content\assets\advanced-datatable\media\images\forward_disabled.png" />
+    <Content Include="Content\assets\advanced-datatable\media\images\forward_enabled.png" />
+    <Content Include="Content\assets\advanced-datatable\media\images\forward_enabled_hover.png" />
+    <Content Include="Content\assets\advanced-datatable\media\images\sort_asc.png" />
+    <Content Include="Content\assets\advanced-datatable\media\images\sort_asc_disabled.png" />
+    <Content Include="Content\assets\advanced-datatable\media\images\sort_both.png" />
+    <Content Include="Content\assets\advanced-datatable\media\images\sort_desc.png" />
+    <Content Include="Content\assets\advanced-datatable\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\assets\advanced-datatable\media\js\jquery.dataTables.js" />
+    <Content Include="Content\assets\advanced-datatable\media\js\jquery.js" />
+    <Content Include="Content\assets\bootstrap-datepicker\css\datepicker.css" />
+    <Content Include="Content\assets\bootstrap-datepicker\js\bootstrap-datepicker.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\css\datetimepicker.css" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\bootstrap-datetimepicker.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\bootstrap-datetimepicker.min.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.bg.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.ca.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.cs.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.da.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.de.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.el.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.es.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.fi.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.fr.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.he.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.hr.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.hu.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.id.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.is.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.it.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.ja.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.kr.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.lt.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.lv.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.ms.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.nb.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.nl.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.pl.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.pt-BR.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.pt.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.ro.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.rs-latin.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.rs.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.ru.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.sk.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.sl.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.sv.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.sw.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.th.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.tr.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.ua.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.uk.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.zh-CN.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\js\locales\bootstrap-datetimepicker.zh-TW.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\sample\bootstrap\css\bootstrap.css" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\sample\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\sample\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\sample\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\sample\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\sample\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\sample\index.html" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\sample\jquery\jquery-1.8.3.min.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\screenshot\standard_day.png" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\screenshot\standard_day_meridian.png" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\screenshot\standard_decade.png" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\screenshot\standard_full.png" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\screenshot\standard_hour.png" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\screenshot\standard_hour_meridian.png" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\screenshot\standard_month.png" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\screenshot\standard_year.png" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\assets\coverage.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\assets\jquery-1.7.1.min.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\assets\mock.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\assets\qunit-logging.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\assets\qunit.css" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\assets\qunit.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\assets\utils.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\run-qunit.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\suites\component.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\suites\events.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\suites\formats.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\suites\inline.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\suites\keyboard_navigation\2011.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\suites\keyboard_navigation\2012.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\suites\keyboard_navigation\all.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\suites\mouse_navigation\2011.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\suites\mouse_navigation\2012.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\suites\mouse_navigation\all.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\suites\options.js" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\tests.html" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\tests.min.html" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\_coverage.html" />
+    <Content Include="Content\assets\data-tables\DT_bootstrap.css" />
+    <Content Include="Content\assets\data-tables\DT_bootstrap.js" />
+    <Content Include="Content\assets\data-tables\images\sort_asc.png" />
+    <Content Include="Content\assets\data-tables\images\sort_both.png" />
+    <Content Include="Content\assets\data-tables\images\sort_desc.png" />
+    <Content Include="Content\assets\data-tables\jquery.dataTables.js" />
+    <Content Include="Content\assets\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\assets\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\assets\gritter\css\jquery.gritter.css" />
+    <Content Include="Content\assets\gritter\images\gritter-blue.png" />
+    <Content Include="Content\assets\gritter\images\gritter-brown.png" />
+    <Content Include="Content\assets\gritter\images\gritter-light.png" />
+    <Content Include="Content\assets\gritter\images\gritter-long.png" />
+    <Content Include="Content\assets\gritter\images\gritter-purple.png" />
+    <Content Include="Content\assets\gritter\images\gritter.png" />
+    <Content Include="Content\assets\gritter\images\ie-spacer.gif" />
+    <Content Include="Content\assets\gritter\images_original\gritter-light.png" />
+    <Content Include="Content\assets\gritter\images_original\gritter-long.png" />
+    <Content Include="Content\assets\gritter\images_original\gritter.png" />
+    <Content Include="Content\assets\gritter\images_original\ie-spacer.gif" />
+    <Content Include="Content\assets\gritter\images_original\trees.jpg" />
+    <Content Include="Content\assets\gritter\index.html" />
+    <Content Include="Content\assets\gritter\js\jquery.gritter.js" />
+    <Content Include="Content\assets\gritter\js\jquery.gritter.min.js" />
+    <Content Include="Content\assets\jquery-easy-pie-chart\jquery.easy-pie-chart.css" />
+    <Content Include="Content\assets\jquery-easy-pie-chart\jquery.easy-pie-chart.js" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\ckeditor\adapters\jquery.js" />
+    <Content Include="Content\ckeditor\build-config.js" />
+    <Content Include="Content\ckeditor\ckeditor.js" />
+    <Content Include="Content\ckeditor\config.js" />
+    <Content Include="Content\ckeditor\contents.css" />
+    <Content Include="Content\ckeditor\lang\af.js" />
+    <Content Include="Content\ckeditor\lang\ar.js" />
+    <Content Include="Content\ckeditor\lang\az.js" />
+    <Content Include="Content\ckeditor\lang\bg.js" />
+    <Content Include="Content\ckeditor\lang\bn.js" />
+    <Content Include="Content\ckeditor\lang\bs.js" />
+    <Content Include="Content\ckeditor\lang\ca.js" />
+    <Content Include="Content\ckeditor\lang\cs.js" />
+    <Content Include="Content\ckeditor\lang\cy.js" />
+    <Content Include="Content\ckeditor\lang\da.js" />
+    <Content Include="Content\ckeditor\lang\de-ch.js" />
+    <Content Include="Content\ckeditor\lang\de.js" />
+    <Content Include="Content\ckeditor\lang\el.js" />
+    <Content Include="Content\ckeditor\lang\en-au.js" />
+    <Content Include="Content\ckeditor\lang\en-ca.js" />
+    <Content Include="Content\ckeditor\lang\en-gb.js" />
+    <Content Include="Content\ckeditor\lang\en.js" />
+    <Content Include="Content\ckeditor\lang\eo.js" />
+    <Content Include="Content\ckeditor\lang\es-mx.js" />
+    <Content Include="Content\ckeditor\lang\es.js" />
+    <Content Include="Content\ckeditor\lang\et.js" />
+    <Content Include="Content\ckeditor\lang\eu.js" />
+    <Content Include="Content\ckeditor\lang\fa.js" />
+    <Content Include="Content\ckeditor\lang\fi.js" />
+    <Content Include="Content\ckeditor\lang\fo.js" />
+    <Content Include="Content\ckeditor\lang\fr-ca.js" />
+    <Content Include="Content\ckeditor\lang\fr.js" />
+    <Content Include="Content\ckeditor\lang\gl.js" />
+    <Content Include="Content\ckeditor\lang\gu.js" />
+    <Content Include="Content\ckeditor\lang\he.js" />
+    <Content Include="Content\ckeditor\lang\hi.js" />
+    <Content Include="Content\ckeditor\lang\hr.js" />
+    <Content Include="Content\ckeditor\lang\hu.js" />
+    <Content Include="Content\ckeditor\lang\id.js" />
+    <Content Include="Content\ckeditor\lang\is.js" />
+    <Content Include="Content\ckeditor\lang\it.js" />
+    <Content Include="Content\ckeditor\lang\ja.js" />
+    <Content Include="Content\ckeditor\lang\ka.js" />
+    <Content Include="Content\ckeditor\lang\km.js" />
+    <Content Include="Content\ckeditor\lang\ko.js" />
+    <Content Include="Content\ckeditor\lang\ku.js" />
+    <Content Include="Content\ckeditor\lang\lt.js" />
+    <Content Include="Content\ckeditor\lang\lv.js" />
+    <Content Include="Content\ckeditor\lang\mk.js" />
+    <Content Include="Content\ckeditor\lang\mn.js" />
+    <Content Include="Content\ckeditor\lang\ms.js" />
+    <Content Include="Content\ckeditor\lang\nb.js" />
+    <Content Include="Content\ckeditor\lang\nl.js" />
+    <Content Include="Content\ckeditor\lang\no.js" />
+    <Content Include="Content\ckeditor\lang\oc.js" />
+    <Content Include="Content\ckeditor\lang\pl.js" />
+    <Content Include="Content\ckeditor\lang\pt-br.js" />
+    <Content Include="Content\ckeditor\lang\pt.js" />
+    <Content Include="Content\ckeditor\lang\ro.js" />
+    <Content Include="Content\ckeditor\lang\ru.js" />
+    <Content Include="Content\ckeditor\lang\si.js" />
+    <Content Include="Content\ckeditor\lang\sk.js" />
+    <Content Include="Content\ckeditor\lang\sl.js" />
+    <Content Include="Content\ckeditor\lang\sq.js" />
+    <Content Include="Content\ckeditor\lang\sr-latn.js" />
+    <Content Include="Content\ckeditor\lang\sr.js" />
+    <Content Include="Content\ckeditor\lang\sv.js" />
+    <Content Include="Content\ckeditor\lang\th.js" />
+    <Content Include="Content\ckeditor\lang\tr.js" />
+    <Content Include="Content\ckeditor\lang\tt.js" />
+    <Content Include="Content\ckeditor\lang\ug.js" />
+    <Content Include="Content\ckeditor\lang\uk.js" />
+    <Content Include="Content\ckeditor\lang\vi.js" />
+    <Content Include="Content\ckeditor\lang\zh-cn.js" />
+    <Content Include="Content\ckeditor\lang\zh.js" />
+    <Content Include="Content\ckeditor\plugins\about\dialogs\about.js" />
+    <Content Include="Content\ckeditor\plugins\about\dialogs\hidpi\logo_ckeditor.png" />
+    <Content Include="Content\ckeditor\plugins\about\dialogs\logo_ckeditor.png" />
+    <Content Include="Content\ckeditor\plugins\clipboard\dialogs\paste.js" />
+    <Content Include="Content\ckeditor\plugins\dialog\dialogDefinition.js" />
+    <Content Include="Content\ckeditor\plugins\icons.png" />
+    <Content Include="Content\ckeditor\plugins\icons_hidpi.png" />
+    <Content Include="Content\ckeditor\plugins\link\dialogs\anchor.js" />
+    <Content Include="Content\ckeditor\plugins\link\dialogs\link.js" />
+    <Content Include="Content\ckeditor\plugins\link\images\anchor.png" />
+    <Content Include="Content\ckeditor\plugins\link\images\hidpi\anchor.png" />
+    <Content Include="Content\ckeditor\samples\css\samples.css" />
+    <Content Include="Content\ckeditor\samples\img\github-top.png" />
+    <Content Include="Content\ckeditor\samples\img\header-bg.png" />
+    <Content Include="Content\ckeditor\samples\img\header-separator.png" />
+    <Content Include="Content\ckeditor\samples\img\logo.png" />
+    <Content Include="Content\ckeditor\samples\img\logo.svg" />
+    <Content Include="Content\ckeditor\samples\img\navigation-tip.png" />
+    <Content Include="Content\ckeditor\samples\index.html" />
+    <Content Include="Content\ckeditor\samples\js\sample.js" />
+    <Content Include="Content\ckeditor\samples\js\sf.js" />
+    <Content Include="Content\ckeditor\samples\old\ajax.html" />
+    <Content Include="Content\ckeditor\samples\old\api.html" />
+    <Content Include="Content\ckeditor\samples\old\appendto.html" />
+    <Content Include="Content\ckeditor\samples\old\assets\inlineall\logo.png" />
+    <Content Include="Content\ckeditor\samples\old\assets\outputxhtml\outputxhtml.css" />
+    <Content Include="Content\ckeditor\samples\old\assets\sample.jpg" />
+    <Content Include="Content\ckeditor\samples\old\assets\uilanguages\languages.js" />
+    <Content Include="Content\ckeditor\samples\old\datafiltering.html" />
+    <Content Include="Content\ckeditor\samples\old\dialog\assets\my_dialog.js" />
+    <Content Include="Content\ckeditor\samples\old\dialog\dialog.html" />
+    <Content Include="Content\ckeditor\samples\old\divreplace.html" />
+    <Content Include="Content\ckeditor\samples\old\enterkey\enterkey.html" />
+    <Content Include="Content\ckeditor\samples\old\index.html" />
+    <Content Include="Content\ckeditor\samples\old\inlineall.html" />
+    <Content Include="Content\ckeditor\samples\old\inlinebycode.html" />
+    <Content Include="Content\ckeditor\samples\old\inlinetextarea.html" />
+    <Content Include="Content\ckeditor\samples\old\jquery.html" />
+    <Content Include="Content\ckeditor\samples\old\readonly.html" />
+    <Content Include="Content\ckeditor\samples\old\replacebyclass.html" />
+    <Content Include="Content\ckeditor\samples\old\replacebycode.html" />
+    <Content Include="Content\ckeditor\samples\old\sample.css" />
+    <Content Include="Content\ckeditor\samples\old\sample.js" />
+    <Content Include="Content\ckeditor\samples\old\tabindex.html" />
+    <Content Include="Content\ckeditor\samples\old\toolbar\toolbar.html" />
+    <Content Include="Content\ckeditor\samples\old\uicolor.html" />
+    <Content Include="Content\ckeditor\samples\old\uilanguages.html" />
+    <Content Include="Content\ckeditor\samples\old\wysiwygarea\fullpage.html" />
+    <Content Include="Content\ckeditor\samples\old\xhtmlstyle.html" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\css\fontello.css" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\fontello.svg" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\LICENSE.txt" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\index.html" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\js\abstracttoolbarmodifier.js" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\js\fulltoolbareditor.js" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\js\toolbarmodifier.js" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\js\toolbartextmodifier.js" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\codemirror.css" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\codemirror.js" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\javascript.js" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\neo.css" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\show-hint.css" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\show-hint.js" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\dialog.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\dialog_ie.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\dialog_ie8.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\dialog_iequirks.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\editor.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\editor_gecko.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\editor_ie.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\editor_ie8.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\editor_iequirks.css" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\icons.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\icons_hidpi.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\arrow.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\close.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\hidpi\close.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\hidpi\lock-open.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\hidpi\lock.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\hidpi\refresh.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\lock-open.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\lock.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\refresh.png" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\images\spinner.gif" />
+    <Content Include="Content\ckeditor\styles.js" />
+    <Content Include="Content\css\bootstrap-reset.css" />
+    <Content Include="Content\css\bootstrap-theme.css" />
+    <Content Include="Content\css\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\fullcalendar.min.css" />
+    <Content Include="Content\css\fullcalendar.print.css" />
+    <Content Include="Content\css\gallery.css" />
+    <Content Include="Content\css\image-crop.css" />
+    <Content Include="Content\css\mytcsss.css" />
+    <Content Include="Content\css\navbar-fixed-top.css" />
+    <Content Include="Content\css\owl.carousel.css" />
+    <Content Include="Content\css\select2.min.css" />
+    <Content Include="Content\css\style-responsive.css" />
+    <Content Include="Content\css\style.css" />
+    <Content Include="Content\css\table-responsive.css" />
+    <Content Include="Content\css\tasks.css" />
+    <Content Include="Content\css\TcssProject.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\img\arrow-up.png" />
+    <Content Include="Content\img\avatar-mini.jpg" />
+    <Content Include="Content\img\avatar-mini2.jpg" />
+    <Content Include="Content\img\avatar-mini3.jpg" />
+    <Content Include="Content\img\avatar-mini4.jpg" />
+    <Content Include="Content\img\avatar1_small.jpg" />
+    <Content Include="Content\img\checkbox\check-off.png" />
+    <Content Include="Content\img\checkbox\check-on.png" />
+    <Content Include="Content\img\checkbox\radio-off.png" />
+    <Content Include="Content\img\checkbox\radio-on.png" />
+    <Content Include="Content\img\icon-machine\mouse.png" />
+    <Content Include="Content\img\icon-machine\qr-code.png" />
+    <Content Include="Content\img\nav-expand.png" />
+    <Content Include="Content\img\search-icon.jpg" />
+    <Content Include="Content\img\Spinner-1s-200px.gif" />
+    <Content Include="Content\js\additional-methods.min.js" />
+    <Content Include="Content\js\advanced-form-components.js" />
+    <Content Include="Content\js\all-chartjs.js" />
+    <Content Include="Content\js\bootstrap-datepicker.js" />
+    <Content Include="Content\js\bootstrap-switch.js" />
+    <Content Include="Content\js\bootstrap.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\common-scripts.js" />
+    <Content Include="Content\js\count.js" />
+    <Content Include="Content\js\dropdownCheckboxes.min.css" />
+    <Content Include="Content\js\dropdownCheckboxes.min.js" />
+    <Content Include="Content\js\dynamic-table.js" />
+    <Content Include="Content\js\easy-pie-chart.js" />
+    <Content Include="Content\js\editable-table.js" />
+    <Content Include="Content\js\external-dragging-calendar.js" />
+    <Content Include="Content\js\flot-chart.js" />
+    <Content Include="Content\js\form-component.js" />
+    <Content Include="Content\js\form-image-crop.js" />
+    <Content Include="Content\js\form-validation-script.js" />
+    <Content Include="Content\js\fullcalendar.min.js" />
+    <Content Include="Content\js\ga.js" />
+    <Content Include="Content\js\gmaps-scripts.js" />
+    <Content Include="Content\js\gmaps.js" />
+    <Content Include="Content\js\gritter.js" />
+    <Content Include="Content\js\hover-dropdown.js" />
+    <Content Include="Content\js\html5shiv.js" />
+    <Content Include="Content\js\jquery-1.8.3.min.js" />
+    <Content Include="Content\js\jquery-ui-1.9.2.custom.min.js" />
+    <Content Include="Content\js\jquery.cookie.js" />
+    <Content Include="Content\js\jquery.customSelect.min.js" />
+    <Content Include="Content\js\jquery.dcjqaccordion.2.7.js" />
+    <Content Include="Content\js\jquery.dcjqaccordion.2.7.min.js" />
+    <Content Include="Content\js\jquery.js" />
+    <Content Include="Content\js\jquery.min.js" />
+    <Content Include="Content\js\jquery.nicescroll.js" />
+    <Content Include="Content\js\jquery.scrollTo.min.js" />
+    <Content Include="Content\js\jquery.sparkline-11.js" />
+    <Content Include="Content\js\jquery.sparkline.js" />
+    <Content Include="Content\js\jquery.stepy.js" />
+    <Content Include="Content\js\jquery.tagsinput.js" />
+    <Content Include="Content\js\jquery.ui.touch-punch.min.js" />
+    <Content Include="Content\js\jquery.validate.min.js" />
+    <Content Include="Content\js\locale-all.js" />
+    <Content Include="Content\js\modernizr.custom.js" />
+    <Content Include="Content\js\moment.min.js" />
+    <Content Include="Content\js\morris-script.js" />
+    <Content Include="Content\js\myJavaScript.js" />
+    <Content Include="Content\js\nestable.js" />
+    <Content Include="Content\js\owl.carousel.js" />
+    <Content Include="Content\js\respond.min.js" />
+    <Content Include="Content\js\respond.src.js" />
+    <Content Include="Content\js\sliders.js" />
+    <Content Include="Content\js\sparkline-chart.js" />
+    <Content Include="Content\js\tasks.js" />
+    <Content Include="Content\js\toucheffects.js" />
+    <Content Include="favicon.ico" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Models\QuanLyTaiSanCty.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>QuanLyTaiSanCty.edmx</DependentUpon>
+      <LastGenOutput>QuanLyTaiSanCty.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\QuanLyTaiSanCty.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>QuanLyTaiSanCty.edmx</DependentUpon>
+      <LastGenOutput>QuanLyTaiSanCty.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\assets\bootstrap-datepicker\less\datepicker.less" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\.travis.yml" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\bower.json" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\build\build.less" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\build\build_standalone.less" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\less\datetimepicker.less" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\LICENSE" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\README.md" />
+    <Content Include="Content\assets\bootstrap-datetimepicker\tests\README.md" />
+    <Content Include="Content\assets\font-awesome\font\fontawesome-webfont.woff" />
+    <Content Include="Content\assets\gritter\README.markdown" />
+    <Content Include="Content\ckeditor\CHANGES.md" />
+    <Content Include="Content\ckeditor\LICENSE.md" />
+    <Content Include="Content\ckeditor\README.md" />
+    <Content Include="Content\ckeditor\samples\old\assets\posteddata.php" />
+    <Content Include="Content\ckeditor\samples\old\sample_posteddata.php" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\config.json" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\fontello.eot" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\fontello.ttf" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\font\fontello.woff" />
+    <Content Include="Content\ckeditor\samples\toolbarconfigurator\lib\codemirror\LICENSE" />
+    <Content Include="Content\ckeditor\skins\moono-lisa\readme.md" />
+    <EntityDeploy Include="Models\QuanLyTaiSanCty.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>QuanLyTaiSanCty1.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\QuanLyTaiSanCty.edmx.diagram">
+      <DependentUpon>QuanLyTaiSanCty.edmx</DependentUpon>
+    </Content>
+    <Content Include="App_Data\IDAutomationHC39M.ttf" />
+    <Content Include="Content\assets\advanced-datatable\media\images\Sorting icons.psd" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="App_Data\IDAutomationHC39XL.ttf" />
+    <None Include="Properties\PublishProfiles\QuanLyTaiSanCty.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\DeviceScripts.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\parsley.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\select2.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Contact.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\Account\SendCode.cshtml" />
+    <Content Include="Views\Account\VerifyCode.cshtml" />
+    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\ManageLogins.cshtml" />
+    <Content Include="Views\Manage\SetPassword.cshtml" />
+    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
+    <Content Include="Views\Shared\Lockout.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Home\Unauthorized.cshtml" />
+    <Content Include="Views\Device\Create.cshtml" />
+    <Content Include="Views\Device\Device.cshtml" />
+    <Content Include="Views\Device\DevicePartial.cshtml" />
+    <Content Include="Views\Device\EditDevice.cshtml" />
+    <Content Include="Views\Project\AddDeviceInProject.cshtml" />
+    <Content Include="Views\Project\AddProject.cshtml" />
+    <Content Include="Views\Project\EditProject.cshtml" />
+    <Content Include="Views\Project\Project.cshtml" />
+    <Content Include="Views\RepairDetails\AddRepairDetails.cshtml" />
+    <Content Include="Views\RepairDetails\EditRepairDetails.cshtml" />
+    <Content Include="Views\RepairDetails\RepairDetails.cshtml" />
+    <Content Include="Views\RequestDevice\AddRequestDevice.cshtml" />
+    <Content Include="Views\RequestDevice\EditRequestDevice.cshtml" />
+    <Content Include="Views\RequestDevice\RequestDevice.cshtml" />
+    <Content Include="Views\ScheduleTest\AddScheduleTest.cshtml" />
+    <Content Include="Views\ScheduleTest\EditScheduleTest.cshtml" />
+    <Content Include="Views\ScheduleTest\ScheduleTest.cshtml" />
+    <Content Include="Views\Share\_LayoutPage1.cshtml" />
+    <Content Include="Views\Supplier\CreateSupplier.cshtml" />
+    <Content Include="Views\Supplier\EditSupplier.cshtml" />
+    <Content Include="Views\Supplier\Supplier.cshtml" />
+    <Content Include="Views\RepairType\AddRepairType.cshtml" />
+    <Content Include="Views\RepairType\DeleteRepairTypePartial.cshtml" />
+    <Content Include="Views\RepairType\EditRepairType.cshtml" />
+    <Content Include="Views\RepairType\RepairType.cshtml" />
+    <Content Include="Views\RequestDevice\DeleteRequestDevicePartial.cshtml" />
+    <Content Include="Views\ScheduleTest\DeleteScheduleTestPartial.cshtml" />
+    <Content Include="Views\Share\_LogOff.cshtml" />
+    <Content Include="Views\Project\AddDeviceInProjectAllPartial.cshtml" />
+    <Content Include="Views\Project\AddDeviceInProjectPartial.cshtml" />
+    <Content Include="Views\Project\DeleteProjectPartial.cshtml" />
+    <Content Include="Views\Project\ReturnDeviceInProjectAllPartial.cshtml" />
+    <Content Include="Views\Project\ReturnDeviceInProjectPartial.cshtml" />
+    <Content Include="Views\RepairDetails\DeleteHistoryPartial.cshtml" />
+    <Content Include="Views\RepairDetails\DeleteRepairDetailsPartial.cshtml" />
+    <Content Include="Views\Authentication\Role.cshtml" />
+    <Content Include="Views\Authentication\RoleAuthentication.cshtml" />
+    <Content Include="Views\Employees\CreateUser.cshtml" />
+    <Content Include="Views\Employees\DetailUser.cshtml" />
+    <Content Include="Views\Employees\Partialview.cshtml" />
+    <Content Include="Views\Home\Role.cshtml" />
+    <Content Include="Views\Employees\UserManagement.cshtml" />
+    <Content Include="Views\UserRole\UserIndex.cshtml" />
+    <Content Include="Views\Device\Deviceliquidation.cshtml" />
+    <Content Include="Views\Device\TypeDevice.cshtml" />
+    <Content Include="Views\DeviceType\DeviceType.cshtml" />
+    <Content Include="Views\DeviceType\DetailType.cshtml" />
+    <Content Include="Views\DeviceType\CreateDeviceType.cshtml" />
+    <Content Include="Views\Role\RoleIndex.cshtml" />
+    <Content Include="Views\DeviceType\StatisticalDeviceType.cshtml" />
+    <Content Include="Views\Device\StatisticalDevice.cshtml" />
+    <Content Include="Views\Project\AddDeviceInProjectMachine.cshtml" />
+    <Content Include="Views\Project\StatisticProject.cshtml" />
+    <Content Include="Views\Device\ScanerDevice.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Project\ReturnDeviceInProjectMachine.cshtml" />
+    <Content Include="Views\ScheduleTest\DeleteHistorySchedutestPartial.cshtml" />
+    <Content Include="Views\Department\AddDepartment.cshtml" />
+    <Content Include="Views\Department\AddDeviceInDepartment.cshtml" />
+    <Content Include="Views\Department\AddDeviceInDepartmentAllPartial.cshtml" />
+    <Content Include="Views\Department\AddDeviceInDepartmentMachine.cshtml" />
+    <Content Include="Views\Department\AddDeviceInDepartmentPartial.cshtml" />
+    <Content Include="Views\Department\DeleteDepartmentPartial.cshtml" />
+    <Content Include="Views\Department\Department.cshtml" />
+    <Content Include="Views\Department\EditDepartment.cshtml" />
+    <Content Include="Views\Department\ReturnDeviceInDepartmentAllPartial.cshtml" />
+    <Content Include="Views\Department\ReturnDeviceInDepartmentMachine.cshtml" />
+    <Content Include="Views\Department\ReturnDeviceInDepartmentPartial.cshtml" />
+    <Content Include="Views\Department\StatisticDepartment.cshtml" />
+    <Content Include="Views\Device\DeviceComponantPartial.cshtml" />
+    <Content Include="Views\Device\SearchDeviceComponant.cshtml" />
+    <Content Include="Views\Account_App_New\Login_New.cshtml" />
+    <Content Include="Views\Shared\Error401.cshtml" />
+    <Content Include="Views\Device\ManagerTypeParent.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content\assets\font\" />
+    <Folder Include="Content\img\fonts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201901230902214_InitialCreate.resx">
+      <DependentUpon>201901230902214_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901280209554_UserAuthorization.resx">
+      <DependentUpon>201901280209554_UserAuthorization.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>41237</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:41237/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

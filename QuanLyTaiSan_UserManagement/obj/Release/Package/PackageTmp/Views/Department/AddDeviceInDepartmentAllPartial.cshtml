@@ -1,0 +1,114 @@
+﻿
+@using QuanLyTaiSan_UserManagement.Models;
+@model QuanLyTaiSan_UserManagement.Models.ProjectDKC
+<!--Popup EDIT-->
+<div id="myModalAll" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Xác nhận</h4>
+            </div>
+            <div class="modal-body">
+                <!--Containt-->
+                <div class="form-body">
+                    <label> Bạn chắc chắn muốn thêm thiết bị vào @Model.ProjectName</label>
+                </div>
+                <div class="form-group m-bot15 clearfix">
+                   
+                    <div class="col-md-3">
+                        <label>Chú thích</label>
+                    </div>
+                    <div class="col-md-9">
+                        <textarea class="cke_editable form-control form myctr" rows="3" id="Notes" name="Notes"></textarea>
+                    </div>
+                </div>
+                <!--The end Containt-->
+            </div>
+            <div class="modal-footer col-md-12">
+                <div class="col-md-4">
+                    <div class="btn btn-primary ">
+                        <a id="AddDeviceInProjectReturn"> <i class="icon-arrow-left"> </i>Thêm và quay lại</a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <button type="button" class="btn btn-primary" id="DeviceInProjectAll">Thêm và tiếp tục  <i class="icon-arrow-down"></i></button>
+                    <button type="button" class="btn btn-white" data-dismiss="modal"> Hủy <i class="icon-remove"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--The end popup-->
+
+<script>
+    var AddDeviceInProjectAll = function () {
+        //console.log('hello');
+        var chkArray = [];
+        //$(".check:checked").each(function () {
+        //    chkArray.push($(this).val());
+        //});
+
+        var table = $('#exampleMT').dataTable()
+        table.$('input[type="checkbox"]').each(function () {
+            if (this.checked) {
+                chkArray.push($(this).val());
+            }
+        });
+        if (chkArray.length > 0) {
+            $("#hiddenIddv").val(chkArray);
+            $("#myModalAll").modal('show');
+            $('#DeviceInProjectAll').click(function () {
+                var pjId = $("#hiddenIdpr").val();
+                var dvId = $("#hiddenIddv").val();
+                var notes = $("#Notes").val();
+                console.log(dvId);
+                $.ajax({
+                    type: "POST",
+                    url: "/Department/AddDeviceDepartmentAll",
+                    data: {
+                        Id: dvId,
+                        PJ: pjId,
+                        Nt: notes
+                    },
+                    success: function (result) {
+                        if (result) {
+                            $("#myModalAll").modal("hide");
+
+                            location.reload();
+                        } else {
+                            $("#myModalAll").modal("hide");
+                            alert("Thêm thiết bị lỗi. Danh sách chứa thiết bị con nằm trong thiết bị cha");
+                        }
+                    }
+                })
+            })
+            $('#AddDeviceInProjectReturn').click(function () {
+                var pjId = $("#hiddenIdpr").val();
+                var dvId = $("#hiddenIddv").val();
+                var Notes = $("#Notes").val();
+                //console.log(dvId);
+                $.ajax({
+                    type: "POST",
+                    url: "/Department/AddDeviceDepartmentAll",
+                    data: {
+                        Id: dvId,
+                        PJ: pjId,
+                        Nt: Notes
+                    },
+                    success: function (result) {
+                        if (result) {
+                            $("#myModalAll").modal("hide");
+
+                            window.location = '@Url.Action("EditDepartment", "Department", new { id = Model.Id })';
+                        } else {
+                            $("#myModalAll").modal("hide");
+                            alert("Thêm thiết bị lỗi");
+                        }
+                    }
+                })
+            })
+        }
+    }
+</script>
+

@@ -1,0 +1,782 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="QuanLyTaiSanCtyModelStoreContainer" CdmEntityContainer="QuanLyTaiSanCtyEntities">
+    <EntitySetMapping Name="DestructivelDevices">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.DestructivelDevice">
+        <MappingFragment StoreEntitySet="DestructivelDevice">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="DateOfDestructive" ColumnName="DateOfDestructive" />
+          <ScalarProperty Name="TypeOfDestructive" ColumnName="TypeOfDestructive" />
+          <ScalarProperty Name="AddressOfDestructive" ColumnName="AddressOfDestructive" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DestructiveTypes">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.DestructiveType">
+        <MappingFragment StoreEntitySet="DestructiveType">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Devices">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.Device">
+        <MappingFragment StoreEntitySet="Device">
+          <ScalarProperty Name="NewCode" ColumnName="NewCode" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="StatusRepair" ColumnName="StatusRepair" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceCode" ColumnName="DeviceCode" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="TypeOfDevice" ColumnName="TypeOfDevice" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="PurchaseContract" ColumnName="PurchaseContract" />
+          <ScalarProperty Name="DateOfPurchase" ColumnName="DateOfPurchase" />
+          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+          <ScalarProperty Name="Guarantee" ColumnName="Guarantee" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeviceOfProjects">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.DeviceOfProject">
+        <MappingFragment StoreEntitySet="DeviceOfProject">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="DateOfDelivery" ColumnName="DateOfDelivery" />
+          <ScalarProperty Name="DateOfReturn" ColumnName="DateOfReturn" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeviceTypes">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.DeviceType">
+        <MappingFragment StoreEntitySet="DeviceType">
+          <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
+          <ScalarProperty Name="TypeSymbol" ColumnName="TypeSymbol" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ProjectDKCs">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.ProjectDKC">
+        <MappingFragment StoreEntitySet="ProjectDKC">
+          <ScalarProperty Name="TypeProject" ColumnName="TypeProject" />
+          <ScalarProperty Name="ProjectSymbol" ColumnName="ProjectSymbol" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+          <ScalarProperty Name="ManagerProject" ColumnName="ManagerProject" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RepairDetails">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.RepairDetail">
+        <MappingFragment StoreEntitySet="RepairDetails">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="DateOfRepair" ColumnName="DateOfRepair" />
+          <ScalarProperty Name="NextDateOfRepair" ColumnName="NextDateOfRepair" />
+          <ScalarProperty Name="TimeOrder" ColumnName="TimeOrder" />
+          <ScalarProperty Name="TypeOfRepair" ColumnName="TypeOfRepair" />
+          <ScalarProperty Name="AddressOfRepair" ColumnName="AddressOfRepair" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RepairTypes">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.RepairType">
+        <MappingFragment StoreEntitySet="RepairType">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RequestDevices">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.RequestDevice">
+        <MappingFragment StoreEntitySet="RequestDevice">
+          <ScalarProperty Name="NameUserApproved" ColumnName="NameUserApproved" />
+          <ScalarProperty Name="NoteReasonRefuse" ColumnName="NoteReasonRefuse" />
+          <ScalarProperty Name="NoteProcess" ColumnName="NoteProcess" />
+          <ScalarProperty Name="NumDevice" ColumnName="NumDevice" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserRequest" ColumnName="UserRequest" />
+          <ScalarProperty Name="DateOfRequest" ColumnName="DateOfRequest" />
+          <ScalarProperty Name="DateOfUse" ColumnName="DateOfUse" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="TypeOfDevice" ColumnName="TypeOfDevice" />
+          <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Approved" ColumnName="Approved" />
+          <ScalarProperty Name="UserApproved" ColumnName="UserApproved" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ScheduleTests">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.ScheduleTest">
+        <MappingFragment StoreEntitySet="ScheduleTest">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="DateOfTest" ColumnName="DateOfTest" />
+          <ScalarProperty Name="NextDateOfTest" ColumnName="NextDateOfTest" />
+          <ScalarProperty Name="CategoryTest" ColumnName="CategoryTest" />
+          <ScalarProperty Name="UserTest" ColumnName="UserTest" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Suppliers">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.Supplier">
+        <MappingFragment StoreEntitySet="Supplier">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Support" ColumnName="Support" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.User">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="AddDevice" FunctionName="QuanLyTaiSanCtyModel.Store.AddDevice" />
+    <FunctionImportMapping FunctionImportName="AddDeviceOfProject" FunctionName="QuanLyTaiSanCtyModel.Store.AddDeviceOfProject" />
+    <FunctionImportMapping FunctionImportName="AddDeviceType" FunctionName="QuanLyTaiSanCtyModel.Store.AddDeviceType" />
+    <FunctionImportMapping FunctionImportName="AddProject_" FunctionName="QuanLyTaiSanCtyModel.Store.AddProject_" />
+    <FunctionImportMapping FunctionImportName="AddRepairDetails" FunctionName="QuanLyTaiSanCtyModel.Store.AddRepairDetails" />
+    <FunctionImportMapping FunctionImportName="AddRepairType" FunctionName="QuanLyTaiSanCtyModel.Store.AddRepairType" />
+    <FunctionImportMapping FunctionImportName="AddRequestDevice" FunctionName="QuanLyTaiSanCtyModel.Store.AddRequestDevice" />
+    <FunctionImportMapping FunctionImportName="AddScheduleTest" FunctionName="QuanLyTaiSanCtyModel.Store.AddScheduleTest" />
+    <FunctionImportMapping FunctionImportName="AddSupplier" FunctionName="QuanLyTaiSanCtyModel.Store.AddSupplier" />
+    <FunctionImportMapping FunctionImportName="AddUser" FunctionName="QuanLyTaiSanCtyModel.Store.AddUser" />
+    <FunctionImportMapping FunctionImportName="DeleteDevice" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteDevice" />
+    <FunctionImportMapping FunctionImportName="DeleteDeviceOfProject" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteDeviceOfProject" />
+    <FunctionImportMapping FunctionImportName="DeleteDeviceType" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteDeviceType" />
+    <FunctionImportMapping FunctionImportName="DeleteProject" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteProject" />
+    <FunctionImportMapping FunctionImportName="DeleteRepairDetails" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteRepairDetails" />
+    <FunctionImportMapping FunctionImportName="DeleteRepairType" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteRepairType" />
+    <FunctionImportMapping FunctionImportName="DeleteRequestDevice" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteRequestDevice" />
+    <FunctionImportMapping FunctionImportName="DeleteRole" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteRole" />
+    <FunctionImportMapping FunctionImportName="DeleteScheduleTest" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteScheduleTest" />
+    <FunctionImportMapping FunctionImportName="DeleteSupplier" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteSupplier" />
+    <FunctionImportMapping FunctionImportName="DeleteUser" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteUser" />
+    <FunctionImportMapping FunctionImportName="DeviceById" FunctionName="QuanLyTaiSanCtyModel.Store.DeviceById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.DeviceById_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceCode" ColumnName="DeviceCode" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="TypeOfDevice" ColumnName="TypeOfDevice" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="PurchaseContract" ColumnName="PurchaseContract" />
+          <ScalarProperty Name="DateOfPurchase" ColumnName="DateOfPurchase" />
+          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+          <ScalarProperty Name="Guarantee" ColumnName="Guarantee" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DeviceTypeById" FunctionName="QuanLyTaiSanCtyModel.Store.DeviceTypeById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.DeviceTypeById_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="EditRepairDetails" FunctionName="QuanLyTaiSanCtyModel.Store.EditRepairDetails" />
+    <FunctionImportMapping FunctionImportName="EditRepairType" FunctionName="QuanLyTaiSanCtyModel.Store.EditRepairType" />
+    <FunctionImportMapping FunctionImportName="ProjectById" FunctionName="QuanLyTaiSanCtyModel.Store.ProjectById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.ProjectById_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+          <ScalarProperty Name="ManagerProject" ColumnName="ManagerProject" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Id1" ColumnName="Id1" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Address1" ColumnName="Address1" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="Status1" ColumnName="Status1" />
+          <ScalarProperty Name="IsDeleted1" ColumnName="IsDeleted1" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="RoleById" FunctionName="QuanLyTaiSanCtyModel.Store.RoleById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.RoleById_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SeachDeviceOfProject" FunctionName="QuanLyTaiSanCtyModel.Store.SeachDeviceOfProject" />
+    <FunctionImportMapping FunctionImportName="SearchDevice" FunctionName="QuanLyTaiSanCtyModel.Store.SearchDevice">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.SearchDevice_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="DeviceCode" ColumnName="DeviceCode" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+          <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SearchDeviceType" FunctionName="QuanLyTaiSanCtyModel.Store.SearchDeviceType">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.SearchDeviceType_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SearchProject" FunctionName="QuanLyTaiSanCtyModel.Store.SearchProject">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.SearchProject_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+          <ScalarProperty Name="ManagerProject" ColumnName="ManagerProject" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="FromDate" ColumnName="FromDate" />
+          <ScalarProperty Name="ToDate" ColumnName="ToDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SearchRole" FunctionName="QuanLyTaiSanCtyModel.Store.SearchRole">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.SearchRole_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SearchSupplier" FunctionName="QuanLyTaiSanCtyModel.Store.SearchSupplier" />
+    <FunctionImportMapping FunctionImportName="SearchUser" FunctionName="QuanLyTaiSanCtyModel.Store.SearchUser">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.SearchUser_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SupplierById" FunctionName="QuanLyTaiSanCtyModel.Store.SupplierById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.SupplierById_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Support" ColumnName="Support" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="UpdateDevice" FunctionName="QuanLyTaiSanCtyModel.Store.UpdateDevice" />
+    <FunctionImportMapping FunctionImportName="UpdateDeviceOfProject" FunctionName="QuanLyTaiSanCtyModel.Store.UpdateDeviceOfProject" />
+    <FunctionImportMapping FunctionImportName="UpdateDeviceType" FunctionName="QuanLyTaiSanCtyModel.Store.UpdateDeviceType" />
+    <FunctionImportMapping FunctionImportName="UpdateProject" FunctionName="QuanLyTaiSanCtyModel.Store.UpdateProject" />
+    <FunctionImportMapping FunctionImportName="UpdateRequestDevice" FunctionName="QuanLyTaiSanCtyModel.Store.UpdateRequestDevice" />
+    <FunctionImportMapping FunctionImportName="UpdateScheduleTest" FunctionName="QuanLyTaiSanCtyModel.Store.UpdateScheduleTest" />
+    <FunctionImportMapping FunctionImportName="UpdateSupplier" FunctionName="QuanLyTaiSanCtyModel.Store.UpdateSupplier" />
+    <FunctionImportMapping FunctionImportName="UpdateUser" FunctionName="QuanLyTaiSanCtyModel.Store.UpdateUser" />
+    <FunctionImportMapping FunctionImportName="UserById" FunctionName="QuanLyTaiSanCtyModel.Store.UserById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.UserById_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Department" ColumnName="Department" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DeleteDevice1" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteDevice1" />
+    <FunctionImportMapping FunctionImportName="SelectList" FunctionName="QuanLyTaiSanCtyModel.Store.SelectList">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.SelectList_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceCode" ColumnName="DeviceCode" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="TypeOfDevice" ColumnName="TypeOfDevice" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="PurchaseContract" ColumnName="PurchaseContract" />
+          <ScalarProperty Name="DateOfPurchase" ColumnName="DateOfPurchase" />
+          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+          <ScalarProperty Name="Guarantee" ColumnName="Guarantee" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DeleteProject1" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteProject1" />
+    <FunctionImportMapping FunctionImportName="DeviceOfProjectAll" FunctionName="QuanLyTaiSanCtyModel.Store.DeviceOfProjectAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.DeviceOfProjectAll_Result">
+          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+          <ScalarProperty Name="TypeOfDevice" ColumnName="TypeOfDevice" />
+          <ScalarProperty Name="DateOfDelivery" ColumnName="DateOfDelivery" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="splitstring" FunctionName="QuanLyTaiSanCtyModel.Store.splitstring" />
+    <FunctionImportMapping FunctionImportName="ReturnDeviceOfProject" FunctionName="QuanLyTaiSanCtyModel.Store.ReturnDeviceOfProject" />
+    <FunctionImportMapping FunctionImportName="SearchRepairDetails" FunctionName="QuanLyTaiSanCtyModel.Store.SearchRepairDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.SearchRepairDetails_Result">
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="DateOfRepair" ColumnName="DateOfRepair" />
+          <ScalarProperty Name="AddressOfRepair" ColumnName="AddressOfRepair" />
+          <ScalarProperty Name="TimeOrder" ColumnName="TimeOrder" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="NextDateOfRepair" ColumnName="NextDateOfRepair" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="RepairDetailsById" FunctionName="QuanLyTaiSanCtyModel.Store.RepairDetailsById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.RepairDetailsById_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="DateOfRepair" ColumnName="DateOfRepair" />
+          <ScalarProperty Name="NextDateOfRepair" ColumnName="NextDateOfRepair" />
+          <ScalarProperty Name="TimeOrder" ColumnName="TimeOrder" />
+          <ScalarProperty Name="TypeOfRepair" ColumnName="TypeOfRepair" />
+          <ScalarProperty Name="AddressOfRepair" ColumnName="AddressOfRepair" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="DeviceCode" ColumnName="DeviceCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="LiquidationDevice" FunctionName="QuanLyTaiSanCtyModel.Store.LiquidationDevice" />
+    <FunctionImportMapping FunctionImportName="RepairDetailsAll" FunctionName="QuanLyTaiSanCtyModel.Store.RepairDetailsAll">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.RepairDetailsAll_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="AddressOfRepair" ColumnName="AddressOfRepair" />
+          <ScalarProperty Name="DateOfRepair" ColumnName="DateOfRepair" />
+          <ScalarProperty Name="NextDateOfRepair" ColumnName="NextDateOfRepair" />
+          <ScalarProperty Name="TimeOrder" ColumnName="TimeOrder" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SearchScheduleTest" FunctionName="QuanLyTaiSanCtyModel.Store.SearchScheduleTest">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.SearchScheduleTest_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="DateOfTest" ColumnName="DateOfTest" />
+          <ScalarProperty Name="NextDateOfTest" ColumnName="NextDateOfTest" />
+          <ScalarProperty Name="CategoryTest" ColumnName="CategoryTest" />
+          <ScalarProperty Name="UserTest" ColumnName="UserTest" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="DeviceCode" ColumnName="DeviceCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="ScheduleTestById" FunctionName="QuanLyTaiSanCtyModel.Store.ScheduleTestById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.ScheduleTestById_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="DateOfTest" ColumnName="DateOfTest" />
+          <ScalarProperty Name="NextDateOfTest" ColumnName="NextDateOfTest" />
+          <ScalarProperty Name="CategoryTest" ColumnName="CategoryTest" />
+          <ScalarProperty Name="UserTest" ColumnName="UserTest" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="DeviceCode" ColumnName="DeviceCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="HistoryScheduleTestById" FunctionName="QuanLyTaiSanCtyModel.Store.HistoryScheduleTestById">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.HistoryScheduleTestById_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="DateOfTest" ColumnName="DateOfTest" />
+          <ScalarProperty Name="NextDateOfTest" ColumnName="NextDateOfTest" />
+          <ScalarProperty Name="CategoryTest" ColumnName="CategoryTest" />
+          <ScalarProperty Name="UserTest" ColumnName="UserTest" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="DeviceCode" ColumnName="DeviceCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="HistoryRepairDetails" FunctionName="QuanLyTaiSanCtyModel.Store.HistoryRepairDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.HistoryRepairDetails_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="DateOfRepair" ColumnName="DateOfRepair" />
+          <ScalarProperty Name="NextDateOfRepair" ColumnName="NextDateOfRepair" />
+          <ScalarProperty Name="TimeOrder" ColumnName="TimeOrder" />
+          <ScalarProperty Name="TypeOfRepair" ColumnName="TypeOfRepair" />
+          <ScalarProperty Name="AddressOfRepair" ColumnName="AddressOfRepair" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="DeviceCode" ColumnName="DeviceCode" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SearchRequestDeviceNew" FunctionName="QuanLyTaiSanCtyModel.Store.SearchRequestDeviceNew">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.SearchRequestDeviceNew_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserRequest" ColumnName="UserRequest" />
+          <ScalarProperty Name="DateOfRequest" ColumnName="DateOfRequest" />
+          <ScalarProperty Name="DateOfUse" ColumnName="DateOfUse" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="TypeOfDevice" ColumnName="TypeOfDevice" />
+          <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Approved" ColumnName="Approved" />
+          <ScalarProperty Name="UserApproved" ColumnName="UserApproved" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="UsageDevices">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.UsageDevice">
+        <MappingFragment StoreEntitySet="UsageDevice">
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="DateUse" ColumnName="DateUse" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SearchUseDevice" FunctionName="QuanLyTaiSanCtyModel.Store.SearchUseDevice">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.SearchUseDevice_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DateUse" ColumnName="DateUse" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SearchRequestDevice1" FunctionName="QuanLyTaiSanCtyModel.Store.SearchRequestDevice" />
+    <FunctionImportMapping FunctionImportName="SearchRepairDevice" FunctionName="QuanLyTaiSanCtyModel.Store.SearchRepairDevice">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.SearchRepairDevice_Result">
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DeleteRepairDetailsOne" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteRepairDetailsOne" />
+    <FunctionImportMapping FunctionImportName="ReturnDeviceProject" FunctionName="QuanLyTaiSanCtyModel.Store.ReturnDeviceProject" />
+    <FunctionImportMapping FunctionImportName="OderCode" FunctionName="QuanLyTaiSanCtyModel.Store.OderCode">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.OderCode">
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="StatisticalDevice" FunctionName="QuanLyTaiSanCtyModel.Store.StatisticalDevice">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.StatisticalDevice_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceCode" ColumnName="DeviceCode" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="TypeOfDevice" ColumnName="TypeOfDevice" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="PurchaseContract" ColumnName="PurchaseContract" />
+          <ScalarProperty Name="DateOfPurchase" ColumnName="DateOfPurchase" />
+          <ScalarProperty Name="SupplierId" ColumnName="SupplierId" />
+          <ScalarProperty Name="Guarantee" ColumnName="Guarantee" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="StatusRepair" ColumnName="StatusRepair" />
+          <ScalarProperty Name="NewCode" ColumnName="NewCode" />
+          <ScalarProperty Name="TimeUse" ColumnName="TimeUse" />
+          <ScalarProperty Name="TimeRepair" ColumnName="TimeRepair" />
+          <ScalarProperty Name="SumPrice" ColumnName="SumPrice" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="StatisticProject" FunctionName="QuanLyTaiSanCtyModel.Store.StatisticProject">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.StatisticProject_Result">
+          <ScalarProperty Name="NumDevice" ColumnName="NumDevice" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="DeviceHistory" FunctionName="QuanLyTaiSanCtyModel.Store.DeviceHistory">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.DeviceHistory_Result">
+          <ScalarProperty Name="ProjectName" ColumnName="ProjectName" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+          <ScalarProperty Name="TypeOfDevice" ColumnName="TypeOfDevice" />
+          <ScalarProperty Name="DateOfDelivery" ColumnName="DateOfDelivery" />
+          <ScalarProperty Name="DateOfReturn" ColumnName="DateOfReturn" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="DeviceCode" ColumnName="DeviceCode" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="StatusRepair" ColumnName="StatusRepair" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="DeviceDevices">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.DeviceDevice">
+        <MappingFragment StoreEntitySet="DeviceDevice">
+          <ScalarProperty Name="TypeComponant" ColumnName="TypeComponant" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="UserModified" ColumnName="UserModified" />
+          <ScalarProperty Name="UserCreated" ColumnName="UserCreated" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="TypeSymbolChildren" ColumnName="TypeSymbolChildren" />
+          <ScalarProperty Name="TypeSymbolParents" ColumnName="TypeSymbolParents" />
+          <ScalarProperty Name="DeviceCodeChildren" ColumnName="DeviceCodeChildren" />
+          <ScalarProperty Name="DeviceCodeParents" ColumnName="DeviceCodeParents" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeviceTypeComponantTypes">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.DeviceTypeComponantType">
+        <MappingFragment StoreEntitySet="DeviceTypeComponantType">
+          <ScalarProperty Name="TypeComponant" ColumnName="TypeComponant" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="UserModified" ColumnName="UserModified" />
+          <ScalarProperty Name="UserCreated" ColumnName="UserCreated" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+          <ScalarProperty Name="TypeSymbolChildren" ColumnName="TypeSymbolChildren" />
+          <ScalarProperty Name="TypeSymbolParents" ColumnName="TypeSymbolParents" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ChildrenOfDevice" FunctionName="QuanLyTaiSanCtyModel.Store.ChildrenOfDevice">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.ChildrenOfDevice_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DeviceCode" ColumnName="DeviceCode" />
+          <ScalarProperty Name="DeviceName" ColumnName="DeviceName" />
+          <ScalarProperty Name="Configuration" ColumnName="Configuration" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="PurchaseContract" ColumnName="PurchaseContract" />
+          <ScalarProperty Name="DateOfPurchase" ColumnName="DateOfPurchase" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="StatusRepair" ColumnName="StatusRepair" />
+          <ScalarProperty Name="TypeName" ColumnName="TypeName" />
+          <ScalarProperty Name="DeviceCodeParents" ColumnName="DeviceCodeParents" />
+          <ScalarProperty Name="DeviceCodeChildren" ColumnName="DeviceCodeChildren" />
+          <ScalarProperty Name="TypeSymbolParents" ColumnName="TypeSymbolParents" />
+          <ScalarProperty Name="TypeSymbolChildren" ColumnName="TypeSymbolChildren" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="TypeComponantOfDevice" FunctionName="QuanLyTaiSanCtyModel.Store.TypeComponantOfDevice">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="QuanLyTaiSanCtyModel.TypeComponantOfDevice_Result">
+          <ScalarProperty Name="NameTypeParents" ColumnName="NameTypeParents" />
+          <ScalarProperty Name="NameTypeChildren" ColumnName="NameTypeChildren" />
+          <ScalarProperty Name="TypeSymbolParents" ColumnName="TypeSymbolParents" />
+          <ScalarProperty Name="TypeSymbolChildren" ColumnName="TypeSymbolChildren" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="AddTypeChidren" FunctionName="QuanLyTaiSanCtyModel.Store.AddTypeChidren" />
+    <FunctionImportMapping FunctionImportName="AddDeviceOfDevice" FunctionName="QuanLyTaiSanCtyModel.Store.AddDeviceOfDevice" />
+    <FunctionImportMapping FunctionImportName="DeleteDeviceOfDevice" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteDeviceOfDevice" />
+    <EntitySetMapping Name="Credentials">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.Credential">
+        <MappingFragment StoreEntitySet="Credential">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+          <ScalarProperty Name="UserGroupID" ColumnName="UserGroupID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserGroups">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.UserGroup">
+        <MappingFragment StoreEntitySet="UserGroup">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Roles">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.Role">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="DeleteAllRole" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteAllRole" />
+    <EntitySetMapping Name="UserLogins">
+      <EntityTypeMapping TypeName="QuanLyTaiSanCtyModel.UserLogin">
+        <MappingFragment StoreEntitySet="UserLogin">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="GroupID" ColumnName="GroupID" />
+          <ScalarProperty Name="PassWord" ColumnName="PassWord" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="UpdateUserDevice" FunctionName="QuanLyTaiSanCtyModel.Store.UpdateUserDevice" />
+    <FunctionImportMapping FunctionImportName="DeleteTypeParentTypeChild" FunctionName="QuanLyTaiSanCtyModel.Store.DeleteTypeParentTypeChild" />
+  </EntityContainerMapping>
+</Mapping>

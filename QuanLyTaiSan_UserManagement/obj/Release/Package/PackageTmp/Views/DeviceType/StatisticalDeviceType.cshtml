@@ -1,0 +1,102 @@
+﻿@model IEnumerable<QuanLyTaiSan_UserManagement.Models.DeviceType>
+@using QuanLyTaiSan_UserManagement.Models
+@{
+    ViewBag.Title = "Thống Kê Loại";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+    QuanLyTaiSanCtyEntities data = new QuanLyTaiSanCtyEntities();
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Thống Kê Theo Loại Thiết Bị
+                <div class="btn-group pull-right">
+                    <button class="btn" id="btnExport" onclick="fnExcelReport();"> 
+                        Export
+                    </button>
+                </div>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div class="clearfix ">
+                        <table class="table table-bordered table-hover table-striped" id="history" style="margin-bottom:0px">
+                            <thead>
+                                <tr>
+                                    <th>Tên Loại</th>
+                                    <th>Ký Hiệu Loại</th>
+                                    <th>Tổng Thiết Bị</th>
+                                    <th>Thiết Bị Đang Sử Dụng</th>
+                                    <th>Thiết Bị Đang Rảnh</th>
+                                    <th>Thiết Bị Đang Hỏng</th>
+                                    <th>Thiết Bị Đã Thanh Lý</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.TypeName</td>
+                                        <td>@item.TypeSymbol</td>
+                                        <td>@data.SearchDevice(null, item.Id, null, null, null).Count()</td>
+                                        <td>@data.SearchDevice(null, item.Id, null, null, null).Where(x => x.Status == 1 & x.IsDeleted == false).Count()</td>
+                                        <td>@data.SearchDevice(null, item.Id, null, null, null).Where(x => x.Status == 0 & x.IsDeleted == false).Count()</td>
+                                        <td>@data.SearchDevice(null, item.Id, null, null, null).Where(x => x.Status == 3 & x.IsDeleted == false).Count()</td>
+                                        <td>@data.SearchDevice(null, item.Id, null, null, null).Where(x => x.Status == 2 & x.IsDeleted == false).Count()</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#history').dataTable({
+            "bInfo": false,
+            "bPaginate": false,
+            buttons: [
+              'print'
+            ],
+            "aoColumnDefs": [
+                { "aTargets": [0], bSortable: false },
+            ]
+        });
+    });
+</script>
+<script>
+    $('.Statistical').addClass('active');
+    $('.StatisticalDeviceType').addClass('active');
+</script>
+<script>
+    function fnExcelReport() {
+        var tab_text = "<table border='2px'><tr>";
+        var textRange; var j = 0;
+        tab = document.getElementById('history'); // id of table
+        for (j = 0 ; j < tab.rows.length ; j++) {
+            tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+            //tab_text=tab_text+"</tr>";
+        }
+        tab_text = tab_text + "</table>";
+        tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html", "replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus();
+            sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
+        }
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+
+
+        return (sa);
+    }
+</script>

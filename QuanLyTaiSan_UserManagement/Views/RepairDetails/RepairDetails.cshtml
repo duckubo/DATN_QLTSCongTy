@@ -1,0 +1,159 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@using QuanLyTaiSan_UserManagement.Helper;
+@*@model QuanLyTaiSan_UserManagement.Models.SearchRepairDetails_Result*@
+@model IEnumerable<QuanLyTaiSan_UserManagement.Models.SearchRepairDetails_Result>
+@{
+    ViewBag.Title = "Danh sách sửa chữa thiết bị";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+<div class="row">
+    <div class="col-md-12">
+        <section class="panel">
+            <!--Header-->
+            <header class="panel-heading m-bot15 ">
+                <div class="tcssPadb">
+                    Danh sách thiết bị được sửa chữa
+                    <div class="btn btn-success btn-sm" style="float:right">
+                        <a href="@Url.Action("AddRepairDetails", "RepairDetails")"> Thêm </a> <i class="icon-plus"></i>
+                    </div>
+                </div>
+            </header>
+            <!--The end header-->
+            <!--Seach-->
+            <div class="row">
+                <div class="customSelect " style="display:inline">
+                    @using (Html.BeginForm("SeachRepairDetails", "RepairDetails", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal  editcontent" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="col-md-10">
+                            <div class="col-md-3 TcssMarg">
+                                <select class="input-sm form-control  myctr " name="RepairType1" id="RepairType1">
+                                    <option value="0">Kiểu sửa chữa</option>
+                                    @foreach (var item in ViewData["RepairTypes"] as IList<RepairType>)
+                                    {
+                                        <option value="@item.Id" @(ViewBag.RepairType1 == @item.Id ? "selected" : "")> @item.TypeName </option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-3 TcssMarg select2css">
+                                <select class="input-sm m-bot15 form-control myctr" name="User" id="User">
+                                    <option value="0">Người sửa chữa</option>
+                                    @foreach (var item in ViewData["User"] as IList<User>)
+                                    {
+                                        <option value="@item.Id" @(ViewBag.Users == @item.Id ? "selected" : "")> @item.FullName </option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-3 TcssMarg">
+                                <select class="input-sm form-control  myctr " name="Status" id="Status">
+                                    <option value="-1" @(ViewBag.Status == -1 ? "selected" : "")>Trạng thái</option>
+                                    <option value="0" @(ViewBag.Status == 0 ? "selected" : "")>Đang sửa</option>
+                                    <option value="1" @(ViewBag.Status == 1 ? "selected" : "")>Đã sửa xong</option>
+
+                                </select>
+
+                            </div>
+                            <input class="input-sm m-bot15 form-control myctr " type="hidden" value="" name="IdDevice" />
+
+                            <div class="col-md-2 " style="margin-right:-20px">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary  btn-sm" type="submit">Tìm kiếm</button>
+                                </div><!-- /btn-group -->
+                            </div>
+                        </div>
+                    }
+                    <div class="col-md-2 row m-bot15" style="text-align:right">
+                        <a class="btn btn-primary btn-sm" id="deleteItem1" onclick="ConfirmDelete1()" href="javascript:void(0)">Xóa tất cả mục đã chọn <i class="icon-trash"></i></a>
+                    </div>
+                </div>
+            </div>
+            <!--Finish seach-->
+            <!--Table-->
+            <div class="panel-body tcssMarT">
+                <div class="tcssMarT">
+                    <div class="adv-table">
+                        <table class="display panel-body table table-bordered table-striped table-hover" id="exampleMT">
+                            <thead>
+                                <tr>
+                                    <th><label class="label_check c_on" for="checkbox-01"><input type="checkbox" id="checkAll" name="check" /></label></th>
+                                    <th>Mã thiết bị </th>
+                                    <th>Tên Thiết Bị </th>
+                                    <th>Ngày sửa </th>
+                                    <th>Địa chỉ</th>
+                                    @*<th>Số ngày sửa</th>*@
+                                    <th>Kiểu sửa</th>
+                                    <th>Người sửa</th>
+                                    <th>Chú thích</th>
+                                    <th>Chi phí</th>
+                                    <th>Trạng thái</th>
+                                    <th>Xem</th>
+                                    <th>Xóa </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="gradeA" id="row_@item.Id">
+                                        <td style="width:2%" class="center"><input type="checkbox" name="check" class="form-c check checkbox " value="@item.Id" data-status="@item.Status" /></td>
+                                        <td style="width:8%">@item.DeviceCode</td>
+                                        <td style="width:12%">@item.DeviceName</td>
+                                        <td style="width:8%" class="center hidden-phone">@String.Format("{0:dd/MM/yyyy}", item.DateOfRepair)</td>
+                                        <td style="width:16%" class="hidden-phone">@item.AddressOfRepair</td>
+                                        @*<td style="width:4%; text-align:right;" class="hidden-phone">@item.TimeOrder</td>*@
+                                        <td style="width:11%" class="hidden-phone">@item.TypeName</td>
+                                        <td style="width:10%" class="hidden-phone">@item.FullName</td>
+                                        <td style="width:10%" class="hidden-phone">@Html.Raw(@item.Notes)</td>
+                                        <td style="text-align:right;width:9%">@item.PriceOne</td>
+                                        <td style="width:8%" class="center">@Html.Raw(item.Status.GetEnumDescription(typeof(eStatus.StatusRepairDevice)))</td>
+                                        <td style="width:3%" class="center"><a class="edit" href="@Url.Action("EditRepairDetails", "RepairDetails",new { Id = @item.Id })"><i class="icon-eye-open"></i></a></td>
+                                        <td style="width:3%" class="center">
+                                            <a class="edit" href="javascript:void(0)" onclick="ConfirmDelete(@item.Id)"><i class="icon-trash"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <input type="hidden" id="hiddenId1" />
+                        <input type="hidden" id="hiddenId" />
+                    </div>
+                </div>
+            </div>
+            <!--The end Table-->
+
+        </section>
+    </div>
+</div>
+
+@Html.Partial("DeleteRepairDetailsPartial")
+<!--Start Scrip-->
+<script>
+    $(document).ready(function () {
+        $('#exampleMT').dataTable({
+            "oLanguage": {
+                "sInfo": "Hiển thị từ _START_ đến _END_ của _TOTAL_ bản ghi",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+            "aLengthMenu": [ 10, 25, 50, 100],
+            "iDisplayLength": 25,
+            //"bLengthChange": false,
+            //"bFilter": false,
+            "aoColumnDefs": [
+                {  "aTargets": [0], bSortable: false },
+                //{ "sWidth": "8%", "aTargets": [11] },
+                {  "aTargets": [10], bSortable: false },
+                {  "aTargets": [11], bSortable: false },
+            ]
+        });
+    });
+    $('#User').select2(); 
+    $('#RepairType1').select2();
+    $('.RepairDetails').addClass('active');
+    $('.RepairDetailsTable').addClass('active');
+</script>
+<!--The end Scrip-->

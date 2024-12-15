@@ -1,0 +1,58 @@
+﻿    
+<!--body-->
+ <!--Popup DELETE -->
+<div id="myModaldelete" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Xóa dự án</h4>
+            </div>
+            <div class="modal-body">
+                <!--Containt-->
+                <p>Bạn chắc chắn muốn xóa dự án  </p>
+                <div style="text-align:center;display:none" id="loaderDiv">
+                    <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                </div>
+                <!--The end Containt-->
+            </div>
+            <div class="modal-footer">
+                <a id="btnContinueDelete" class="btn btn-primary" onclick="DeleteProject()">Xóa</a>
+                <button type="button" class="btn btn-white" data-dismiss="modal">Hủy</button>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<!--The end popup-->
+<!--Body end-->
+<!--Script-->
+<script>
+    var ConfirmDelete = function (Id) {
+
+        $("#hiddenId").val(Id);
+        $("#myModaldelete").modal('show')
+    }
+    var DeleteProject = function () {
+        var prId = $("#hiddenId").val();
+        $("#loaderDiv").show();
+        $.ajax({
+            type: "POST",
+            url: "/Project/DeleteProject1",
+            data: { Id: prId },
+            success: function (result) {
+                if (result) {
+                    $("#loaderDiv").hide();
+                    $("#myModaldelete").modal("hide");
+                    $("#row_" + prId).remove();                   
+                }
+                else {
+                    $("#loaderDiv").hide();
+                    $("#myModaldelete").modal("hide");
+                    alert("Xóa dự án bị lỗi. Dự án có thể còn thiết bị đang hoạt động");
+                }
+            }
+        })
+    }
+</script>
+<!--Script end-->

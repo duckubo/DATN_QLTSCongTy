@@ -1,0 +1,435 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@using QuanLyTaiSan_UserManagement.Helper;
+@*@model QuanLyTaiSan_UserManagement.Models.RepairDetail*@
+@model QuanLyTaiSan_UserManagement.Models.RepairDetailsById_Result
+@{
+    ViewBag.Title = "Sửa chữa " + Model.DeviceCode;
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<link href="~/Content/css/TcssProject.css" rel="stylesheet" />
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+<script src="~/Content/ckeditor/ckeditor.js"></script>
+<section class="panel">
+    <div class="panel-heading row">
+        <div class="col-md-12">
+            <div class="col-md-10">
+                <a class="edit panel-default" style="margin-right:10px" href="@Url.Action("RepairDetails", "RepairDetails")">
+                    <span class="icon-border">
+                        <i class="icon-arrow-left"> </i>
+                    </span>
+                </a>
+                Thay đổi thông tin sửa chữa @Model.DeviceName
+            </div>
+            <!--The end Button-->
+        </div>
+    </div>
+    <!--NEW-->
+    <div class="panel-body">
+        <div class="tkcs" id="infoDevice">
+            <div class="col-md-12 tcssmartop m-bot15">
+                <p class="text t-text-area"> Thông tin thiết bị được sửa chữa </p>
+            </div>
+            <div class="row ">
+                <div class="col-md-6">
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Mã thiết bị </label>
+                        </div>
+                        <div class="col-md-8 ">
+                            <input readonly="" class="form-control  myctr" type="text" value="@Model.DeviceCode" name="DeviceCode">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Tên thiết bị </label>
+                        </div>
+                        <div class="col-md-8">
+                            <input readonly="" class="form-control  myctr" type="text" value="@Model.DeviceName" name="DeviceName">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Giá thiết bị </label>
+                        </div>
+                        <div class="col-md-8">
+                            <input readonly="" type="text" class="form-control myctr  " size="16" name="PriceDv" id="PriceDv" value="@Model.PriceOne" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Loại thiết bị </label>
+                        </div>
+                        <div class="col-md-8">
+                            <input readonly="" type="text" class="form-control myctr form-control-inline input-large " size="16" name="DeviceType" id="DeviceType" value="@Model.DeviceTypeName" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="form-group m-bot15 clearfix ">
+                        <div class="col-md-4 ">
+                            <label>Nhà cung cấp</label>
+                        </div>
+                        <div class="col-md-8 ">
+                            <input readonly="" type="text" class="form-control myctr form-control-inline input-large " size="16" name="Supplier" id="Supplier" value="@Model.Name" autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End new-->
+    @using (Html.BeginForm("EditRepairDetails", "RepairDetails", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal  editcontent", @Id = "formIdRp" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="panel-body tcssMarT">
+            <div class="tkcs ">
+
+                <header class="col-md-12 tcssmartop m-bot15">
+                    <p style="display:inline">Thông tin sửa chữa </p>
+                    <div class="tcssLeft">
+                        <button class="btn btn-white  marleft" id="Cancel" type="reset">Hủy</button>
+                        <button class="btn btn-white  marleft" id="Cancel2" type="reset">Hủy</button>
+                        <button type="button" class="btn btn-primary btn-large" id="CompleteRepair">Đã sửa xong</button>
+                        <button type="submit" class="btn btn-primary btn-large" id="Save">Lưu</button>
+                        <button type="button" class="btn btn-warning btn-large" id="Edit">Sửa</button>
+
+                    </div>
+                </header>
+                <!--The end Button-->
+                <input class="hidden" value="@Model.Id" name="Id" id="Id" />
+                <input class="hidden" value="@Model.DeviceId" name="DeviceId" id="DeviceId" />
+                <input class="hidden" value="@Model.Id" name="IdComplete" id="IdComplete" />
+                <!--Start edit-->
+                <div class="panel-body Tlabel-Edit row" id="detaildeviceDeviceNew">
+                    <div class="col-md-6">
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Người đi sửa  </label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="input-large form-control myctr" name="UserId" id="UserId">
+                                    <option value="0" @( Model.UserId == 0 ? "selected" : "" )>Chọn người sửa </option>
+                                    @foreach (var item in ViewData["User"] as IList<User>)
+                                    {
+                                        <option value="@item.Id" @( Model.UserId == item.Id ? "selected" : "" )>@item.FullName</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Trạng thái</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="input-large form-control myctr " name="Status" id="Status">
+                                    <option value="0" @( Model.Status == 0 ? "selected" : "" ) disabled>Đang sửa</option>
+                                    <option value="1" @( Model.Status == 1 ? "selected" : "" )>Đã sửa xong</option>
+                                </select>
+                                @*<input class="form-control  myctr" type="text" value="" placeholder="@Html.Raw(Model.Status.GetEnumDescription(typeof(eStatus.StatusRepairDevice)))">
+                                    <input type="hidden" value="@Model.Status" name="Status" />*@
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Ngày sửa</label>
+                            </div>
+                            <div class="col-md-8 clearfix input-group">
+                                <input type="text" class="form-control myctr form-control-inline input-medium default-date-picker" value="@String.Format("{0:yyyy-MM-dd}",Model.DateOfRepair)" size="16" name="DateOfRepair" id="DateOfRepair" autocomplete="off" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-warning icon-calendar" style="line-height:inherit"></button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group clearfix">
+                            <div class="col-md-4">
+                                <label>Mô tả</label>
+                            </div>
+                            <div class="col-md-8">
+                                <textarea class="cke_editable form-control form myctr" rows="3" id="NoteRepair" name="NoteRepair">@Html.Raw(Model.Notes)</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group m-bot15 clearfix" id="divloadtype">
+                            <div class="col-md-4">
+                                <label>Kiểu sửa chữa </label>
+                            </div>
+                            <div class="col-md-8 input-group">
+                                <select class="input-large form-control myctr" name="TypeOfRepair" id="TypeOfRepair" required>
+                                    <option value="" @( Model.TypeOfRepair == 0 ? "selected" : "" )>Chọn kiểu sửa chữa</option>
+                                    @foreach (var item in ViewData["RepairTypes"] as IList<RepairType>)
+                                    {
+                                        <option value="@item.Id" @( Model.TypeOfRepair == @item.Id ? "selected" : "" )>@item.TypeName</option>
+                                    }
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success icon-plus" onclick="CreateType()" type="button" style="line-height:inherit"></button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Chi phí</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input class="form-control  myctr" style="text-align:right" value="@Model.PriceRepair" name="Prices" id="Prices" autocomplete="off" required onkeyup="FormatNumber(this)">
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Số ngày sửa</label>
+                            </div>
+                            <div class="col-md-8 clearfix input-group">
+                                <input class="form-control myctr" style="text-align:right" type="number" value="@Model.TimeOrder" name="TimeOrder" id="TimeOrder" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Địa chỉ</label>
+                            </div>
+                            <div class="col-md-8">
+                                <textarea class="cke_editable form-control form myctr" rows="3" id="AddressOfRepair" name="AddressOfRepair">@Model.AddressOfRepair</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Ngày sửa tiếp</label>
+                            </div>
+                            <div class="col-md-8 clearfix input-group">
+                                <input type="text" class="form-control myctr form-control-inline input-medium default-date-picker" value="@String.Format("{0:yyyy-MM-dd}", Model.NextDateOfRepair)" size="16" name="NextDateOfRepair" id="NextDateOfRepair" autocomplete="off" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-warning icon-calendar" style="line-height:inherit"></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" id="StatusRepair" value="@Model.Status" />
+    <!--The end edit-->
+        <header class="">
+            <div class="col-md-12">
+                <div class="col-md-10 ">
+                    <a class="styletext"> Lịch sử sửa chữa của thiết bị</a>
+                </div>
+                <div class="col-md-2" style="text-align:right">
+                    <button class="btn btn-primary  btn-sm" href="javascript:void(0)" type="button" id="deleteItem1" onclick="ConfirmDelete1()">Xóa tất cả mục đã chọn <i class="icon-trash"></i> </button>
+                </div>
+            </div>
+        </header>
+    <!--Tabale Device of Project-->
+        <section class="panel-body tcssMarT">
+
+            <div class="adv-table" id="divtype">
+                <table class="display table table-bordered table-striped" id="exampleMT">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="checkAll" name="check" /></th>
+                            <th>Mã thiết bị  </th>
+                            <th>Kiểu sửa </th>
+                            <th>Ngày sửa</th>
+                            <th>Số ngày</th>
+                            <th>Người sửa</th>
+                            <th>Địa chỉ </th>
+                            <th>Chi phí</th>
+                            <th>Chú thích </th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewData["RepairHistory"] as IList<HistoryRepairDetails_Result>)
+                        {
+                            <tr class="gradeA" id="row_@item.Id" @*name ="Check1" value="@item.Id"*@>
+                                <td><input type="checkbox" name="check" id="check" class="check checkbox " value="@item.Id" data-status="@item.Id" /></td>
+                                <td>@item.DeviceCode</td>
+                                <td>@item.TypeName</td>
+                                <td style="text-align:center">@String.Format("{0:dd-MM-yyyy}", item.DateOfRepair)</td>
+                                <td style="text-align:right">@item.TimeOrder</td>
+                                <td>@item.FullName</td>
+                                <td>@item.AddressOfRepair</td>
+                                <td style="text-align:right">@item.PriceOne</td>
+                                <td class="hidden-phone">@Html.Raw(@item.Notes)</td>
+                                <td class="center">
+                                    <a class="" onclick="ConfirmDelete(@item.Id)" href="javascript:void(0)"><i class="icon-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <input type="hidden" id="hiddenId1" />
+                <input type="hidden" id="hiddenId" />
+                <input type="hidden" id="hiddenId2" value="@Model.Id" />
+            </div>
+        </section>
+    <!--The end table-->
+    }
+</section>
+<script src="~/Common/ScriptCommon.js"></script>
+@Html.Partial("~/Views/RepairDetails/DeleteHistoryPartial.cshtml")
+<!--Add type Repair-->
+<div class="modal fade" id="AddType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Thêm kiểu sửa chữa mới</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group m-bot15 clearfix ">
+                    <label class="control-label col-md-4 ">Tên Loại</label>
+                    <div class="col-md-8 ">
+                        <input type="text" class="form-control myctr form" name="TypeName" id="TypeName" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group m-bot15 clearfix">
+                    <label class="control-label col-md-4 ">Notes</label>
+                    <div class="col-md-8">
+                        <textarea class="cke_editable form-control form myctr" rows="5" name="Notes" id="Notes"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-warning" type="button">Hủy</button>
+                <button class="btn btn-warning" type="button" onclick="AddType()">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--End-->
+<!--Start Script-->
+<script>
+    $("#TypeOfRepair").select2();
+</script>
+<script>
+    $(document).ready(function () {
+        $('#exampleMT').dataTable({
+            "oLanguage": {
+                "sInfo": "Hiển thị từ _START_ đến _END_ của _TOTAL_ bản ghi",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+            //"bLengthChange": false,
+            //"bFilter": false,
+            "aoColumnDefs": [{
+                'bSortable': false,
+                'aTargets': [0, 9],
+            }]
+        });
+        CKEDITOR.replace('NoteRepair')
+        CKEDITOR.instances.NoteRepair.config.readOnly = true;
+    });
+    $('#UserId').select2();
+    $('#infoDevice').find('input, button, textarea, select').attr('disabled', 'disabled');
+    $('#detaildeviceDeviceNew').find('input, button, select, AddressOfRepair').attr('disabled', 'disabled');
+    $('#AddressOfRepair').attr('disabled', 'disabled');
+    var sta = $("#StatusRepair").val();
+    if (sta == 0) {
+        $("#Cancel").hide();
+        $("#Cancel2").hide();
+        $("#Save").hide();
+        $("#Edit").hide();
+        $("#CompleteRepair").show();
+    }
+    else if (sta == 1) {
+        $("#Cancel").hide();
+        $("#Cancel2").hide();
+        $("#Save").hide();
+        $("#CompleteRepair").hide();
+        $("#Edit").show();
+    }
+    function EnableEditor2() {
+        CKEDITOR.instances.NoteRepair.setReadOnly(false);
+        //   CKEDITOR.instances.PurchaseContract.setReadOnly(false);
+    }
+    function disableEditor2() {
+        CKEDITOR.instances.NoteRepair.setReadOnly(true);
+        //  CKEDITOR.instances.PurchaseContract.setReadOnly(true);
+    }
+</script>
+<script>
+    $("#CompleteRepair").click(function () {
+        $("#Status option[value=1]").prop("selected", "selected")
+        $("#CompleteRepair").hide();
+        $("#Save").show();
+        $("#Cancel").show();
+        $('#detaildeviceDeviceNew').find('input, button, select').removeAttr('disabled');
+        $('#AddressOfRepair').removeAttr('disabled')
+        EnableEditor2();
+    });
+    $("#Cancel").click(function () {
+        $("#Cancel").hide();
+        $("#Save").hide();
+        $("#Edit").hide();
+        $("#CompleteRepair").show();
+        $('#detaildeviceDeviceNew').find('input, button, select').attr('disabled', 'disabled');
+        $("#AddressOfRepair").attr('disabled', 'disabled');
+        disableEditor2()
+    });
+    $("#Cancel2").click(function () {
+        $("#Cancel").hide();
+        $("#Cancel2").hide();
+        $("#Save").hide();
+        $("#Edit").show();
+        $("#CompleteRepair").hide();
+        $('#detaildeviceDeviceNew').find('input, button, select').attr('disabled', 'disabled');
+        $("#AddressOfRepair").attr('disabled', 'disabled');
+        $("#TestNullPrice").hide();
+        $("#TestNullDate").hide();
+        $("#TestNullAddress").hide();
+        disableEditor2()
+    });
+    $("#Edit").click(function () {
+        $("#CompleteRepair").hide();
+        $("#Save").show();
+        $("#Cancel2").show();
+        $("#Edit").hide();
+        $('#detaildeviceDeviceNew').find('input, button, select').removeAttr('disabled');
+        $('#AddressOfRepair').removeAttr('disabled')
+        EnableEditor2()
+    });
+</script>
+<script>
+    var CreateType = function () {
+        $("#AddType").modal('show');
+        $('#TypeName').val('');
+        $('#Notes').val('');
+    }
+    var AddType = function () {
+        var TypeName = $("#TypeName").val();
+        var Notes = $("#Notes").val();
+        $.ajax({
+            type: "POST",
+            url: "/Project/AddRepairType",
+            data: {
+                TypeName: TypeName,
+                Notes: Notes
+            },
+            success: function (result) {
+                if (result) {
+                    $("#AddType").modal("hide");
+
+                    $("#divloadtype").load(location.href + " #divloadtype>*", "");
+                } else {
+                    $("#AddType").modal("hide");
+                    alert("Thêm bị lỗi");
+                }
+            }
+        })
+    }
+    document.getElementById("formIdRp").onsubmit = function () {
+        var Price = $("#Prices");
+        if (!Price.val().trim()) {
+            $("#TestNullPrice").show();
+            return false;
+        }
+
+    }
+
+</script>
+<!--The end Script-->

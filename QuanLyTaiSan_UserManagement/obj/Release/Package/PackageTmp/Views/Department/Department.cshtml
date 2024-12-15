@@ -1,0 +1,231 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@using QuanLyTaiSan_UserManagement.Helper;
+@*@model QuanLyTaiSan_UserManagement.Models.SeachProject_Result*@
+@model IEnumerable<QuanLyTaiSan_UserManagement.Models.SearchProject_Result>
+@{
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+    ViewBag.Title = "Danh sách phòng ban";
+}
+
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+<!-- page start-->
+
+
+<section class="panel">
+
+    <!--Header-->
+    <header class="panel-heading m-bot15 ">
+        <div class="tcssPadb">
+            Danh sách phòng ban
+            @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Project") && k.ActionName.Equals("AddProject")))
+            {*@
+                <div class="btn btn-success" style="float:right">
+                    <a href="@Url.Action("AddDepartment", "Department")"> Thêm </a> <i class="icon-plus"></i>
+                </div>
+            @*}*@
+        </div>
+    </header>
+    <!--The end header-->
+    <!--Seach-->
+    <div class="row">
+        @using (Html.BeginForm("SeachDepartment", "Department", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal  editcontent" }))
+            {
+            @Html.AntiForgeryToken()
+            <div class="col-md-10 ">
+                <div class="col-md-2 TcssMarg select2css ">
+                    <select class="m-bot15 form-control myctr " name="ManagerProject" id="ManagerProject">
+                        <option value="0">Người quản lí</option>
+                        @foreach (var item in ViewData["User"] as IList<User>)
+                        {
+                            <option value="@item.Id" @(ViewBag.ManagerProject == @item.Id ? "selected" : "")> @item.FullName </option>
+                        }
+                    </select>
+                </div>
+                @*<div class="col-md-2 TcssMarg">
+                    <select class="m-bot15 input-sm  form-control  myctr " name="Status" id="Status">
+                        <option value="0" @(ViewBag.Status == 0 ? "selected" : "")>Trạng thái</option>
+                        <option value="1" @(ViewBag.Status == 1 ? "selected" : "")>Đang hoạt động</option>
+                        <option value="2" @(ViewBag.Status == 2 ? "selected" : "")>Tạm dừng</option>
+                        <option value="3" @(ViewBag.Status == 3 ? "selected" : "")>Kết thúc</option>
+                    </select>
+                </div>*@
+                <div class="col-md-2 TcssMarg">
+                    <input class="form-control myctr input-sm" type="text" name="ProjectSymbol" id="ProjectSymbol" value="@ViewBag.ProjectSymbol" autocomplete="off" placeholder="Nhập mã phòng"  />
+                </div>
+                <div class="col-md-2 TcssMarg ">
+                    <div class="btn-group">
+                        @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Project") && k.ActionName.Equals("SeachProject")))
+                            {*@
+                        <button class="btn btn-primary btn-sm" type="submit">Tìm kiếm <i class="icon-search"></i></button>
+                        @*}*@
+                    </div>
+                </div>
+            </div>
+        }
+        <div class="col-md-2 row" style="text-align:right">
+            @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Project") && k.ActionName.Equals("DeleteProject")))
+            {*@
+                <a class="btn btn-primary  btn-sm" href="javascript:void(0)" id="deleteItem1" onclick="ConfirmDelete1()">Xóa tất cả mục đã chọn <i class="icon-trash"></i></a>
+            @*}*@
+        </div>
+    </div>
+    <!--Finish seach-->
+    <!--Popup DELETE1 -->
+    <div id="myModaldelete1" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Xóa phòng</h4>
+                </div>
+                <div class="modal-body">
+                    <!--Containt-->
+                    <p>Bạn chắc chắn muốn xóa phòng</p>
+                    <div style="text-align:center;display:none" id="loaderDiv">
+                        <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                    </div>
+                    <!--The end Containt-->
+                </div>
+                <div class="modal-footer">
+                    <a id="btnContinueDelete1" class="btn btn-primary">Xóa</a>
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--The end popup-->
+    <div class="tcsspadtop ">
+        <div class="col-md-12">
+            <p id="ShowNumber" style="color:#00aaff; font:bold"><b>Tìm thấy @ViewBag.ProjectNb phòng</b></p>
+        </div>
+    </div>
+
+    <div class="tcssMarT tcsspadtop">
+        <div class="panel-body tcssMarT ">
+            <div class="adv-table">
+                <table class="display  table table-bordered table-striped table-hover table-responsive" id="exampleT">
+                    <thead>
+                        <tr>
+                            <th class="center"><input type="checkbox" id="checkAll" name="check" /></th>
+                            <th>Mã phòng </th>
+                            <th>Tên phòng </th>
+                            <th style="width:auto;">Người quản lí</th>
+                            <th>Địa chỉ</th>
+                            @*<th class="hidden-phone">Ngày bắt đầu </th>
+                            <th class="hidden-phone">Ngày kết thúc</th>*@
+                            <th>Số lượng thiết bị </th>
+                            <th>Trạng thái</th>
+                            <th class="center">Xem</th>
+                            <th class="center">Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="gradeA" id="row_@item.Id">
+                                <td  class="center" style="width:2%"><input type="checkbox" class="chkCheckBoxId checkbox check" name="check" value="@item.Id" /></td>
+                                <td style="width:8%">@item.ProjectSymbol</td>
+                                <td style="width:12%">@item.ProjectName</td>
+                                <td style="width:10%">@item.FullName</td>
+                                <td style="width:22%" class="hidden-phone">@item.Address</td>
+                                @*<td style="width:9%" class="center hidden-phone">@String.Format("{0:dd/MM/yyyy}", item.FromDate)</td>
+                                <td style="width:10%" class="center hidden-phone">@String.Format("{0:dd/MM/yyyy}", item.ToDate)</td>*@
+                                <td style="width:12%" class="center">@item.NumDevice</td>
+                                <td style="width:9%" class="center ">@Html.Raw(item.Status.GetEnumDescription(typeof(eStatus.ProjectStatus)))</td>
+                                <td style="width:3%" class="center">
+                                    @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Project") && k.ActionName.Equals("EditProject")))
+                                    {*@
+                                        <a class="edit" href="@Url.Action("EditDepartment", "Department", new { Id = @item.Id })"><i class="icon-eye-open"></i></a>
+                                    @*}*@
+                                </td>
+                                <td  style="width:3%" class="center">
+                                    @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Project") && k.ActionName.Equals("DeleteProject1")))
+                                    {*@
+                                        <a class="edit" href="javascript:void(0)" id="DeleteItem" onclick="ConfirmDelete(@item.Id)"><i class="icon-trash"></i></a>
+                                    @*}*@
+                                </td>
+                            </tr>
+                        }
+                </table>
+                <input type="hidden" id="hiddenId1" />
+                <input type="hidden" id="hiddenId" />
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</section>
+
+
+@Html.Partial("DeleteDepartmentPartial")
+<!-- page end-->
+<!--Scrip-->
+<!--The end Scrip-->
+<script>
+    $(document).ready(function () {
+        $('#exampleT').dataTable({
+            "oLanguage": {
+                "sInfo": "Hiển thị từ _START_ đến _END_ bản ghi",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+            "iDisplayLength": 50,
+            "bLengthChange": false,
+            "bFilter": false,
+            "aoColumnDefs": [
+            {  "aTargets": [0], bSortable: false },         
+            {  "aTargets": [6], bSortable: false },
+            { "aTargets": [7], bSortable: false },
+            ]
+        });
+
+    });
+</script>
+<script>
+    var ConfirmDelete1 = function () {
+        var chkArray = [];
+        / look for all checkboes that have a class 'chk' attached to it and check if it was checked /
+        $(".check:checked").each(function () {
+            chkArray.push($(this).val());
+        });
+        / we join the array separated by the comma /
+        var selected;
+        selected = chkArray.join(',');
+        / check if there is selected checkboxes, by default the length is 1 as it contains one single comma /
+        if (selected.length > 0) {
+            $("#hiddenId1").val(chkArray);
+            $("#myModaldelete1").modal('show');
+            $('#btnContinueDelete1').click(function () {
+                $("#loaderDiv").show();
+                var PrId = $("#hiddenId1").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Project/DeleteProject",
+                    data: { Id: PrId },
+                    success: function (result) {
+                        if (result) {
+                            $("#loaderDiv").hide();
+                            $("#myModaldelete1").modal("hide");
+                            window.location = '@Url.Action("Department", "Department")';
+                        } else {
+                            $("#loaderDiv").hide();
+                            $("#myModaldelete1").modal("hide");
+                            alert("Xóa phòng lỗi. Có phòng chưa trả hết thiết bị ");
+                        }
+                    }
+                })
+            });
+        }
+    }
+    $('.Department').addClass('active');
+    $('.DepartmentTable').addClass('active');
+    $('#ManagerProject').select2();
+</script>
+<!--end scrip-->

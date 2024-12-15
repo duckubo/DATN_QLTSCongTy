@@ -1,0 +1,74 @@
+﻿<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="NoAdd()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Thêm loại thiết bị mới</h4>
+            </div>
+            @using (Html.BeginForm("AddDeviceType", "DeviceType", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal", @id = "formtype" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="modal-body">
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label " style="color:red;display:none" id="requiredtype">Bạn Phải Nhập Tên Loại</label><br />
+                        <label class="control-label " style="color:red;display:none" id="requiredtypesymbol">Bạn Phải Nhập Mã Loại</label>
+                    </div>
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-4 ">Tên Loại</label>
+                        <div class="col-md-8 ">
+                            <input type="text" class="form-control myctr form" name="TypeName" id="Typerequired" required="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-4 ">Ký Hiệu Loại</label>
+                        <div class="col-md-8 ">
+                            <input type="text" class="form-control myctr form" id="TypeSymbol" name="TypeSymbol" required="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <label class="control-label col-md-4 ">Notes</label>
+                        <div class="col-md-8">
+                            <textarea class="form-control form myctr" rows="5" name="Notes"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" onclick="NoAdd()" class="btn btn-default" type="button">Hủy</button>
+                    <button class="btn btn-warning" type="submit">Thêm</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var NoAdd = function () {
+        $("#myModal1").load(location.href + " #myModal1>*", "");
+    }
+    document.getElementById("formtype").onsubmit = function () {
+        var Typerequired = $('#Typerequired');
+        var TypeSymbol = $('#TypeSymbol');
+        var a = $('#TypeSymbol').val().trim().length
+        // Check if there is an entered value
+        if (a == 3) {
+            if (!Typerequired.val().trim()) {
+                // Add errors highlight
+                Typerequired.closest('.form-group').removeClass('has-success').addClass('has-error');
+                $("#requiredtype").show()
+                // Stop submission of the form
+                return false;
+            } else if (!TypeSymbol.val().trim()) {
+                TypeSymbol.closest('.form-group').removeClass('has-success').addClass('has-error');
+                $("#requiredtypesymbol").show()
+                return false;
+            }
+            else {
+                // Remove the errors highlight
+                Typerequired.closest('.form-group').removeClass('has-error').addClass('has-success');
+            }         
+        }
+        else {
+            alert('Ký Hiệu Loại Có Đúng 3 Chữ Cái')
+            return false;
+        }
+    }
+</script>

@@ -1,0 +1,170 @@
+﻿@*@model QuanLyTaiSan_UserManagement.Models.ScheduleTestById_Result*@
+<!--Popup DELETE All -->
+<div id="myModaldelete1" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Xóa lịch sửa kiểm tra </h4>
+            </div>
+            <div class="modal-body">
+                <!--Containt-->
+                <p>Bạn chắc chắn muốn xóa lịch sử kiểm tra thiết bị</p>
+                <div style="text-align:center;display:none" id="loaderDiv">
+                    <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                </div>
+                <!--The end Containt-->
+            </div>
+            <div class="modal-footer">
+                <a id="btnContinueDelete1" class="btn btn-primary">Xóa</a>
+                <button type="button" class="btn btn-white" data-dismiss="modal">Hủy</button>
+          
+            </div>
+        </div>
+    </div>
+</div>
+<!--The end popup-->
+<!--Popup DELETE ONE-->
+<div id="myModaldelete" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Xóa lịch sửa kiểm tra</h4>
+            </div>
+            <div class="modal-body">
+                <!--Containt-->
+                <p>Bạn chắc chắn muốn xóa lịch sửa kiểm tra thiết bị</p>
+                <div style="text-align:center;display:none" id="loaderDiv">
+                    <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                </div>
+                <!--The end Containt-->
+            </div>
+            <div class="modal-footer">
+                <a id="btnContinueDelete" class="btn btn-danger" onclick="DeleteProject()">Xóa</a>
+                <button type="button" class="btn btn-white" data-dismiss="modal">Hủy</button>
+            
+            </div>
+        </div>
+    </div>
+</div>
+<!--The end popup-->
+<!--Scrip All -->
+<script>
+    var ConfirmDelete1 = function () {
+        var chkArray = [];
+        var status = 0;
+        var PrIdT = $("#hiddenId2").val();
+        $(".check:checked").each(function () {
+            chkArray.push($(this).val());
+            if ($(this).data("status") == PrIdT) {
+                status = PrIdT;
+            }
+        });
+        var selected;
+        selected = chkArray.join(',');
+        if (selected.length > 0) {
+            $("#hiddenId1").val(chkArray);
+            $("#myModaldelete1").modal('show');
+            $('#btnContinueDelete1').click(function () {
+                if (status == PrIdT) {
+                    $("#loaderDiv").show();
+                    var PrId = $("#hiddenId1").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/ScheduleTest/DeleteScheduleTest",
+                        data: { Id: PrId },
+                        success: function (result) {
+                            if (result) {
+                                $("#loaderDiv").hide();
+                                $("#myModaldelete1").modal("hide");
+
+                                // $("#divtype").load(location.href + " #divtype>*", "");
+                                window.location = '@Url.Action("ScheduleTest", "ScheduleTest")';
+                            }
+                            else {
+                                $("#loaderDiv").hide();
+                                $("#myModaldelete1").modal("hide");
+                                alert("Xóa lịch sử bị lỗi");
+                            }
+                        }
+                    })
+                }
+                else {
+                    $("#loaderDiv").show();
+                    var PrId = $("#hiddenId1").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/ScheduleTest/DeleteScheduleTest",
+                        data: { Id: PrId },
+                        success: function (result) {
+                            if (result) {
+                                $("#loaderDiv").hide();
+                                $("#myModaldelete1").modal("hide");
+                                location.reload();
+                                // $("#divtype").load(location.href + " #divtype>*", "");
+                            }
+                            else {
+                                $("#loaderDiv").hide();
+                                $("#myModaldelete1").modal("hide");
+                                alert("Xóa lịch sử bị lỗi");
+                            }
+                        }
+                    })
+                }
+            });
+        }
+    }
+</script>
+<!--end scrip-->
+<!--Script ONE-->
+<script>
+    var ConfirmDelete = function (Id) {
+        $("#hiddenId").val(Id);
+        $("#myModaldelete").modal('show')
+    }
+    var DeleteProject = function () {
+        var prId = $("#hiddenId").val();
+        var PrIdTest = $("#hiddenId2").val();
+        if (prId == PrIdTest) {
+            $("#loaderDiv").show();
+            $.ajax({
+                type: "POST",
+                url: "/ScheduleTest/DeleteScheduleTest",
+                data: { Id: prId },
+                success: function (result) {
+                    if (result) {
+                        $("#loaderDiv").hide();
+                        $("#myModaldelete").modal("hide");
+                        window.location = '@Url.Action("ScheduleTest", "ScheduleTest")';
+                    } else {
+                        $("#loaderDiv").hide();
+                        $("#myModaldelete").modal("hide");
+                        alert("Xóa lịch sử bị lỗi");
+                    }
+                }
+            })
+        }
+        else {
+            $("#loaderDiv").show();
+            $.ajax({
+                type: "POST",
+                url: "/ScheduleTest/DeleteScheduleTest",
+                data: { Id: prId },
+                success: function (result) {
+                    if (result) {
+                        $("#loaderDiv").hide();
+                        $("#myModaldelete").modal("hide");
+                        $("#row_" + prId).remove();
+                    } else {
+                        $("#loaderDiv").hide();
+                        $("#myModaldelete").modal("hide");
+                        alert("Xóa lịch sử bị lỗi");
+                    }
+                }
+            })
+        }
+    }
+
+</script>
+<!--Script end-->

@@ -1,0 +1,123 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@{
+    ViewBag.Title = "Thêm lịch kiểm tra thiết bị";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+
+<section class="panel">
+    <div class="panel">
+        <div class="panel-heading">
+            <a class="edit panel-default" style="margin-right:10px" href="@Url.Action("ScheduleTest", "ScheduleTest")">
+                <span class="icon-border">
+                    <i class="icon-arrow-left"> </i>
+                </span>
+            </a>
+            Thêm lịch kiểm tra thiết bị
+        </div>
+@using (Html.BeginForm("AddScheduleTest", "ScheduleTest", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal  editcontent",@id = "formIdRp" }))
+{
+    @Html.AntiForgeryToken()
+        <div class="panel-body Tlabel-Edit">
+
+            <div class="form-group row">
+                <label class="col-md-2 ">Tên thiết bị 
+                   
+                 </label>
+                <div class="col-md-6">               
+                    <select class="input-large form-control myctr" name="DeviceId" id="DeviceId" required>
+                        <option value="">Chọn thiết bị</option>
+                        @foreach (var item in ViewData["Devices"] as IList<Device>)
+                        {
+                            <option value="@item.Id">@item.DeviceCode - @item.DeviceName </option>
+                        }
+                    </select>
+                </div>
+                <label class="label" style="display:none ; color: red" id="TestNullRepairDv">Bạn phải chọn thiết bị </label>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 "> Ngày kiểm tra</label>
+                <div class="col-md-6 input-group">  
+                    <input type="text" value="" class="form-control myctr form-control-inline input-medium default-date-picker" size="16" autocomplete="off"  name="DateOfTest" placeholder="Click để chọn ngày" required/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-warning icon-calendar" style="line-height:inherit"></button>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 "> Ngày kiểm tra tiếp</label>
+                <div class="col-md-6 input-group">
+                    <input type="text" value="" class="form-control myctr form-control-inline input-medium default-date-picker" size="16" autocomplete="off" name="NextDateOfTest" placeholder="Click để chọn ngày" />
+                    <span class="input-group-btn">
+                        <button class="btn btn-warning icon-calendar" style="line-height:inherit"></button>
+                    </span>
+                </div>
+            </div>
+           
+            <div class="form-group row">
+                <label class="col-md-2"> Người kiểm tra</label>
+                <div class="col-md-6 ">
+                    <select class="form-control myctr" name="UserTest" id="UserTest">
+                        <option value="0">Người kiểm tra</option>
+                        @foreach (var item in ViewData["User"] as IList<User>)
+                        {
+                            <option value="@item.Id"> @item.FullName </option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-md-2 ">Loại kiểm tra </label>
+                <div class="col-md-6">
+                    <textarea class="cke_editable form-control form myctr" rows="3" name="CategoryTest" id="CategoryTest" required></textarea>
+                    <label class="label" style="display:none ; color:#ff6c60" id="TestNullType">Nhập loại kiểm tra</label>
+                </div>
+               
+            </div>
+
+            <div class="form-group row">
+                <label class="col-md-2 "> Chi tiết</label>
+                <div class="col-md-6">
+                    <textarea class="cke_editable form-control form myctr" rows="3" name="Notes"></textarea>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group row form-body">
+            <div class="TcssButton">
+                <button type="submit" class="btn btn-primary btn-large" onclick="CheckNullSchedutestDv()"> Lưu yêu cầu</button>
+                <button type="button" class="btn btn-white">@Html.ActionLink("Hủy","ScheduleTest","ScheduleTest") </button>
+
+            </div>
+        </div>
+}
+    </div>
+
+</section>
+<script>
+    $('#device').select2();
+    $('#UserTest').select2();
+    $('#DeviceId').select2();
+    $('.ScheduleTest').addClass('active');
+    $('.AddScheduleTest').addClass('active');
+    //var CheckNullSchedutestDv = function () {
+    //    var dvId = $("#DeviceId");          
+    //    if (!dvId.val().trim()) {
+    //        $("#TestNullRepairDv").show();
+    //    }
+       
+    //}
+    document.getElementById("formIdRp").onsubmit = function () {
+        var ctgr = $("#CategoryTest");
+        var dvId = $("#DeviceId");
+        if (!ctgr.val().trim()) {
+            $("#TestNullType").show();
+            return false;
+        }
+        if (!dvId.val().trim()) {
+            $("#TestNullRepairDv").show();
+            return false;
+        }
+    }
+</script>

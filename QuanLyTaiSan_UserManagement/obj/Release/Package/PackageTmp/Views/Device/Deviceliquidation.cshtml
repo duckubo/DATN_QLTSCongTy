@@ -1,0 +1,131 @@
+﻿@model  IEnumerable<QuanLyTaiSan_UserManagement.Models.SearchDevice_Result>
+@using QuanLyTaiSan_UserManagement.Models;
+@using QuanLyTaiSan_UserManagement.Helper;
+@{
+    ViewBag.Title = "Thiết Bị Đã Thanh Lý";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Thiết Bị Thanh Lý
+                <div class="btn-group pull-right">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                        Lựa chọn<i class="icon-angle-down"></i>
+                    </button>
+                    <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0)" id="deleteItem1" onclick="ConfirmDelete1()">Xóa các thiết bị đã chọn</a></li>
+                        <li><a href="javascript:void(0)" id="ConfimprintImg">In Mã Vạch Các Thiết Bị Đã Chọn</a></li>
+                    </ul>
+                </div>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div class="clearfix ">
+                        <table class="display table table-bordered table-striped table-hover" id="example" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="center" style="width:2%">
+                                        <input name="check" id="checkAll" type="checkbox" />
+                                    </th>
+                                    <th style="width:9%">Mã</th>
+                                    <th style="width:11%">Tên Thiết Bị</th>
+                                    <th>Loại</th>
+                                    <th style="width:7%">Giá</th>
+                                    <th style="width:10%">Người dùng</th>
+                                    <th style="width:12%">Nhà Cung Cấp</th>
+                                    <th style="width:15%">Cấu Hình</th>
+                                    <th style="width:10%">Mã Dự Án</th>
+                                    <th style="width:8%">Trạng Thái</th>
+                                    <th style="width:3%">Xem</th>
+                                    <th style="width:3%">Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabledvdiv">
+                                @{foreach (var item in Model)
+                                    {
+                                        <tr class="gradeA" id="row_@item.">
+                                            <td class="center" style="width:2%"><input type="checkbox" name="check" class="form-c check" value="@item.Id" data-status="@item.Status" data-code="@item.DeviceCode" /></td>
+                                            <td style="width:9%">@item.DeviceCode</td>
+                                            <td style="width:11%">
+                                                @item.DeviceName
+                                            </td>
+                                            <td>@item.TypeName</td>
+                                            <td style="text-align:right; width:7%">@item.Price</td>
+                                            <td style="width:10%">@item.FullName</td>
+                                            <td style="width:12%">@item.Name</td>
+                                            <td style="width:15%">@Html.Raw(item.Configuration)</td>
+                                            <td style="width:10%">@item.ProjectSymbol</td>
+                                            <td style="width:8%">
+                                                @Html.Raw(Convert.ToInt32(item.Status).GetEnumDescription(typeof(eStatus.DeviceStatus)))<br />
+                                                @Html.Raw(Convert.ToInt32(item.StatusRepair).GetEnumDescription(typeof(eStatus.RepairStatus)))
+                                            </td>
+                                            <td class="center" style="width:3%">
+                                                <a class="edit  icon-eye-open" href="@Url.Action("EditDevice", "Device", new { Id = item.Id })"></a>
+                                            </td>
+                                            <td class="center" style="width:3%">
+                                                    <a class="icon-trash" id="deleteItem" onclick="ConfirmDelete(@item.Id,@item.Status)"></a>
+                                            </td>
+                                        </tr>
+                                    }}
+                            </tbody>
+                        </table>
+                        <input type="hidden" id="hiddenId" />
+                        <input type="hidden" id="Statushidden" />
+                        <input type="hidden" id="hiddenId1" />
+                        <input type="hidden" id="DeviceBarCode" />
+                        <iframe id="txtArea1" style="display:none"></iframe>
+                    </div>
+                </div>
+            </div>
+            @Html.Partial("DevicePartial")
+            <div class="modal fade" id="myModaldelete1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">DELETE</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn xóa thiết bị đã chọn?
+                            <div style="text-align:center;display:none" id="loaderDiv">
+                                <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <a id="btnContinueDelete1" class="btn btn-warning"> Xoá</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="Liquidation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">DELETE</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn thanh lý thiết bị đã chọn?
+                            <div style="text-align:center;display:none" id="loaderDiv">
+                                <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <a id="btnLiquidation" class="btn btn-warning">Thanh Lý</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="~/Scripts/DeviceScripts.js"></script>
+<script>
+    $('.Device').addClass('active');
+    $('.Deviceliquidation').addClass('active');
+</script>
+

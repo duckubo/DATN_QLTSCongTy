@@ -1,0 +1,141 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+
+@{
+    ViewBag.Title = "Thêm dự án mới";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+
+<link href="~/Content/css/TcssProject.css" rel="stylesheet" />
+<section class="panel">
+    <div class="panel">
+        <div class="panel-heading">
+            <a class="edit panel-default" style="margin-right:10px" href="@Url.Action("Project", "Project")">
+                <span class="icon-border">
+                    <i class="icon-arrow-left"> </i>
+                </span>
+            </a>
+            Thêm dự án
+        </div>
+        @using (Html.BeginForm("AddProject", "Project", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal  editcontent", @Id = "formIdPr" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="panel-body Tlabel-Edit">
+                <div class="col-md-12">
+                    <div class="form-group row">
+                        <label class="col-md-2 "> Mã Dự án <span style="color:#ff6c60">*</span> </label>
+                        <div class="col-md-6">
+                            <input class="form-control input-large myctr " type="text" placeholder="Mã dự án" name="ProjectSymbol" id="ProjectSymbol" autocomplete="off" required value="@ViewBag.ProjectSymbol">
+                            <label class="label" style="display:none ; color:#ff6c60" id="TestNullPS">Bạn phải nhập mã dự án</label>
+                            <label class="label" style="color:#ff6c60" id="TestRepete">@ViewBag.Tb</label>
+                        </div>
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 "> Tên Dự án <span style="color:#ff6c60">*</span></label>
+                        <div class="col-md-6">
+                            <input class="form-control input-large myctr " type="text" placeholder="Tên dự án" name="ProjectName" id="ProjectName" autocomplete="off" required value="@ViewBag.ProjectName">
+                            <label class="label" style="display:none ; color:#ff6c60" id="TestNullPN">Bạn phải nhập tên dự án</label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 "> Người quản lí </label>
+                        <div class="col-md-6">
+                            <select class="input-large form-control myctr form-control" name="ManagerProject" id="user">
+                                <option value="0" selected> Chọn người quản lí </option>
+                                @foreach (var item in ViewData["User"] as IList<User>)
+                                {
+                                    <option value="@item.Id" @(ViewBag.ManagerProject == @item.Id ? "selected" : "")> @item.FullName </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2"> Ngày bắt đầu </label>
+                        <div class="col-md-6  input-group">
+                            <input type="text" class="form-control myctr form-control-inline input-large default-date-picker" size="16" name="FromDate" value="@ViewBag.FromDate" autocomplete="off" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-warning icon-calendar" style="line-height:inherit"></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2"> Ngày kết thúc </label>
+                        <div class="col-md-6  input-group">
+                            <input type="text" class="form-control myctr form-control-inline input-large default-date-picker" size="16" name="ToDate" value="@ViewBag.ToDate" autocomplete="off" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-warning icon-calendar" style="line-height:inherit"></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 "> Trạng thái</label>
+                        <div class="col-md-6">
+                            <select class="input-large form-control myctr" name="Status">
+                                <option value="1" selected>Đang hoạt động</option>
+                                @*<option value="2">Tạm dừng</option>
+                                    <option value="3">Kết thúc</option>*@
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-2 "> Địa chỉ </label>
+                        <div class="col-md-6">
+                            <textarea class="cke_editable form-control form myctr" rows="3" id="editer2" name="Address">@ViewBag.Address</textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row form-body">
+                    <div class="TcssButton">
+                        <button type="submit" class="btn btn-primary btn-large"> Lưu dự án </button>
+                        <button type="button" class="btn btn-white">@Html.ActionLink("Hủy", "Project", "Project") </button>
+
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+
+</section>
+
+<script type="text/javascript">
+    $('#user').select2();
+    $('.Project').addClass('active');
+    $('.AddProject').addClass('active');
+
+    document.getElementById("formIdPr").onsubmit = function () {
+        var prS = $("#ProjectSymbol");
+        var prN = $("#ProjectName");
+        if (!prS.val().trim()) {
+            $("#TestNullPS").show();
+            $("#TestRepete").hide();
+            return false;
+        }
+        if (!prN.val().trim()) {
+            $("#TestNullPN").show();
+            return false;
+        }
+        if (!prS.val().trim() && prN.val().trim() != null) {
+            $("#TestNullPS").show();
+            $("#TestNullPN").hide();
+            $("#TestRepete").hide();
+            TestRepete
+            return false;
+        }
+        if (prS.val().trim() != null && !prN.val().trim()) {
+            $("#TestNullPS").hide();
+            $("#TestNullPN").show();
+            return false;
+        }
+
+    }
+
+
+
+
+</script>
+

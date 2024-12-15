@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3646d0e5feab45eca49063fbb6128c93" Name="Diagram1" ZoomLevel="32">
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.DestructivelDevice" Width="1.5" PointX="5.25" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.DestructiveType" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.Device" Width="1.5" PointX="8.25" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.DeviceOfProject" Width="1.5" PointX="10.5" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.DeviceType" Width="1.5" PointX="3" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.ProjectDKC" Width="1.5" PointX="5.25" PointY="22.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.RepairDetail" Width="1.5" PointX="10.5" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.RepairType" Width="1.5" PointX="8.25" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.RequestDevice" Width="1.5" PointX="5.25" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.ScheduleTest" Width="1.5" PointX="13.5" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.Supplier" Width="1.5" PointX="6" PointY="16.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.User" Width="1.5" PointX="3" PointY="11.375" IsExpanded="true" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_CancelDevice_CancelType" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_CancelDevice_Device" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_CancelDevice_User" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_Device_DeviceType" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_Device_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_Device_User" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_DeviceOfProject_Device" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_RepairDetails_Device" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_ScheduleTest_Device" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_DeviceOfProject_ProjectDKC" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_RequestDevice_DeviceType" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_ProjectDKC_User" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_RepairDetails_RepairType" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_RepairDetails_User" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_RequestDevice_User" ManuallyRouted="false" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_ScheduleTest_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.UsageDevice" Width="1.5" PointX="13.5" PointY="17" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_UsageDevice_Device" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_UsageDevice_ProjectDKC" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_UsageDevice_User" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.DeviceDevice" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.DeviceTypeComponantType" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.Credential" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.UserGroup" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.Role" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="QuanLyTaiSanCtyModel.UserLogin" Width="1.5" PointX="9.375" PointY="0.75" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_Credential_UserGroup" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_Credential_UserGroup1" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_DeviceDevice_Device" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_DeviceDevice_Device1" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_DeviceTypeComponantType_DeviceType" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_DeviceTypeComponantType_DeviceType1" />
+        <AssociationConnector Association="QuanLyTaiSanCtyModel.FK_UserLogin_UserGroup" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

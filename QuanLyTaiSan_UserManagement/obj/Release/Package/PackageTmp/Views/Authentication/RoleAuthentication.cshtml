@@ -1,0 +1,168 @@
+﻿@using QuanLyTaiSan_UserManagement.Models
+@model  IEnumerable<QuanLyTaiSan_UserManagement.Models.UserAuthorization>
+@{
+    ViewBag.Title = "RoleAuthentication";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Phân Quyền Tính Năng
+            </header>
+            <div class="panel-body">
+                <div class="col-md-3">
+                    <h3 style="margin-top: 5px; margin-bottom: 0px">@ViewData["RoleName"]</h3>
+                </div>
+                <div class="col-md-9">
+                @using (Html.BeginForm("RoleAuthentication", "Authentication", FormMethod.Get, new {@enctype = "multipart/form-data", @class = "form-horizontal"}))
+                {
+                    <div class="row">
+                        <div class="col-md-3" style="padding-left: 0px">
+                            <input type="hidden" value="@ViewData["RoleId"]" name="roleId">
+                            <select class="form-control input-sm" name="controllerId" style="color: #635e5e">
+                                <option value="-1">Chọn Controller</option>
+                                @foreach (var item in (Dictionary<int, string>)ViewData["ControllerList"])
+                                {
+                                    <option value="@item.Key">@item.Value</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-3" style="padding-left: 0px">
+                            <input class="form-control input-sm" type="text"
+                                   placeholder="Tên tính năng" name="actionText" 
+                                   value="@ViewData["ActionText"]"
+                                   style="color: #635e5e"/>
+                        </div>
+                        <div class="col-md-2" style="padding-left: 0px">
+                            <div class="btn-group">
+                                <button class="btn btn-primary btn-sm" type="submit">Tìm kiếm <i class="icon-search"></i></button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2 col-md-offset-2" style="padding-right: 0px">
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-success btn-sm" type="button" id="btnSave"
+                                        style="padding-left: 20px; padding-right: 20px">
+                                    Lưu
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+                    <div class="row" style="margin-top: 10px">
+                        <table class="display table table-bordered table-striped table-hover" id="example" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th class="center" style="text-align: center; padding: 3px 10px 3px 10px;">
+                                        <input id="checkAll" type="checkbox" />
+                                    </th>
+                                    <th>Tên tinh năng</th>
+                                    <th>Controller</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in (IList<SystemFeature>)ViewData["FeatureList"])
+                                {
+                                    <tr>
+                                        <td class="center"><input type="checkbox" name="check" value="@item.Id" /></td>
+                                        <td>@item.Name</td>
+                                        <td>@item.ControllerName</td>
+                                        <td>@item.ActionName</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Xác nhận lưu thay đổi</h4>
+            </div>
+            <div class="modal-body">
+                Bạn có muốn lưu thay đổi?
+                <div style="text-align:center;display:none" id="loaderDiv">
+                    <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                <a id="btnConfirm" class="btn btn-primary"> Lưu</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#example').dataTable({
+            "oLanguage": {
+                "sLengthMenu": "Hiển thị _MENU_ kết quả",
+                "sInfo": "Hiển thị từ _START_ đến _END_ của _TOTAL_ kết quả",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp"
+                }
+            },
+            "bFilter": false,
+            "bLengthChange": false,
+            "bPaginate": false,
+            "bInfo": false,
+            "aoColumnDefs": [
+                { "sWidth": "3%", "aTargets": [0], bSortable: false }
+            ]
+        });
+
+        //Set value of selected list
+        $("select[name='controllerId']").val(@ViewData["Controller"]).change();
+
+        //Set checkbox value
+        var lstAvailableFeatureId = @ViewData["AvailableFeatureId"];
+        lstAvailableFeatureId.forEach(function(item) {
+            $('input[value=' + item + ']').prop('checked', true);
+        });
+        
+
+    });
+
+    $("#btnSave").click(function () {
+        
+        var chkArray = [];
+        /* look for all checkboes that have a class 'chk' attached to it and check if it was checked */
+        $("input[name='check']:checked").each(function () {
+            chkArray.push($(this).val());
+        });
+        /* we join the array separated by the comma */
+        var selected = chkArray.join(',');
+        /* check if there is selected checkboxes, by default the length is 1 as it contains one single comma */
+        if (selected.length > 0) {
+            $("#confirmModal").modal('show');
+            $('#btnConfirm').click(function () {
+                $("#loaderDiv").show();
+                $.ajax({
+                    type: "POST",
+                    url: "/Authentication/ChangeRole",
+                    data: { lstId: chkArray, roleName: '@ViewData["RoleName"]' },
+                    success: function (result) {
+                        if (result.status) {
+                            location.reload();
+                        } else {
+                            alert('Có lỗi xảy ra trong quá trình xử lí, vui lòng thử lại');
+                        }
+                    }
+                });
+            });
+        }
+    });
+</script>

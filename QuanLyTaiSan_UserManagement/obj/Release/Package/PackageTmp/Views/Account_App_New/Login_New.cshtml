@@ -1,0 +1,72 @@
+﻿
+@model QuanLyTaiSan_UserManagement.Models.LoginModel
+@{
+    ViewBag.Title = "Quản Lý Tài Sản DKC";
+}
+<link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/css/bootstrap-reset.css" rel="stylesheet" />
+<!--external css-->
+<link href="~/Content/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<!-- Custom styles for this template -->
+<link href="~/Content/css/style.css" rel="stylesheet" />
+<link href="~/Content/css/style-responsive.css" rel="stylesheet" />
+<link href="~/Content/css/mytcsss.css" rel="stylesheet" />
+<style>
+    .control-label {
+        font-weight: bold !important;
+    }
+    .form-control {
+        color: black !important;
+        padding: 6px !important;
+        margin-bottom: 5px !important;
+        font-size: 15px !important;
+    }
+
+    .btn-login {
+        box-shadow: 0 4px #afd3e0 !important;
+        background-color: #56abd4 !important;
+    }
+
+    .form-signin {
+        height: 330px !important;
+    }
+</style>
+<body class="login-body">
+    <div class="container">
+        @using (Html.BeginForm("Login_New", "Account_App_New", FormMethod.Post, new { @class = "form-horizontal form-signin", role = "form" }))
+            {
+            @Html.AntiForgeryToken()
+            <h2 class="form-signin-heading">Đăng Nhập hệ thống</h2>
+            <div class="login-wrap">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group center">
+                    @Html.LabelFor(model => model.UserName, "Tên Người Dùng ", new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password, "Mật Khẩu", new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-4 col-md-10">
+                        @*<div class="checkbox">
+                            @Html.CheckBoxFor(m => m.RememberMe)
+                            @Html.LabelFor(m => m.RememberMe)
+                        </div>*@
+                    </div>
+                </div>
+                <button class="btn btn-lg btn-login btn-block" type="submit">Đăng Nhập</button>
+            </div>
+
+        }
+    </div>
+</body>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

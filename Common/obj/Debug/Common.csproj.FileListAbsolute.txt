@@ -1,0 +1,5 @@
+D:\Clone_GitHub\DATN_QLTSCongTy\Common\bin\Debug\Common.dll
+D:\Clone_GitHub\DATN_QLTSCongTy\Common\bin\Debug\Common.pdb
+D:\Clone_GitHub\DATN_QLTSCongTy\Common\obj\Debug\Common.csprojResolveAssemblyReference.cache
+D:\Clone_GitHub\DATN_QLTSCongTy\Common\obj\Debug\Common.dll
+D:\Clone_GitHub\DATN_QLTSCongTy\Common\obj\Debug\Common.pdb

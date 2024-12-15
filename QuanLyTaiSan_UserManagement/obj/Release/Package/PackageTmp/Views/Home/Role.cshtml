@@ -1,0 +1,121 @@
+﻿@using QuanLyTaiSan_UserManagement.Models
+@{
+    ViewBag.Title = "Role";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Quyền Người Dùng
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div class="clearfix ">
+                        <table class="display table table-bordered table-striped table-hover" id="example">
+                            <thead>
+                                <tr>
+                                    <th>Tên Quyền</th>
+                                    <th>Ghi Chú</th>
+                                    <th class="center">Sửa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               @foreach (var item in ViewData["Role"] as IList<Role>)
+                               {
+                                    <tr class="gradeA">
+                                        <td>
+                                            @item.RoleName
+                                        </td>
+                                        <td>@item.Notes</td>
+                                        <td class="center"><a class="edit icon-pencil" onclick="GetDetail(@item.Id)"></a></td>
+                                    </tr>
+                                }                            
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="edittype" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Role</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group m-bot15 clearfix ">
+                                <label class="control-label col-md-4 ">Tên</label>
+                                <div class="col-md-8 ">
+                                    <input type="text" class="form-control myctr form" name="RoleName" id="RoleName">
+                                </div>
+                            </div>
+                            <div class="form-group m-bot15 clearfix">
+                                <label class="control-label col-md-4 ">Notes</label>
+                                <input type="hidden" id="hiddenId" />
+                                <div class="col-md-8">
+                                    <textarea class="form-control form myctr" rows="5" id="Notes" name="Notes"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <button class="btn btn-warning" onclick="EditRole()">Sửa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    $('.User').addClass('active');
+    $('.Role').addClass('active');
+    var GetDetail= function(Id){
+        $('#edittype').modal('show');
+        var id = Id;
+        $.ajax({
+            url: '/User/GetDetail',
+            data: {
+                id: id
+            },
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                    var data = response.data;
+                    $('#hiddenId').val(data.Id);
+                    $('#RoleName').val(data.RoleName);
+                    $('#Notes').val(data.Notes);
+            },
+        });
+    }
+    var EditRole = function () {
+        var Id = $("#hiddenId").val();
+        var RoleName = $("#RoleName").val();
+        var Notes = $("#Notes").val();
+        $.ajax({
+            url: '/User/EditRole',
+            data: {
+                Id: Id,
+                RoleName: RoleName,
+                Notes: Notes
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+                if (result) {
+                    $("#edittype").modal("hide");
+                    alert("Sửa thành công");
+                    window.location = '@Url.Action("Role", "User")';
+                } else {
+                    $("#edittype").modal("hide");
+                    alert("Sửa lỗi");
+                }
+            }
+        });
+    }
+</script>
+
+
+
+

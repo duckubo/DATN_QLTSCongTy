@@ -1,0 +1,169 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@model QuanLyTaiSan_UserManagement.Models.ProjectDKC
+@using QuanLyTaiSan_UserManagement.Helper
+
+
+@{
+    ViewBag.Title = "Thêm thiết bị vào Phòng ban " + Model.ProjectSymbol;
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<link href="~/Content/css/tcssproject.css" rel="stylesheet" />
+<section class="panel">
+    <header class="panel-heading " style="padding-bottom:20px">
+        <a class="edit panel-default" style="margin-right:10px" href="@Url.Action("EditDepartment", "Department", new { id = Model.Id })">
+            <span class="icon-border">
+                <i class="icon-arrow-left"> </i>
+            </span>
+        </a>
+        <h4 style="display:inline">  Thêm thiết bị vào  @Model.ProjectName </h4>
+    </header>
+    <div class="panel-body row">
+        <div class="col-md-10">
+            <!--Seach-->
+            <div class="clearfix ">
+                <div style="display:inline">
+                    <div class="row TcssPadT tcssMarT">
+                        @using (Html.BeginForm("AddDeviceInDepartment", "Department", FormMethod.Get, new { @enctype = "multipart/form-data", @class = "form-horizontal  editcontent" }))
+                        {
+                            <div class="col-md-10 tcssMarL">
+                                <div class="col-md-3 TcssMarg">
+                                    <select class="input-sm form-control myctr" name="DeviceType" id="DeviceType">
+                                        <option value="0">Loại thiết bị</option>
+                                        @foreach (var item in ViewData["DeviceType"] as IList<DeviceType>)
+                                        {
+                                            <option value="@item.Id"> @item.TypeName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-1 TcssMarg">
+                                    <div class="btn-group">
+                                        <button class="btn btn-primary btn-sm" type="submit">Tìm kiếm <i class="icon-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="col-md-2 tcssPadR0">
+                            <div class="btn-group tcssLeft">
+                                @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Project") && k.ActionName.Equals("AddDeviceProjectAll")))
+                                    {*@
+                                <button type="button" class="btn btn-primary btn-sm" href="javascript:void(0)" onclick="AddDeviceInProjectAll()"> Thêm tất cả thiết bị đã chọn <i class="icon-plus"></i></button>
+                                @*}*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Finish seach-->
+            <!--Tabale Device of Project-->
+            <section class="panel-body">
+                <div class="tcssMarT m-bot15 row">
+                    <div class="adv-table">
+                        <table class="display table table-bordered table-striped" id="exampleMT">
+                            <thead>
+                                <tr>
+                                    <th><input id="checkAll1" type="checkbox" name="check" /></th>
+                                    <th>Mã thiết bị </th>
+                                    <th>Tên thiết bị </th>
+                                    <th>Loại thiết bị</th>
+                                    <th>Cấu hình</th>
+                                    <th>Trạng thái</th>
+                                    <th>Kiểu thiết bị </th>
+                                    <th>Thêm </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewData["Device"] as IList<SearchDevice_Result>)
+                                {
+                                    <tr class="gradeX" id="row_@item.Id">
+                                        <td style="width:2%"><input type="checkbox" name="check" class="check" value="@item.Id" /></td>
+                                        <td style="width:12%"> @item.DeviceCode</td>
+                                        <td style="width:20%">@item.DeviceName</td>
+                                        <td style="width:15%">@item.TypeName</td>
+                                        <td style="width:20%">@Html.Raw(@item.Configuration)</td>
+                                        <td style="width:10%" class="center hidden-phone">@Html.Raw(Convert.ToInt32(item.Status).GetEnumDescription(typeof(eStatus.DeviceStatus)))</td>
+                                        <td style="width:16%" class="center">@item.NameTypeComponant </td>
+                                        <td style="width:5%" class="center">
+                                            <a class="" href="javascript:void(0)" onclick="ConfirmAdd(@item.Id)"><i class="icon-plus"></i></a>
+                            
+                                        </td>
+                                    </tr>
+                                }
+                        </table>
+                        <input type="hidden" id="hiddenIddv" name="hiddenIddv" />
+                        <input type="hidden" id="hiddenIdpr" name="hiddenIdpr" value="@Model.Id" />
+                    </div>
+                </div>
+                <div class="col-md-12 form-group ">
+                    <div style="text-align:center">
+                        <button type="button" class="btn btn-primary btn-large" href="javascript:void(0)" onclick="AddDeviceInProjectAll()"> Thêm </button>
+                        <a class="btn btn-white" href="@Url.Action("EditDepartment","Department",new {id = Model.Id})">Hủy</a>
+                    </div>
+                </div>
+            </section>
+            <!--The end table-->
+        </div>
+        <div class="col-md-2 tcssMarT">
+            <div class="panel-body">
+                <div class="row" id="LoadDiv">
+                    <div class="tkcs">
+                        <h4 class="FontHeader">  Số lượng thiết bị </h4>
+                        <ul>
+                            @foreach (var item in ViewData["CountingDeviceType"] as Dictionary<string, int>)
+                            {
+                                <li>
+                                    <a>
+                                        <h4 class="">  @item.Key  <i class="icon-laptop text-primary"></i></h4>
+                                        Số lượng : @item.Value
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--The End DesigneTable-->
+    @Html.Partial("AddDeviceInDepartmentPartial")
+    @Html.Partial("AddDeviceInDepartmentAllPartial")
+
+</section>
+<!--Start Scrip-->
+<script>
+    $(document).ready(function () {
+        var url = new URL(window.location.href);
+        var c = url.searchParams.get("DeviceType");
+        $('#DeviceType').val(c);
+
+        var table =   $('#exampleMT').dataTable({
+            "oLanguage": {
+                "sInfo": "Hiển thị từ _START_ đến _END_ của _TOTAL_ bản ghi",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+            //"bLengthChange": false,
+            //"bFilter": false,
+            "aoColumnDefs": [
+                { "aTargets": [0], bSortable: false },
+                {  "aTargets": [6], bSortable: false },
+            ]
+        });
+        $("#checkAll1").click(function () {
+            var rows = table.$('tr', { search: 'applied' });
+            if ($('input:checked', rows).length == rows.length) {
+                $('input[type="checkbox"]', rows).prop('checked', false);
+            }
+            else {
+                $('input[type="checkbox"]', rows).prop('checked', true);
+            }
+        });
+        $("body").on("change", "input", function () {
+            var rows = table.$('tr', { search: 'applied' });
+        });
+    });
+</script>
+<!--The end Scrip-->

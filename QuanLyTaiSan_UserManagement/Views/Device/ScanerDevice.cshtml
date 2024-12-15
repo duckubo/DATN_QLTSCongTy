@@ -1,0 +1,423 @@
+﻿@model  IEnumerable<QuanLyTaiSan_UserManagement.Models.SearchDevice_Result>
+@using QuanLyTaiSan_UserManagement.Models;
+@{
+    ViewBag.Title = " Quét Mã Vạch";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Quét Thiết Bị
+                <div class="pull-right">
+                    <button class="btn btn-success" onclick="StartScaner()">Bắt Đầu Quét</button>
+                </div>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div class="clearfix ">
+                        <div class="col-md-2 TcssMarg nopadding">
+                            <input class="form-control input-sm m-bot15 myctr" name="DeviceCode" id="DeviceCode" onchange="Scanner()" autocomplete="off">
+                        </div>
+                        <div class="btn-group pull-right">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                Lựa chọn<i class="icon-angle-down"></i>
+                            </button>
+                            <ul class="dropdown-menu pull-right">
+                                    <li><a href="javascript:void(0)" onclick="Confim()">Gán các thiết bị đã chọn cho dự án</a></li>
+                                    <li><a href="javascript:void(0)" onclick="ConfimReturn()">Trả các thiết bị về kho</a></li>
+                                    <li><a href="javascript:void(0)" onclick="Confim1()">Thanh lý các thiết bị đã chọn</a></li>
+                                <li><a href="javascript:void(0)" id="ConfimprintImg">In Mã Vạch Các Thiết Bị Đã Chọn</a></li>
+                            </ul>
+                        </div>
+                        <table class="display table table-bordered table-striped table-hover" id="Scanertable" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="center" style="width:2%">
+                                        <input name="check" id="checkAll" type="checkbox" checked />
+                                    </th>
+                                    <th style="width:8%">Mã</th>
+                                    <th style="width:15%">Tên Thiết Bị</th>
+                                    <th style="width:10%">Loại</th>
+                                    <th style="width:10%">Giá</th>
+                                    <th style="width:15%">Người dùng</th>
+                                    <th style="width:15%">Nhà Cung Cấp</th>
+                                    <th style="width:15%">Cấu Hình</th>
+                                    <th style="width:10%">Mã Dự Án</th>
+                                    <th class="center" style="width:2%">Bỏ</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabledvdiv"></tbody>
+                        </table>
+                        <input type="hidden" id="hiddenId" />
+                        <input type="hidden" id="Statushidden" />
+                        <input type="hidden" id="hiddenId1" />
+                        <input type="hidden" id="DeviceBarCode" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModaldelete1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">DELETE</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn xóa thiết bị đã chọn?
+                            <div style="text-align:center;display:none" id="loaderDiv">
+                                <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <a id="btnContinueDelete1" class="btn btn-warning"> Xoá</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="Liquidation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">DELETE</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn thanh lý thiết bị đã chọn?
+                            <div style="text-align:center;display:none" id="loaderDiv">
+                                <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <a id="btnLiquidation" class="btn btn-warning">Thanh Lý</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="Returnproject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Trả Về Kho</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn trả các thiết bị đã chọn về kho ?
+                            <div style="text-align:center;display:none" id="loaderDiv">
+                                <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <a id="btnreturndevice" class="btn btn-warning">Trả Về Kho</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Mã Vạch</h4>
+                        </div>
+                        <div class="modal-body">
+                            <img class="center" id="BarCodeDevice" alt="" />
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" onclick="printImg()">Print</button>
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModalg1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Chọn dự án</h4>
+                        </div>
+                        <div class="modal-body">
+                            <table class="display table table-bordered table-striped table-hover" id="project">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Tên Dự Án</th>
+                                        <th>Người quản Lý</th>
+                                        <th>Địa chỉ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewData["sProjectDKC"] as IList<SearchProject_Result>)
+                                    {
+                                        <tr class="gradeA" id="tr-id-2">
+                                            <td class="center">
+                                                <input type="radio" class="checkon" value="@item.Id" name="product_variation" />
+                                            </td>
+                                            <td>@item.ProjectName</td>
+                                            <td>@item.FullName</td>
+                                            <td>@item.Address</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <input type="hidden" id="hiddenprid" />
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <button class="btn btn-warning" id="btnContinueAdd"> Chọn</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    var Scanner = function () {
+        var Code = $("#DeviceCode").val()
+        var DeviceCode = Code.trim()
+        $("#Scanertable .DeviceId").each(function () {
+            var a = $(this).html();
+            if (a.trim() == DeviceCode) {
+                Code = 1;
+            }
+        });
+        if (Code == 1) { alert('Thiết Bị Đã Được Quét!'); $('#DeviceCode').val('') }
+        else {
+            if (DeviceCode != '') {
+                $.ajax({
+                    url: '/Device/GetDeviceScaner',
+                    data: {
+                        DeviceCode: DeviceCode
+                    },
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        var data = response.model;
+                        if (data != null) {
+                            var ProjectSymbol = data.ProjectSymbol
+                            if (ProjectSymbol == null) ProjectSymbol = ''
+                            var FullName = data.FullName
+                            if (FullName == null) FullName = ''
+                            var Name = data.Name
+                            if (Name == null) Name = ''
+                            $('#Scanertable tbody').append("<tr class=" + 'gradeA' + " id="+'row_'+data.Id+"><td><input type=" + 'checkbox' + " checked" + " name=" + 'check' + " class=" + 'check' + " value='" + data.Id + "'data-status='" + data.Status + "' data-code='" + data.DeviceCode + "' /></td><td  class=" + 'DeviceId' + ">" + data.DeviceCode + "</td><td>" + data.DeviceName + "</td><td>" + data.TypeName + "</td><td>" + data.Price + "</td><td>" + FullName + "</td><td>" + Name + "</td><td>" + data.Configuration + "</td><td>" + ProjectSymbol + "</td><td class=" + 'center' + "><a class=" + 'icon-remove' + " onclick=" + 'ConfirmCancel('+data.Id+')' + "></a></td></tr>");
+                            $('#DeviceCode').val('');
+                        }
+                        else { alert("Không Tìm Thấy Mã Thiết Bị"); $('#DeviceCode').val('') }
+                    },
+                });
+            }
+        }
+    }
+    var StartScaner = function () {
+        $('#DeviceCode').focus();
+    }
+</script>
+<script>
+    $('.Tool').addClass('active');
+    $('.ScanerDevice').addClass('active');
+    var ConfirmCancel = function (Id) {
+        $("#hiddenId").val(Id);
+        $("#row_" + Id).remove();
+    }
+</script>
+<script>
+    var Confim1 = function () {
+        var chkArray = [];
+        var status = 0;
+        / look for all checkboes that have a class 'chk' attached to it and check if it was checked /
+        $(".check:checked").each(function () {
+            chkArray.push($(this).val());
+            if ($(this).data("status") == 1) {
+                status = 1;
+            }
+            if ($(this).data("status") == 2) {
+                status = 2;
+            }
+            if ($(this).data("status") == 3) {
+                status = 3;
+            }
+        });
+        / we join the array separated by the comma /
+        var selected;
+        selected = chkArray.join(',');
+        / check if there is selected checkboxes, by default the length is 1 as it contains one single comma /
+        if (selected.length > 0) {
+            if (status == 1) {
+                alert("Có những thiết bị đang trong dự án không thể thanh lý!");
+            }
+            else if (status == 2) {
+                alert("Có những thiết bị đã được thanh lý!");
+            }
+            else if (status == 3) {
+                alert("Có những thiết bị đang sửa chữa không thể thanh lý!");
+            }
+            else {
+                $("#hiddenId1").val(chkArray);
+                $("#Liquidation").modal('show');
+                $('#btnLiquidation').click(function () {
+                    $("#loaderDiv").show();
+                    var dvId = $("#hiddenId1").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Device/LiquidationDevice",
+                        data: { Id: dvId },
+                        success: function (result) {
+                            if (result) {
+                                $("#loaderDiv").hide();
+                                $("#Liquidation").modal("hide");
+                                location.reload();
+                            } else {
+
+                                $("#loaderDiv").hide();
+                                $("#Liquidation").modal("hide");
+                                alert("Thanh lý thiết bị lỗi");
+                            }
+                        }
+                    })
+                });
+            }
+        }
+    }
+    var ConfimReturn = function () {
+        var chkArray = [];
+        / look for all checkboes that have a class 'chk' attached to it and check if it was checked /
+        $(".check:checked").each(function () {
+            chkArray.push($(this).val());
+        });
+        / we join the array separated by the comma /
+        if (chkArray.length > 0) {
+            $("#hiddenId1").val(chkArray);
+            $("#Returnproject").modal('show');
+            $('#btnreturndevice').click(function () {
+                $("#loaderDiv").show();
+                var dvId = $("#hiddenId1").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Device/ReturnDeviceProject",
+                    data: { Id: dvId },
+                    success: function (result) {
+                        if (result) {
+                            $("#loaderDiv").hide();
+                            $("#Returnproject").modal("hide");
+                            location.reload();
+                        } else {
+
+                            $("#loaderDiv").hide();
+                            $("#Returnproject").modal("hide");
+                            alert("Trả thiết bị lỗi");
+                        }
+                    }
+                })
+            })
+        }
+    }
+    $('#ConfimprintImg').click(function () {
+        var chkArray = []; var IdArray = [];
+        / look for all checkboes that have a class 'chk' attached to it and check if it was checked /
+        $(".check:checked").each(function () {
+            var a = $(this).data("code");
+            var iddv = $(this).val();
+            chkArray.push(a.trim());
+            IdArray.push(iddv);
+        });
+        / we join the array separated by the comma /
+        if (chkArray.length > 0) {
+            $("#hiddenId").val(IdArray);
+            var dvid = $("#hiddenId").val();
+            $("#DeviceBarCode").val(chkArray);
+            var dvcode = $("#DeviceBarCode").val();
+            $.ajax({
+                type: "POST",
+                url: "/Device/GenerateBarCodeDevice",
+                data: {
+                    dvcode: dvcode,
+                    dvid: dvid
+                },
+                async: false,
+                success: function (response) {
+                    var data = response.list;
+                    var listdv = response.Listdv;
+                    var url = '';
+                    var win = window.open('');
+                    for (var i = 0; i < data.length; i++) {
+                        var ProjectSymbol = listdv[i].ProjectSymbol;
+                        if (ProjectSymbol == null) { ProjectSymbol = "" }
+                        if ((listdv[i].DeviceCode.substring(0, 3) == "CHU" || listdv[i].DeviceCode.substring(0, 3) == "DCO") & ProjectSymbol.trim() == "VP") { url += '<div style="overflow:hidden;height:80px;width:225px;margin-top:15px;margin-right:30px;border: 1px solid black;display: inline-block;margin-left:5px;"><div style="overflow:hidden;margin-top:1px;margin-left:2px;width: 220px;height:30px"><img src="' + data[i] + '" onload="window.print();window.close()"/></div><div id="DetailBarCode1" style="margin-top:4px;border-top: 1px solid black"><div style="margin-left:3px;margin-top:3px"><label>Người SD : ' + listdv[i].FullName + '</label><br /><label>Mã TB : ' + listdv[i].DeviceCode + '</label><br /></div></div></div><br/>' }
+                        else if ((listdv[i].DeviceCode.substring(0, 3) == "CHU" || listdv[i].DeviceCode.substring(0, 3) == "DCO") & ProjectSymbol.trim() != "VP") { url += '<div style="overflow:hidden;height:80px;width:225px;margin-top:15px;margin-right:30px;border: 1px solid black;display: inline-block;margin-left:5px;"><div style="overflow:hidden;margin-top:1px;margin-left:2px;width: 220px;height:30px"><img src="' + data[i] + '" onload="window.print();window.close()"/></div><div id="DetailBarCode1" style="margin-top:4px;border-top: 1px solid black"><div style="margin-left:3px;margin-top:3px"><label>Mã TB : ' + listdv[i].DeviceCode + '</label><br /><label>Tên TB : ' + listdv[i].DeviceName + '</label><br /></div></div></div><br/>' }
+                        else if (ProjectSymbol.trim() == "VP") {
+                            url += '<div style="overflow:hidden;height:133px;width:220px;margin-top:8px;margin-right:30px;border: 1px solid black;display: inline-block;margin-left:10px"><div style="overflow:hidden;margin-top:1px;margin-left:2px;width: 216px;height:57px"><img src="' + data[i] + '" onload="window.print();window.close()"/></div><div id="DetailBarCode" style="margin-top:4px;border-top: 1px solid black"><div style="margin-left:3px;margin-top:3px"><label>Người SD : ' + listdv[i].FullName + '</label><br /><label>Mã TB : ' + listdv[i].DeviceCode + '</label><br /><label>Tên TB : ' + listdv[i].DeviceName + '</label><br /><label>Ngày BĐSD: ' + dateFormat(new Date(parseInt((listdv[i].CreatedDate).match(/\d+/)[0]))) + '</label><br /></div></div></div><br/>'
+                        }
+                        else url += '<div style="overflow:hidden;height:133px;width:220px;margin-top:8px;margin-right:30px;border: 1px solid black;display: inline-block;margin-left:10px"><div style="overflow:hidden;margin-top:1px;margin-left:2px;width: 216px;height:57px"><img src="' + data[i] + '" onload="window.print();window.close()"/></div><div id="DetailBarCode2" style="margin-top:4px;border-top: 1px solid black"><div style="margin-left:3px;margin-top:3px"><label>Mã TB : ' + listdv[i].DeviceCode + '</label><br /><label>Tên TB : ' + listdv[i].DeviceName + '</label><br /></div></div></div><br />'
+
+                    }
+                    function dateFormat(d) {
+                        return d.getFullYear()
+                            + "/" + ((d.getMonth() + 1) + "").padStart(2, "0")
+                            + "/" + ((d.getDate() + "").padStart(2, "0"));
+                    }
+                    var print = url.replace(/null/gi, "");
+                    win.document.write('<html><head><title>Print</title><style>#DetailBarCode label {font-family: sans-serif;font-size: x-small;} #DetailBarCode1 label {font-family: sans-serif;font-size: xx-small;}</style> ');
+                    win.document.write('</head><body >');
+                    win.document.write(print);
+                    win.document.write('</body></html>');
+                    win.focus();
+                }
+            })
+        }
+    })
+</script>
+<script>
+    var Confim = function () {
+        var chkArray = [];
+        var status = 0;
+        / look for all checkboes that have a class 'chk' attached to it and check if it was checked /
+        $(".check:checked").each(function () {
+            chkArray.push($(this).val());
+            status += $(this).data("status")
+        });
+        / we join the array separated by the comma /
+        if (chkArray.length > 0) {
+            if (status != 0) {
+                alert("Có những thiết bị đã có sẵn trong dự án hoạc không thể gán!");
+            }
+            else {
+                $("#hiddenId1").val(chkArray);
+                $("#myModalg1").modal('show');
+                $('#btnContinueAdd').click(function () {
+                    $("#loaderDiv").show();
+                    $(".checkon:checked").each(function () {
+                        var check = $(this).val();
+                        $("#hiddenprid").val(check);
+                    });
+                    var pjId = $("#hiddenprid").val();
+                    var dvId = $("#hiddenId1").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Device/AddDeviceProject1",
+                        data: {
+                            Id: dvId,
+                            PJ: pjId
+                        },
+                        success: function (result) {
+                            if (result) {
+                                $("#loaderDiv").hide();
+                                $("#myModalg1").modal("hide");
+                                location.reload();
+                            } else {
+                                $("#loaderDiv").hide();
+                                $("#myModalg1").modal("hide");
+                                alert("Thêm thiết bị lỗi");
+                            }
+                        }
+                    })
+                })
+            }
+        }
+    }
+</script>

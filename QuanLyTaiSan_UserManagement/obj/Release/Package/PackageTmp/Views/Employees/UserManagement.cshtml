@@ -1,0 +1,108 @@
+﻿@model  IEnumerable<QuanLyTaiSan_UserManagement.Models.SearchUser_Result>
+@using QuanLyTaiSan_UserManagement.Models;
+@using QuanLyTaiSan_UserManagement.Helper;
+@{
+    ViewBag.Title = "Nhân Viên";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Nhân Viên
+                <div class="btn-group pull-right">
+                    @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Employees") && k.ActionName.Equals("CreateUser")))
+                    {*@
+                        <button class="btn green btn-success">
+                            @Html.ActionLink("Thêm mới ", "CreateUser", "Employees")<i class="icon-plus"></i>
+                        </button>
+                    @*}*@
+                </div>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div class="clearfix ">
+                        @using (Html.BeginForm("SearchUser", "Employees", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal kh" }))
+                    {
+                    <div class="pull-left row col-md-12 nopadding ">
+                        <div class="col-md-2 TcssMarg">
+                            <select class="form-control input-sm m-bot15  myctr" name="Status">
+                                <option value="-1" @(ViewBag.status == -1 ? "selected" : "")>Chọn Trạng Thái </option>
+                                <option value="0" @(ViewBag.status == 0 ? "selected" : "")>Đang Hoạt Động</option>
+                                <option value="1" @(ViewBag.status == 1 ? "selected" : "")>Đã Nghỉ</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 TcssMarg">
+                            <div class="btn-group">
+                                <button class="btn btn-primary btn-sm" type="submit">Tìm kiếm <i class="icon-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="display table table-bordered table-striped table-hover" id="example">
+                        <thead>
+                            <tr>
+                                <th>Tên Người dùng</th>
+                                <th>Email</th>
+                                <th>Số điện thoại</th>
+                                <th>Địa Chỉ</th>
+                                <th>Phòng</th>
+                                <th>Trạng Thái</th>
+                                <th class="center">Xem</th>
+                                <th class="center">Xóa</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                                {
+                                <tr class="gradeA" id="row_@item.Id">
+                                    <td>@item.FullName</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.PhoneNumber</td>
+                                    <td>@item.Address</td>
+                                    <td>@item.ProjectName</td>
+                                    <td>@Html.Raw(Convert.ToInt32(item.Status).GetEnumDescription(typeof(eStatus.UserStatus)))</td>
+                                    <td class="center"><a class="edit icon-eye-open" href="@Url.Action("DetailUser", "Employees", new { id = item.Id })"></a></td>
+                                    <td class="center">
+                                        @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Employees") && k.ActionName.Equals("DeleteUser")))
+                                        {*@
+                                            <a class="icon-trash" id="deleteItem" onclick="ConfirmDelete(@item.Id)"></a>
+                                        @*}*@
+                                    </td>
+                                </tr>
+
+                                }
+                        </tbody>
+                    </table>
+                    <input type="hidden" id="hiddenId" />
+                    }
+                    </div>
+                </div>
+            </div>
+            @Html.Partial("~/Views/Employees/Partialview.cshtml")
+        </section>
+    </div>
+</div>
+<script>
+    $('.Tool').addClass('active');
+    $('.Usertable').addClass('active');
+</script>
+<script>
+    $(document).ready(function () {
+        $('#example').dataTable({
+            "oLanguage": {
+                "sLengthMenu": "Hiển thị _MENU_ nhân viên",
+                "sInfo": "Hiển thị từ _START_ đến _END_ nhân viên",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+            "aoColumnDefs": [{
+                'bSortable': false,
+                'aTargets': [6, 7],
+            }]
+        });
+    });
+</script>
+

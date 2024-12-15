@@ -1,0 +1,318 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="panel">
+    <div class="col-lg-12" id="LoadUserGroup">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Danh sách nhóm quyền
+                <div class="btn-group pull-right">
+                    <button class="btn  btn-success" href="#" style="color:white;" onclick="AddRole()">
+                        <i class="icon-plus"></i>
+                    </button>
+                </div>
+            </header>
+            <div class="adv-table">
+                <table class="display table table-bordered table-striped table-hover" id="exampleDsRole" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="width:9%">Mã nhóm </th>
+                            <th style="width:11%">Tên nhóm </th>
+                            <th style="width:9%">Chỉnh sửa quyền</th>
+                            <th style="width:11%">Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabledvdiv">
+                        @{foreach (var item in ViewData["ListUserGroup"] as IList<UserGroup>)
+            {
+                                <tr class="gradeA" id="row_@item.">
+                                    <td style="width:9%">@item.ID</td>
+                                    <td style="width:11%">
+                                        @item.Name
+                                    </td>
+                                    <td class="center" style="width:3%">
+                                        <a class="icon-eye-open" id="AddRole" href="javascript:void(0)" onclick="AddRollClick('@item.ID')"></a>
+                                    </td>
+                                    <td class="center" style="width:3%">
+                                        <a class="icon-trash" id="deleteItem" href="javascript:void(0)" onclick="ConfirmDelete('@item.ID')"></a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <div class="modal fade" id="AddUserGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Thêm nhóm quyền</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label class="text" style="font:bold">Mã nhóm</label>
+                            <input id="ID_Group" class="form-control" name="ID_Group" type="text" onkeyup="this.value = this.value.toUpperCase();" required />
+                            <label class="text" style="font:bold">Tên nhóm</label>
+                            <input id="Name_Group" class="form-control" name="Name_Group" />
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <a id="btnLiquidation" href="#" class="btn btn-warning" onclick="AddUserGroup()">Thêm</a>
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="DeleteUserGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Xác nhận</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Bạn chắc chắn muốn xóa nhóm quyền</label>
+                </div>
+                <div class="modal-footer">
+                    <a id="btnLiquidation" class="btn btn-warning" onclick="DeleteUserGroup()">Xóa</a>
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="AddRoleGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Thêm quyền</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="panel-body ">
+                        <div class="adv-table">
+                            <table class="display  table table-bordered table-striped table-hover table-responsive " id="exampleRole">
+                                <thead>
+                                    <tr>
+                                        <th class="center"><input type="checkbox" id="checkAll" name="check" /></th>
+                                        <th>Mã quyền</th>
+                                        <th>Tên quyền </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewData["ListRoleForGroup"] as IList<Role>)
+                                    {
+                                        <tr class="gradeA" id="row_@item.ID">
+                                            <td class="center" style="width:2%">
+                                                <input type="checkbox" class="chkCheckBoxId checkbox check" name="check" value="@item.ID" id="@item.ID" />
+                                            </td>
+                                            <td style="width:8%">@item.ID</td>
+                                            <td style="width:12%">@item.Name</td>
+                                        </tr>
+                                    }
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="btnLiquidation" class="btn btn-warning" onclick="ConfirmAddRole()">Cập nhập</a>
+                    <button data-dismiss="modal" class="btn btn-default" type="button" onclick="CancelAddRole()">Hủy</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="DeleteHidden" />
+    <input type="hidden" id="IdAddRoleHidden" />
+    <input type="hidden" id="ListRoleHidden" />
+</div>
+<script>
+    $(document).ready(function () {
+        $('#exampleRole').dataTable({
+            "oLanguage": {
+                "sLengthMenu": "Hiển thị _MENU_ bản ghi",
+                "sZeroRecords": "Không tìm thấy bản ghi nào",
+                "sInfoFiltered": "",
+                "sInfoEmpty": "Hiển thị 0 bản ghi",
+                "sInfo": "Hiển thị từ _START_ đến _END_ của _TOTAL_ bản ghi",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+            "iDisplayLength": 50,
+            "aoColumnDefs": [
+         { "aTargets": [0], bSortable: false },
+            ]
+        });
+        $('#exampleDsRole').dataTable({
+            "oLanguage": {
+                "sInfo": "Hiển thị từ _START_ đến _END_ bản ghi",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+            "iDisplayLength": 50,
+            "bLengthChange": false,
+            "bFilter": false,
+            "aoColumnDefs": [
+            { "aTargets": [0], bSortable: true },
+            { "aTargets": [2], bSortable: false },
+            { "aTargets": [3], bSortable: false },
+            ]
+        });
+
+    });
+
+    // Thêm nhóm quyền
+    var AddRole = function () {
+        $("#AddUserGroupModal").modal("show");
+    }
+    // Xác nhận thêm nhóm quyền
+    var AddUserGroup = function () {
+        var ID = $("#ID_Group").val();
+        var Name = $("#Name_Group").val();
+        if (ID.trim() == "") {
+            alert("Vui lòng nhập mã nhóm quyền");
+            $("#ID_Group").focus();
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: '/Role/AddUserGroup',
+                data: {
+                    ID: ID,
+                    Name: Name
+
+                },
+                // dataType: 'json',
+                success: function (result) {
+                    if (result) {
+                        $("#AddUserGroupModal").modal("hide");
+                        $("#LoadUserGroup").load(location.href + " #LoadUserGroup>*", "")
+                    }
+                    else {
+                        alert("Mã nhóm quyền đã tồn tại");
+                    }
+                }
+
+            })
+        }
+    }
+
+    //Xóa nhóm quyền
+    var ConfirmDelete = function (ID) {
+        $("#DeleteUserGroupModal").modal("show");
+        $("#DeleteHidden").val(ID);
+    }
+
+    //Xác nhận xóa nhóm quyền
+    var DeleteUserGroup = function () {
+        var ID = $("#DeleteHidden").val();
+        $.ajax({
+            type: "POST",
+            url: '/Role/ConfirmDelete',
+            data: {
+                ID: ID,
+            },
+            success: function (result) {
+                if (result) {
+                    $("#DeleteUserGroupModal").modal("hide");
+                    $("#LoadUserGroup").load(location.href + " #LoadUserGroup>*", "")
+                }
+                else {
+                    alert("Nhóm quyền vẫn còn quyền || Còn người sử dụng nhóm quyền  ");
+                    $("#DeleteUserGroupModal").modal("hide");
+                }
+
+            }
+
+        })
+
+    }
+
+    //Thêm quyền cho nhóm quyền
+    var AddRollClick = function (ID) {
+        var GroupID = ID;
+        $("#IdAddRoleHidden").val(ID);
+
+        $.ajax({
+            type: "POST",
+            url: '/Role/GetRoleForeGroup',
+            data: {
+                GroupID: GroupID,
+            },
+            success: function (response) {
+
+                $("#AddRoleGroupModal").modal("show");
+
+                var table = $('#exampleRole').dataTable();
+                var lst = response.lstRole;
+                for (var i = 0 ; i < lst.length ; i++) {
+
+                    table.$('tr', { search: 'applied' }).each(function () {
+                        $('input[id=' + lst[i] + ']', this).prop('checked', true);
+                    })
+                }
+
+            }
+        })
+    }
+    // Khi cancel thì bỏ Cache (Bỏ checked của table)
+    var CancelAddRole = function () {
+        var table = $('#exampleRole').dataTable();
+        table.$('tr', { search: 'applied' }).each(function () {
+            $('input[type="checkbox"]', this).prop('checked', false);
+        })
+    }
+    // Xác nhận thêm quyền cho nhóm quyền
+    var ConfirmAddRole = function () {
+        var chkArray = [];
+        var table = $('#exampleRole').dataTable()
+        table.$('input[type="checkbox"]').each(function () {
+            if (this.checked) {
+                chkArray.push($(this).val());
+            }
+        });
+        $("#ListRoleHidden").val(chkArray);
+        var RoleId = $("#ListRoleHidden").val();
+        var GroupId = $("#IdAddRoleHidden").val();
+        $.ajax({
+            type: "POST",
+            url: "/Role/AddRoleForGroup",
+            data: {
+                RoleId: RoleId,
+                GroupId: GroupId
+            },
+            success: function (result) {
+                if (result) {
+                    $("#myModalAll").modal("hide");
+
+                    location.reload();
+                } else {
+                    $("#myModalAll").modal("hide");
+                    alert("Thêm quyền bị lỗi");
+                }
+            }
+        })
+
+
+    }
+    $('.RoleUser').addClass('active');
+    $('.RoleForUserGroup').addClass('active');
+</script>

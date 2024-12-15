@@ -1,0 +1,328 @@
+﻿@using QuanLyTaiSan_UserManagement.Models
+@model  IEnumerable<QuanLyTaiSan_UserManagement.Models.SystemFeature>
+@{
+    ViewBag.Title = "Role";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Phân Quyền
+                <div class="btn-group pull-right">
+                    @if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Authentication") && k.ActionName.Equals("AddRole")))
+                    {
+
+                        <button id="btnAddNewRole" class="btn green btn-success" data-toggle="modal" href="#modal2">
+                            Thêm Mới<i class="icon-plus"></i>
+                        </button>}
+                </div>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div class="clearfix ">
+                        <table class="display table table-bordered table-striped table-hover" id="example2" style="table-layout: fixed">
+                            <thead>
+                                <tr>
+                                    <th>Tên Quyền</th>
+                                    <th class="center" style="width: 10%; text-align: center">Sửa tên</th>
+                                    <th class="center" style="width: 10%; text-align: center">Sửa quyền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in (IList<AspNetRoles>)ViewData["Role"])
+                                {
+                                    <tr>
+                                        <td>@item.Name</td>
+                                        <td class="center"><a class="edit-name icon-pencil" data-name="@item.Name" data-id="@item.Id" data-toggle="modal" href="#modal2"></a></td>
+                                        <td class="center">
+                                            @if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Authentication") && k.ActionName.Equals("RoleAuthentication")))
+                                        {<a class="edit icon-edit" href="@Url.Action("RoleAuthentication", "Authentication", new { roleId = item.Id })"></a>}
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <header class="panel-heading mypanel">
+                Tính Năng
+                <div class="btn-group pull-right">
+                    @if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Authentication") && k.ActionName.Equals("Adduserauthorization")))
+                    {
+                        <button class="btn green btn-success" data-toggle="modal" href="#modal1">
+                            Thêm Mới<i class="icon-plus"></i>
+                        </button>}
+                </div>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div class="clearfix ">
+                        <table class="display table table-bordered table-striped table-hover" id="example">
+                            <thead>
+                                <tr>
+                                    <th>Tên Tính Năng</th>
+                                    <th>Controller</th>
+                                    <th>Action</th>
+                                    <th style="text-align: center">Sửa</th>
+                                    <th style="text-align: center">Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{foreach (var item in Model)
+                                    {
+                                        <tr class="gradeA">
+                                            <td>@item.Name</td>
+                                            <td>@item.ControllerName</td>
+                                            <td>@item.ActionName</td>
+                                            <td class="center">
+                                                @if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Authentication") && k.ActionName.Equals("Editauthorization")))
+                                                {<a class="edit icon-pencil" onclick="GetDetail(@item.Id)"></a>}
+                                            </td>
+
+                                            <td class="center">
+                                                @if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Authentication") && k.ActionName.Equals("DeleteAuthentication")))
+                                                {<a class="icon-trash" onclick="ConfirmDelete(@item.Id)"></a>}
+                                            </td>
+                                        </tr>
+
+                                    } }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="supplierdelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">DELETE</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn xóa?
+                            <div style="text-align:center;display:none" id="loaderDiv">
+                                <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <a id="btnContinueDelete" onclick="Delete()" class="btn btn-warning"> Xoá</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="edittype" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Tính Năng</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group m-bot15 clearfix ">
+                                <label class="control-label col-md-4 ">Tên Tính Năng</label>
+                                <div class="col-md-8 ">
+                                    <input type="text" class="form-control myctr form" id="Name" name="Name">
+                                    <input type="hidden" id="hidID" />
+                                </div>
+                            </div>
+                            <div class="form-group m-bot15 clearfix ">
+                                <label class="control-label col-md-4 ">Controller</label>
+                                <div class="col-md-8 ">
+                                    <input type="text" class="form-control myctr form" id="ControllerName" name="ControllerName">
+                                </div>
+                            </div>
+                            <div class="form-group m-bot15 clearfix ">
+                                <label class="control-label col-md-4 ">Action</label>
+                                <div class="col-md-8 ">
+                                    <input type="text" class="form-control myctr form" id="ActionName" name="ActionName">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                                <button class="btn btn-warning" onclick="Edit()">Sửa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="hiddenId" />
+        </section>
+    </div>
+</div>
+<div class="modal fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Tính Năng</h4>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("Adduserauthorization", "Authentication", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-4 ">Tên Tính Năng</label>
+                        <div class="col-md-8 ">
+                            <input type="text" class="form-control myctr form" name="Name">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-4 ">Controller</label>
+                        <div class="col-md-8 ">
+                            <input type="text" class="form-control myctr form" name="ControllerName">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-4 ">Action</label>
+                        <div class="col-md-8 ">
+                            <input type="text" class="form-control myctr form" name="ActionName">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                        <button type="submit" class="btn btn-warning">Thêm</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Phân Quyền</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="formRoleId" value="-1" />
+                <div class="form-group m-bot15 clearfix ">
+                    <label class="control-label col-md-4">Tên Quyền</label>
+                    <div class="col-md-8 ">
+                        <input type="text" id="formRoleName" class="form-control myctr">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                    <button class="btn btn-warning" id="btnConfirmRole">Thêm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var ConfirmDelete = function (Id) {
+        $("#hiddenId").val(Id);
+        $("#supplierdelete").modal('show')
+    }
+    var Delete = function () {
+        $("#loaderDiv").show();
+        var dvId = $("#hiddenId").val();
+        $.ajax({
+            type: "POST",
+            url: "/Authentication/DeleteAuthentication",
+            data: { Id: dvId },
+            success: function (result) {
+                if (result) {
+                    $("#loaderDiv").hide();
+                    $("#supplierdelete").modal("hide");
+                    alert("Xóa thành công!");
+                    window.location = '@Url.Action("Role", "Authentication")';
+                } else {
+                    $("#loaderDiv").hide();
+                    $("#supplierdelete").modal("hide");
+                    alert("Xóa loại thiết bị lỗi");
+                }
+            }
+        });
+    }
+
+    /*Create or update role*/
+    $('.edit-name').click(function () {
+        var id = $(this).attr('data-id');
+        var name = $(this).attr('data-name');
+        $('#formRoleId').val(id);
+        $('#formRoleName').val(name);
+    });
+    $('#btnConfirmRole').click(function () {
+        var roleId = $('#formRoleId').val();
+        var roleName = $('#formRoleName').val();
+        $.ajax({
+            url: '/Authentication/AddNewRole',
+            data: {
+                id: roleId,
+                name: roleName
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+                if (response.status) {
+                    location.reload();
+                } else {
+                    alert("Có lỗi xảy ra trong quá trình xử lí");
+                }
+            }
+        });
+    });
+</script>
+<script>
+    var GetDetail = function (Id) {
+        $('#edittype').modal('show');
+        var id = Id;
+        $.ajax({
+            url: '/Authentication/GetDetail',
+            data: {
+                id: id
+            },
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var data = response.data;
+                $('#hidID').val(data.Id);
+                $('#Name').val(data.Name);
+                $('#RoleName').val(data.RoleName);
+                $('#ControllerName').val(data.ControllerName);
+                $('#ActionName').val(data.ActionName);
+            },
+        });
+    }
+    var Edit = function () {
+        var dvId = $("#hidID").val();
+        var Name = $('#Name').val();
+        var RoleName = $('#RoleName').val();
+        var ControllerName = $('#ControllerName').val();
+        var ActionName = $('#ActionName').val();
+        $.ajax({
+            url: '/Authentication/Editauthorization',
+            data: {
+                Id: dvId,
+                Name: Name,
+                RoleName: RoleName,
+                ControllerName: ControllerName,
+                ActionName: ActionName
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+                if (result) {
+                    $("#edittype").modal("hide");
+                    alert("Sửa thành công!");
+                    window.location = '@Url.Action("Role", "Authentication")';
+                } else {
+                    $("#edittype").modal("hide");
+                    alert("Sửa lỗi");
+                }
+            }
+        });
+    }
+
+
+</script>
+
+
+

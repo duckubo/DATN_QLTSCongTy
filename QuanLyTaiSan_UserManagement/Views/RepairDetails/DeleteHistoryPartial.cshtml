@@ -1,0 +1,167 @@
+﻿@model QuanLyTaiSan_UserManagement.Models.RepairDetailsById_Result
+<!--Popup DELETE All -->
+<div id="myModaldelete1" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Xóa sửa chữa</h4>
+            </div>
+            <div class="modal-body">
+                <!--Containt-->
+                <p>Bạn chắc chắn muốn xóa sửa chữa thiết bị</p>
+                <div style="text-align:center;display:none" id="loaderDiv">
+                    <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                </div>
+                <!--The end Containt-->
+            </div>
+            <div class="modal-footer">
+                <a id="btnContinueDelete1" class="btn btn-primary">Xóa</a>
+                <button type="button" class="btn btn-white" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--The end popup-->
+<!--Popup DELETE ONE-->
+<div id="myModaldelete" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Xóa sửa chữa</h4>
+            </div>
+            <div class="modal-body">
+                <!--Containt-->
+                <p>Bạn chắc chắn muốn xóa sửa chữa thiết bị</p>
+                <div style="text-align:center;display:none" id="loaderDiv">
+                    <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                </div>
+                <!--The end Containt-->
+            </div>
+            <div class="modal-footer">
+                <a id="btnContinueDelete" class="btn btn-primary" onclick="DeleteProject()">Xóa</a>
+                <button type="button" class="btn btn-white" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--The end popup-->
+<!--Scrip All -->
+<script>
+    var ConfirmDelete1 = function () {
+        var chkArray = [];
+        var status = 0;
+        var PrIdTest = $("#Id").val();
+        $(".check:checked").each(function () {
+            chkArray.push($(this).val());
+            if ($(this).data("status") == PrIdTest) {
+                status = PrIdTest;
+            }
+        });
+        var selected;
+        selected = chkArray.join(',');
+        if (selected.length > 0) {
+            $("#hiddenId1").val(chkArray);
+            $("#myModaldelete1").modal('show');
+            $('#btnContinueDelete1').click(function () {
+                if (status == PrIdTest) {
+                    $("#loaderDiv").show();
+                    var PrId = $("#hiddenId1").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/RepairDetails/DeleteRepairDetails",
+                        data: { Id: PrId },
+                        success: function (result) {
+                            if (result) {
+                                $("#loaderDiv").hide();
+                                $("#myModaldelete1").modal("hide");
+                                //$("#divtype").load(location.href + " #divtype>*", "");
+                                window.location = '@Url.Action("RepairDetails", "RepairDetails")';
+                            } else {
+                                $("#loaderDiv").hide();
+                                $("#myModaldelete1").modal("hide");
+                                alert("Xóa sửa chữa bị lỗi");
+                            }
+                        }
+                    })
+                }
+                else {
+                    $("#loaderDiv").show();
+                    var PrId = $("#hiddenId1").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/RepairDetails/DeleteRepairDetails",
+                        data: { Id: PrId },
+                        success: function (result) {
+                            if (result) {
+                                $("#loaderDiv").hide();
+                                $("#myModaldelete1").modal("hide");
+                                //$("#divtype").load(location.href + " #divtype>*", "");
+                                location.reload();
+                                //$("#row_" + prId).remove();
+                                @*window.location = '@Url.Action("EditRepairDetails", "RepairDetails")';*@
+                            } else {
+                                $("#loaderDiv").hide();
+                                $("#myModaldelete1").modal("hide");
+                                alert("Xóa sửa chữa bị lỗi");
+                            }
+                        }
+                    })
+
+                }
+            });
+        }
+    }
+</script>
+<!--end scrip-->
+<!--Script ONE-->
+<script>
+    var ConfirmDelete = function (Id) {
+        $("#hiddenId").val(Id);
+        $("#myModaldelete").modal('show');
+    }
+    var DeleteProject = function () {
+        var prId = $("#hiddenId").val();
+        var Iddv = $("#hiddenId2").val();
+        if (prId == Iddv) {
+            $("#loaderDiv").show();
+            $.ajax({
+                type: "POST",
+                url: "/RepairDetails/DeleteRepairDetails",
+                data: { Id: prId },
+                success: function (result) {
+                    if (result) {
+                        $("#loaderDiv").hide();
+                        $("#myModaldelete").modal("hide");
+                        window.location = '@Url.Action("RepairDetails", "RepairDetails")';
+                    } else {
+                        $("#loaderDiv").hide();
+                        $("#myModaldelete").modal("hide");
+                        alert("Xóa sửa chữa bị lỗi");
+                    }
+                }
+            })
+        }
+        else {
+            $("#loaderDiv").show();
+            $.ajax({
+                type: "POST",
+                url: "/RepairDetails/DeleteRepairDetails",
+                data: { Id: prId },
+                success: function (result) {
+                    if (result) {
+                        $("#loaderDiv").hide();
+                        $("#myModaldelete").modal("hide");
+                        $("#row_" + prId).remove();
+                    } else {
+                        $("#loaderDiv").hide();
+                        $("#myModaldelete").modal("hide");
+                        alert("Xóa sửa chữa bị lỗi");
+                    }
+                }
+            })
+        }
+    }
+</script>
+<!--Script end-->

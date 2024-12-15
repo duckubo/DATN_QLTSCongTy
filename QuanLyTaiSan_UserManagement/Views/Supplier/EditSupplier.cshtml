@@ -1,0 +1,186 @@
+﻿@model QuanLyTaiSan_UserManagement.Models.Supplier
+@using QuanLyTaiSan_UserManagement.Models
+@using QuanLyTaiSan_UserManagement.Helper;
+@{
+    ViewBag.Title = Model.Name;
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            @using (Html.BeginForm("EditSupplier", "Supplier", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                <header class="panel-heading mypanel">
+                    @Model.Name
+                    <div class="pull-right">
+                        @if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Supplier") && k.ActionName.Equals("EditSupplier1")))
+                        {
+                            <button type="submit" class="btn btn-primary"> Lưu </button>
+                        }
+                        @if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Supplier") && k.ActionName.Equals("DeleteSupplier")))
+                        {
+                            <button type="button" class="btn btn-danger" onclick="ConfirmDelete(@Model.Id)">Xóa</button>}
+                    </div>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-3 ">Tên Nhà cung cấp</label>
+                        <div class="col-md-7">
+                            <input class="form-control myctr form"  data-val="true" data-val-required="Tên Nhà Cung Cấp Không Được Trống." name="Name" type="text" value="@Model.Name" autocomplete="off">
+                            <span class="field-validation-valid text-danger" data-valmsg-for="Name" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-3 ">Email</label>
+                        <div class="col-md-7">
+                            <input type="email" class="form-control myctr form" value="@Model.Email" name="Email" >
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-3 ">Phone</label>
+                        <div class="col-md-7 ">
+                            <input type="text" class="form-control myctr form" value="@Model.Phone" name="PhoneNumber">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix ">
+                        <label class="control-label col-md-3 ">Địa chỉ</label>
+                        <div class="col-md-7 ">
+                            <input type="text" class="form-control myctr form" value="@Model.Address" name="Address">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <label class="control-label col-md-3 ">Liên lạc bảo hành</label>
+                        <div class="col-md-7">
+                            <textarea class="form-control form myctr" rows="2" name="Support">@Model.Support</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group hidden ">
+                        <div class="col-md-8 ">
+                            <input type="text" class="form-control myctr form" id="hiddenId" value="@Model.Id" name="Id">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <label class="control-label col-md-3 ">Trạng Thái</label>
+                        <div class="col-md-7">
+                            <select class="form-control myctr" name="Status">
+                                <option value="-1" @(Model.Status == -1 ? "selected" : "")>Chọn Trạng Thái </option>
+                                <option value="0" @(Model.Status == 0 ? "selected" : "")>Đang Hoạt Động </option>
+                                <option value="1" @(Model.Status == 1 ? "selected" : "")>Đã Đóng Cửa</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            }
+            <hr />
+            <header class="panel-heading " style="padding-bottom:20px">
+                <h4 style="display:inline">Danh sách thiết bị của nhà cung cấp</h4>
+            </header>
+            <section class="panel">
+                <div class="panel-body">
+                    <div class="adv-table">
+                        <table class="display table table-bordered table-striped table-hover" id="example">
+                            <thead>
+                                <tr>
+                                    <th>Mã Thiết Bị</th>
+                                    <th>Tên Thiết Bị</th>
+                                    <th>Kiểu Thiết Bị</th>
+                                    <th>Gía</th>
+                                    <th>Người sử dụng</th>
+                                    <th>Cấu Hình</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Xem</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewData["sDevice"] as IList<SearchDevice_Result>)
+                                {
+                                    <tr class="gradeA">
+                                        <td data-toggle="modal" href="#myModal4">@item.DeviceCode</td>
+                                        <td>
+                                            @item.DeviceName
+                                        </td>
+                                        <td>@item.TypeName</td>
+                                        <td>@item.Price</td>
+                                        <td>@item.FullName</td>
+                                        <td>@Html.Raw(item.Configuration)</td>
+                                        <td>@Html.Raw(Convert.ToInt32(item.Status).GetEnumDescription(typeof(eStatus.DeviceStatus)))</td>
+                                        <td class="center"><a class="edit icon-eye-open" href="@Url.Action("EditDevice", "Device",new {Id = item.Id})"></a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+            <div class="modal fade" id="supplierdelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">DELETE</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn xóa nhà cung cấp ?
+                            <div style="text-align:center;display:none" id="loaderDiv">
+                                <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <button class="btn btn-warning" onclick="DeleteSupplier()"> Xoá</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @Html.Partial("~/Views/Supplier/CreateSupplier.cshtml")
+        </section>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#example').dataTable({
+            "oLanguage": {
+                "sLengthMenu": "Hiển thị _MENU_ thiết bị",
+                "sInfo": "Hiển thị từ _START_ đến _END_ thiết bị",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+            "aoColumnDefs": [{
+                'bSortable': false,
+                'aTargets': [7],
+            }]
+        });
+    });
+    $('.Supplier').addClass('active');
+    var ConfirmDelete = function (Id) {
+        $("#hiddenId").val(Id);
+        $("#supplierdelete").modal('show')
+    }
+    var DeleteSupplier = function () {
+        $("#loaderDiv").show();
+        var dvId = $("#hiddenId").val();
+        $.ajax({
+            type: "POST",
+            url: "/Supplier/DeleteSupplier",
+            data: { Id: dvId },
+            success: function (result) {
+                if (result) {
+                    $("#loaderDiv").hide();
+                    $("#supplierdelete").modal("hide");
+                    window.location = '@Url.Action("Supplier", "Supplier")';
+                } else {
+                    $("#loaderDiv").hide();
+                    $("#supplierdelete").modal("hide");
+                    alert("Xóa nhà cung cấp bị lỗi");
+                }
+            }
+        });
+    }
+</script>
+@Scripts.Render("~/bundles/jqueryval")
+
+

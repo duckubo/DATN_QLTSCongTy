@@ -1,0 +1,50 @@
+﻿@model QuanLyTaiSan_UserManagement.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+<link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/css/bootstrap-reset.css" rel="stylesheet" />
+<!--external css-->
+<link href="~/Content/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<!-- Custom styles for this template -->
+<link href="~/Content/css/style.css" rel="stylesheet" />
+<link href="~/Content/css/style-responsive.css" rel="stylesheet" />
+<link href="~/Content/css/mytcsss.css" rel="stylesheet" />
+<body class="login-body">
+    <div class="container">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal form-signin", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <h2 class="form-signin-heading">Tạo Một Tài Khoản Mới</h2>
+            <div class="login-wrap">
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Username,"Tên Đăng Nhập", new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Password,"Mật Khẩu", new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConfirmPassword,"Nhập Lại Mật Khẩu", new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    </div>
+                </div>
+                <button class="btn btn-lg btn-login btn-block" type="submit">Đăng Ký</button>
+            </div>
+            <div class="registration">
+                Bạn Đã Có Tài Khoản?
+                <a>@Html.ActionLink("Đăng Nhập", "Login")</a>
+            </div>
+        }
+    </div>
+</body>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

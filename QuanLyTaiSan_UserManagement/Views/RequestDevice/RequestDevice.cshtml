@@ -1,0 +1,132 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@using QuanLyTaiSan_UserManagement.Helper;
+@*@model QuanLyTaiSan_UserManagement.Models.RequestDevice*@
+@model IEnumerable<QuanLyTaiSan_UserManagement.Models.SearchRequestDeviceNew_Result>
+
+@{
+    ViewBag.Title = "Danh sách yêu cầu thiết bị";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<!-- page start-->
+<section class="panel">
+    <!--Header-->
+    <header class="panel-heading m-bot15 ">
+        <div class="tcssPadb">
+            Danh sách yêu cầu thiết bị
+            <div class="btn btn-success btn-sm " style="float:right">
+                <a href="@Url.Action("AddRequestDevice", "RequestDevice")"> Thêm </a> <i class="icon-plus"></i>
+            </div>
+        </div>
+    </header>
+    <!--The end header-->
+    <!--Seach-->
+    <div class="row">
+        @using (Html.BeginForm("SeachRequestDevices", "RequestDevice", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal  editcontent" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="col-md-10">
+                <div class="col-md-3 TcssMarg">
+                    <select class="input-sm  form-control myctr " name="Status">
+                        <option value="" @(ViewBag.Status == null ? "selected" : "")>Trạng thái yêu cầu</option>
+                        <option value="0" @(ViewBag.Status == 0 ? "selected" : "")>Đang chờ duyệt</option>
+                        <option value="1" @(ViewBag.Status == 1 ? "selected" : "")>Đã được duyệt</option>
+                        <option value="2" @(ViewBag.Status == 2 ? "selected" : "")>Bị từ chối</option>
+                    </select>
+                </div>
+                <div class="col-md-3 TcssMarg" style="display:none">
+                    <select class="input-sm  form-control myctr " name="Approved">
+                        <option value="false" selected> Chưa  phê duyệt </option>
+                    </select>
+                </div>
+                <div class="col-md-2 TcssMarg">
+                    <div class="btn-group">
+                        <button class="btn btn-primary btn-sm" type="submit">Tìm kiếm</button>
+                    </div><!-- /btn-group -->
+                </div>
+            </div>
+        }
+        <div class="col-md-2  row " style="text-align:right">
+            <button class="btn btn-primary  btn-sm" type="button" href="javascript:void(0)" id="deleteItem1" onclick="ConfirmDelete1()"> Xóa tất cả mục đã chọn <i class="icon-trash"></i> </button>
+        </div>
+    </div>
+    <!--Finish seach-->
+    <div class="">
+        <div class="panel-body tcssMarT">
+            <div class="adv-table">
+                <table class="display panel-body table table-bordered table-striped table-hover" id="exampleMT">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="checkAll" name="check" /></th>
+                            <th>Người yêu cầu</th>
+                            <th>Ngày yêu cầu </th>
+             
+                            <th class="hidden-phone">Tên thiết bị </th>
+                            <th class="hidden-phone">Kiểu thiết bị </th>
+                            <th>Số lượng</th>
+                            @*<th>Cấu hình</th>*@
+                            <th>Chú thích</th>
+                            <th>Trạng thái yêu cầu</th>
+                            @*<th>Trạng thái duyệt </th>*@
+                            <th>Xem</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="gradeA" id="row_@item.Id">
+                                <td class="center" style="width:2%"><input type="checkbox" class="checkbox check" name="check" value="@item.Id" /></td>
+                                <td style="width:12%">@item.FullName</td>
+                                <td style="width:9%" class="center">@String.Format("{0:dd/MM/yyyy}", item.DateOfRequest)</td>
+                                @*<td class="center hidden-phone">@String.Format("{0:dd/MM/yyyy}", item.DateOfUse)</td>*@
+                                <td style="width:9%" class="hidden-phone">@item.DeviceName</td>
+                                <td style="width:11%" class="hidden-phone">@item.TypeName</td>
+                                <td style="width:10%">@item.NumDevice</td>
+                                @*<td>@Html.Raw(@item.Configuration)</td>*@
+                                <td style="width:10%">@item.Notes</td>
+                                <td style="width:15%">@Html.Raw(item.Status == null ? string.Empty : item.Status.Value.GetEnumDescription(typeof(eStatus.RequestDeviceStatus)))</td>
+                                @*<td style="width:13%">@Html.Raw(Convert.ToInt32(item.Approved).GetEnumDescription(typeof(eStatus.RequestApproved)))</td>*@
+                                <td style="width:3%" class="center"><a class="edit" href="@Url.Action("EditRequestDevice", "RequestDevice",new { Id = @item.Id})"><i class="icon-eye-open"></i></a></td>
+                                <td style="width:3%" class="center">
+                                    <a class="edit" href="javascript:void(0)" onclick="ConfirmDelete(@item.Id)"><i class="icon-trash"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <input type="hidden" id="hiddenId1" />
+                <input type="hidden" id="hiddenId" />
+            </div>
+        </div>
+    </div>
+</section>
+@Html.Partial("DeleteRequestDevicePartial")
+
+<!-- page end-->
+<!--Start Scrip-->
+<script>
+    $(document).ready(function () {
+        $('#exampleMT').dataTable({
+            "oLanguage": {
+                "sInfo": "Hiển thị từ _START_ đến _END_ của _TOTAL_ bản ghi",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+            "iDisplayLength": 25,
+            //"bLengthChange": false,
+            //"bFilter": false,
+            "aoColumnDefs": [
+                { "aTargets": [0], bSortable: false },
+                { "aTargets": [8], bSortable: false },
+                { "aTargets": [9], bSortable: false },
+                //  { "sWidth": "3%", "aTargets": [11], bSortable: false },
+            ]
+        });
+    });
+    $('.RequestDevice').addClass('active');
+    $('.RequestDeviceTable').addClass('active');
+</script>
+<!--The end Scrip-->

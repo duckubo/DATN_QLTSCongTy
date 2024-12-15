@@ -1,0 +1,44 @@
+﻿@model QuanLyTaiSan_UserManagement.Models.DeviceById_Result
+@using QuanLyTaiSan_UserManagement.Models
+
+@*Danh sách Thiết bị con từ Danh sách thiết bị có sẵn*@ 
+<div class="modal fade" id="ModalAddDvChildren" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Chọn thiết bị </h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="adv-table">
+                        <table class="display  table table-bordered table-striped table-hover table-responsive" id="SearchDvComponant" name="SearchDvComponant">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Mã</th>
+                                    <th>Tên thiết bị </th>
+                                    <th>Giá</th>
+                                    <th>Cấu hình</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+                <input type="hidden" id="hiddenprid" />
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button" onclick="ClickCancleSC()">Hủy</button>
+                <button class="btn btn-warning" id="btnContinueAdd"> Chọn</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var ClickCancleSC = function () {
+        var dataTable = $('#SearchDvComponant').DataTable();
+        //Xóa dữ liệu cũ của Table
+        dataTable.fnDestroy();
+    }
+</script>

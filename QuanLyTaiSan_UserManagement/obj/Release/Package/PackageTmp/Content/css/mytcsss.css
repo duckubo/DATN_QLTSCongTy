@@ -1,0 +1,93 @@
+﻿.adv-table table.display thead th{
+    padding:5px;
+}
+.adv-table table tr td {
+    padding:5px;
+}
+.table tbody tr td {
+    padding:5px;
+}
+.mypanel{
+    height:55px;
+}
+.myctr{
+    color:initial !important
+}
+.btn-success a{
+    color:#FFFFFF;
+}
+.btn-danger a{
+    color:#FFFFFF;
+}
+.panel{
+    min-height:550px;
+}
+.panel-down{
+    min-height:0px;
+}
+.cke{
+   border: 1px solid #C9C9C9 !important;
+}
+.cke_contents{
+    height:120px !important;
+}
+.panel-body1 {
+  padding: 15px;
+}
+.panel-body1:before,
+.panel-body1:after {
+  display: table;
+  content: " ";
+}
+
+.panel-body1:after {
+  clear: both;
+}
+
+.panel-body1:before,
+.panel-body1:after {
+  display: table;
+  content: " ";
+}
+
+.panel-body1:after {
+  clear: both;
+}
+.nopadding{
+    padding:0px;
+}
+.mr-15{
+    margin-right:15px;
+}
+.registration{
+    margin: 0px 101px;
+}
+.select2-container .select2-selection--single{
+    height:34px !important
+}
+.select2-container--default .select2-selection--single {
+    border-radius: 0px 0 0 0px !important
+}
+.adv-table table tr {
+    background-color: #dff0d8;
+}
+.myeport {
+    margin-right: inherit !important;
+    margin-left: 5px !important
+}
+.myth{
+    width:auto !important
+}
+.printcss{
+    margin-bottom:30px;
+}
+.zoom:hover {
+  -ms-transform: scale(1.05); /* IE 9 */
+  -webkit-transform: scale(1.05); /* Safari 3-8 */
+  transform: scale(1.05); 
+}
+@page
+{
+margin-top:200px;
+margin-left:200px;
+}

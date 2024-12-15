@@ -1,0 +1,284 @@
+﻿@model  IEnumerable<QuanLyTaiSan_UserManagement.Models.SearchDevice_Result>
+@using QuanLyTaiSan_UserManagement.Models;
+@using QuanLyTaiSan_UserManagement.Helper;
+@{
+    ViewBag.Title = "Thiết Bị";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Thiết Bị
+                <div class="btn-group pull-right">
+                    <button class="btn green btn-success">
+                        @Html.ActionLink("Thêm mới ", "Create", "Device", new { Id = -1 }, null)<i class="icon-plus"></i>
+                    </button>
+                </div>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div class="clearfix ">
+                        @using (Html.BeginForm("SearchDevice", "Device", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal kh" }))
+                        {
+                            <div class="pull-left row col-md-12 nopadding">
+                                <div class="col-md-2 TcssMarg">
+                                    <select class="searchType form-control input-sm m-bot15 myctr " name="TypeOfDevice" id="TypeOfDevice">
+                                        <option value="0">Chọn loại thiết bị</option>
+                                        @foreach (var item in ViewData["TypeOfDevice"] as IList<DeviceType>)
+                                        {
+                                            <option value="@item.Id" @(ViewBag.type == @item.Id ? "selected" : "")>@item.TypeName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-2 TcssMarg">
+                                    <select class="form-control input-sm m-bot15  myctr" name="Status" id="Status">
+                                        <option value="-1" @(ViewBag.status == -1 ? "selected" : "")>Chọn Trạng Thái </option>
+                                        <option value="0" @(ViewBag.status == 0 ? "selected" : "")>Rảnh</option>
+                                        <option value="1" @(ViewBag.status == 1 ? "selected" : "")>Đang sử dụng</option>
+                                        <option value="3" @(ViewBag.status == 3 ? "selected" : "")>Đang Bị Hỏng</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 TcssMarg">
+                                    <select class="form-control input-sm m-bot15 myctr" name="Guarantee" id="Guarantee">
+                                        <option value="0" @(ViewBag.guarantee == 0 ? "selected" : "")>Bảo Hành</option>
+                                        <option value="1" @(ViewBag.guarantee == 1 ? "selected" : "")>Còn Bảo Hành</option>
+                                        <option value="2" @(ViewBag.guarantee == 2 ? "selected" : "")>Hết Bảo Hành</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 TcssMarg">
+                                    <select class="form-control input-sm m-bot15 myctr seachRoom" name="ProjectDKC" id="ProjectDKC">
+                                        <option value="0">Chọn phòng ban</option>
+                                        @foreach (var item in ViewData["ProjectDKC"] as IList<ProjectDKC>)
+                                        {
+                                            <option value="@item.Id" @( ViewBag.poject == @item.Id ? "selected" : "")>@item.ProjectName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-2 TcssMarg">
+                                    <input class="form-control input-sm m-bot15 myctr" placeholder="Tìm Kiếm" name="DeviceCode" value="@ViewBag.deviceCode" autocomplete="off">
+                                </div>
+                                <div class="col-md-1 TcssMarg">
+                                    <div class="btn-group">
+                                        <button class="btn btn-primary btn-sm" type="submit">Tìm kiếm <i class="icon-search"></i></button>
+                                    </div>
+                                </div>
+                                <div class="btn-group pull-right myeport ">
+                                    <button type="button" class="btn " id="btnExport" onclick="fnExcelReport()">
+                                        Export
+                                    </button>
+                                </div>
+                                <div class="btn-group pull-right">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                        Lựa chọn<i class="icon-angle-down"></i>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right">
+
+                                        <li><a href="javascript:void(0)" onclick="Confim()">Gán các thiết bị đã chọn cho dự án</a></li>
+                                        <li><a href="javascript:void(0)" onclick="ConfimReturn()">Trả các thiết bị về kho</a></li>
+                                        <li><a href="javascript:void(0)" id="ConfimprintImg">In Mã Vạch Các Thiết Bị Đã Chọn</a></li>
+                                        <li><a href="javascript:void(0)" onclick="Confim1()">Thanh lý các thiết bị đã chọn</a></li>
+                                        <li><a href="javascript:void(0)" id="deleteItem1" onclick="ConfirmDelete1()">Xóa các thiết bị đã chọn</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-12 nopadding">
+                                <div class="form-group col-md-6 clearfix pull-left" id="countdevice" style="margin-right: -29px">
+                                    <label class="control-label" style="color:blue"><b>Tìm Thấy @ViewBag.CountDevice Thiết Bị</b></label>
+                                </div>
+                            </div>
+                        }
+                        <table class="display table table-bordered table-striped table-hover" id="example" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th class="center" style="width:2%">
+                                        <input name="check" id="checkAll1" type="checkbox" />
+                                    </th>
+                                    <th style="width:9%">Mã</th>
+                                    <th style="width:11%">Tên Thiết Bị</th>
+                                    <th style="width:10%">Loại</th>
+                                    <th style="width:8%">Giá</th>
+                                    <th style="width:10%">Người dùng</th>
+                                    <th style="width:13%">Cấu Hình</th>
+                                    <th style="width:5%">Phòng</th>
+                                    <th style="width:10%">Trạng Thái</th>
+                                    <th style="width:15%">Kiểu thiết bị</th>
+                                    <th style="width:3%">Xem</th>
+                                    <th style="width:3%">Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabledvdiv">
+                                @{foreach (var item in Model)
+                                    {
+                                        <tr class="gradeA" id="row_@item.">
+                                            <td class="center" style="width:2%"><input type="checkbox" name="check" class="form-c check" value="@item.Id" data-status="@item.Status" data-code="@item.DeviceCode" /></td>
+                                            <td style="width:9%">@item.DeviceCode</td>
+                                            <td style="width:11%">
+                                                @item.DeviceName
+                                            </td>
+                                            <td style="width:10%">@item.TypeName</td>
+                                            <td style="text-align:right; width:8%">@item.PriceOne</td>
+                                            <td style="width:10%">@item.FullName</td>
+                                            <td style="width:13%">@Html.Raw(item.Configuration)</td>
+                                            <td style="width:5%">@item.ProjectSymbol</td>
+                                            <td style="width:10%">
+                                                @Html.Raw(Convert.ToInt32(item.Status).GetEnumDescription(typeof(eStatus.DeviceStatus)))<br />
+                                                @Html.Raw(Convert.ToInt32(item.StatusRepair).GetEnumDescription(typeof(eStatus.RepairStatus)))
+                                            </td>
+                                            <td style="width:15%">@item.NameTypeComponant</td>
+                                            <td class="center" style="width:3%">
+                                                <a class="edit  icon-eye-open" href="@Url.Action("EditDevice", "Device", new { Id = item.Id })"></a>
+                                            </td>
+                                            <td class="center" style="width:3%">
+                                                <a class="icon-trash" id="deleteItem" href="#" onclick="ConfirmDelete(@item.Id,@item.Status)"></a>
+                                            </td>
+                                        </tr>
+                                    }}
+                            </tbody>
+                        </table>
+                        <input type="hidden" id="hiddenId" />
+                        <input type="hidden" id="Statushidden" />
+                        <input type="hidden" id="hiddenId1" />
+                        <input type="hidden" id="DeviceBarCode" />
+                        <iframe id="txtArea1" style="display:none"></iframe>
+                    </div>
+                </div>
+            </div>
+            @Html.Partial("DevicePartial")
+            <div class="modal fade" id="myModaldelete1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">DELETE</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn xóa thiết bị đã chọn?
+                            <div style="text-align:center;display:none" id="loaderDiv">
+                                <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <a id="btnContinueDelete1" class="btn btn-warning"> Xoá</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="Liquidation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Xác nhận</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn thanh lý thiết bị đã chọn?
+                            <div style="text-align:center;display:none" id="loaderDiv">
+                                <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <a id="btnLiquidation" class="btn btn-warning">Thanh Lý</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="Returnproject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Trả Về Kho</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn trả các thiết bị đã chọn về kho ?
+                            <div style="text-align:center;display:none" id="loaderDiv">
+                                <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <a id="btnreturndevice" class="btn btn-warning">Trả Về Kho</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Mã Vạch</h4>
+                        </div>
+                        <div class="modal-body">
+                            <img class="center" id="BarCodeDevice" alt="" />
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-success" onclick="printImg()">Print</button>
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- page end-->
+<script src="~/Scripts/DeviceScripts.js"></script>
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+<script>
+    $('.Device').addClass('active');
+    $('.Devicetable').addClass('active');
+    $('.seachRoom').select2();
+    $('.searchType').select2();
+
+    // Export to exel
+    function fnExcelReport() {
+        var TypeOfDevice = $('#TypeOfDevice').val();
+        var Status = $('#Status').val();
+        var Guarantee = $('#Guarantee').val();
+        var ProjectDKC = $('#ProjectDKC').val();
+        var DeviceCode = $('#DeviceCode').val();
+        $.ajax({
+            url: "/Device/ExportToExcel",
+            data: {
+                TypeOfDevice: TypeOfDevice,
+                Status: Status,
+                Guarantee: Guarantee,
+                Project: ProjectDKC,
+                DeviceCode: DeviceCode
+            },
+            success: function (response) {
+                response = response.replace("DeviceCode", "Mã Thiết Bị ");
+                response = response.replace("DeviceName", "Tên Thiết Bị");
+                response = response.replace("TypeName", "Tên Loại");
+                response = response.replace("PriceOne", "Giá");
+                response = response.replace("FullName", "Tên Người Dùng");
+                response = response.replace("Configuration", "Cấu Hình");
+                response = response.replace("Name", "Nhà Cung Cấp");
+                response = response.replace("ProjectSymbol", "Mã Phòng");
+                response = response.replace("Status", "Trạng Thái");
+
+                var ua = window.navigator.userAgent;
+                var msie = ua.indexOf("MSIE ");
+                if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:s11\./))      // If Internet Explorer
+                {
+                    txtArea1.document.open("txt/html", "replace");
+                    txtArea1.document.write(response);
+                    txtArea1.document.close();
+                    txtArea1.focus();
+                    sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
+                }
+                else                 //other browser not tested on IE 11
+                {
+                    console.log(response);
+                    var a = 1;
+                    sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(response));
+                }
+            }
+        })
+    }
+</script>

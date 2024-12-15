@@ -1,0 +1,226 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@model QuanLyTaiSan_UserManagement.Models.ScheduleTestById_Result
+@using QuanLyTaiSan_UserManagement.Helper;
+@{
+    ViewBag.Title = Model.DeviceCode;
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+
+<link href="~/Content/css/TcssProject.css" rel="stylesheet" />
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+<section class="panel">
+    <!--Heading-->
+    @using (Html.BeginForm("EditScheduleTest", "ScheduleTest", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal  editcontent" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="panel-heading row">
+            <div class="">
+                <div class="col-md-10">
+                    <a class="edit panel-default" style="margin-right:10px" href="@Url.Action("ScheduleTest", "ScheduleTest")">
+                        <span class="icon-border">
+                            <i class="icon-arrow-left"> </i>
+                        </span>
+                    </a>
+                    Sửa lịch kiểm tra thiết bị
+                </div>
+                <div class="col-md-2 ">
+                    <!--Button-->
+                    @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("ScheduleTest") && k.ActionName.Equals("EditScheduleTest")))
+                    {*@
+                        <button type="submit" class="btn btn-primary btn-large tcssLeft "> Cập nhật </button>
+                    @*}*@
+                </div>
+                <!--The end Button-->
+            </div>
+        </div>
+    <!--The end Heading-->
+
+    <!--Start edit-->
+        <div class="Tlabel-Edit row">
+            <div class="panel-body">
+                <input type="hidden" name="Id" value="@Model.Id" />
+                <input type="hidden" name="DeviceId" value="@Model.DeviceId" />
+                <div class="col-md-6">
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Mã thiết bị </label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control  myctr" readonly="" type="text" value="@Model.DeviceCode" name="DeviceCode">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Tên thiết bị </label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control  myctr" type="text" value="@Model.DeviceName" name="" readonly="">
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Loại kiểm tra </label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control  myctr" type="text" value="@Model.CategoryTest" name="CategoryTest" autocomplete="off">
+
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Người Kiểm tra</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="input-large form-control myctr " name="UserTest" id="user">
+                                <option value="0">Chọn người kiểm tra</option>
+                                @foreach (var item in ViewData["User"] as IList<User>)
+                                {
+                                    <option value="@item.Id" @(Model.UserTest == @item.Id ? "selected" : "")>@item.FullName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Trạng thái</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="input-large form-control myctr" name="Status">
+                                <option value="0" @(Model.Status == 0 ? "selected" : "")>Chưa kiểm tra</option>
+                                <option value="1" @(Model.Status == 1 ? "selected" : "")>Đã kiểm tra</option>
+                            </select>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Ngày kiểm tra</label>
+                        </div>
+                        <div class="col-md-8 clearfix input-group">
+                            <input type="text" class="form-control myctr form-control-inline input-medium default-date-picker" size="16" value="@String.Format("{0:yyyy-MM-dd}",Model.DateOfTest)" name="DateOfTest" autocomplete="off" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-warning icon-calendar" style="line-height:inherit"></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Ngày kiểm tra tiếp</label>
+                        </div>
+                        <div class="col-md-8 clearfix input-group">
+                            <input type="text" class="form-control myctr form-control-inline input-medium default-date-picker" size="16" value="@String.Format("{0:yyyy-MM-dd}",Model.NextDateOfTest)" name="NextDateOfTest" autocomplete="off" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-warning icon-calendar" style="line-height:inherit"></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Mô tả</label>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea class="cke_editable form-control form myctr" rows="4" id="editer2" name="Notes">@Model.Notes</textarea>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    <!--The end edit-->
+
+
+        <header class="panel-body row ">
+            <div class="col-md-12 Tcsspad TcssPadT">
+                <div class="col-md-10 ">
+                    <a class="styletext"> Lịch sử kiểm tra của thiết bị</a>
+                </div>
+                <div class="col-md-2" style="text-align:right">
+                    @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("ScheduleTest") && k.ActionName.Equals("DeleteScheduleTest")))
+                    {*@
+                        <button class="btn btn-danger  btn-sm" type="button" onclick="ConfirmDelete1()">Xóa tất cả mục đã chọn <i class="icon-trash"></i> </button>
+                    @*}*@
+                </div>
+            </div>
+        </header>
+        <!--Table-->
+        <div class="tcsspadtop">
+            <div class="adv-table panel-body tcssMarT" id="divtype">
+                <table class="display table table-bordered table-striped table-hover" id="exampleMT">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="checkAll" name="check" /></th>
+                            <th>Mã thiết bị  </th>
+                            <th>Ngày kiểm tra </th>
+                            <th>Ngày kiểm tra tiếp</th>
+                            <th>Loại kiểm tra</th>
+                            <th class="hidden-phone">Người kiểm tra  </th>
+                            <th>Trạng thái</th>
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewData["historyScheduleTests"] as IList<HistoryScheduleTestById_Result>)
+                        {
+                            <tr class="gradeA" id="row_@item.Id">
+                                <td><input type="checkbox" name="check" class="check checkbox " value="@item.Id"  data-status="@item.Id" /></td>
+                                <td>@item.DeviceCode</td>
+                                <td>@String.Format("{0:yyyy-MM-dd}", item.DateOfTest)</td>
+                                <td>@String.Format("{0:yyyy-MM-dd}", item.NextDateOfTest)</td>
+                                <td class="hidden-phone">@item.CategoryTest</td>
+                                <td class="hidden-phone">@item.FullName</td>
+                                <td class="hidden-phone">@Html.Raw(item.Status.GetEnumDescription(typeof(eStatus.StatusScheduleTest)))</td>
+                                <td class="center">
+                                    @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("ScheduleTest") && k.ActionName.Equals("DeleteScheduleTest")))
+                                    {*@
+                                        <a class="edit" onclick="ConfirmDelete(@item.Id)" href="javascript:void(0)"><i class="icon-trash"></i></a>
+                                    @*}*@
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <input type="hidden" id="hiddenId1" />
+                <input type="hidden" id="hiddenId" />
+                <input type="hidden" id="hiddenId2" name="hiddenId2" value="@Model.Id" />
+            </div>
+        </div>
+        <!--The end Table-->
+            <div class="form-group row form-body tcssMarT">
+                <div class="TcssButton">
+                    <button type="submit" class="btn btn-primary btn-large"> Cập nhật</button>
+                    <button type="button" class="btn btn-white">@Html.ActionLink("Hủy", "ScheduleTest", "ScheduleTest") </button>
+
+                </div>
+            </div>
+    }
+</section>
+
+@Html.Partial("~/Views/ScheduleTest/DeleteScheduleTestPartial.cshtml")
+@Html.Partial("~/Views/ScheduleTest/DeleteHistorySchedutestPartial.cshtml")
+<!--Start Scrip-->
+<script>
+    $(document).ready(function () {
+        $('#exampleMT').dataTable({
+            "oLanguage": {
+                "sInfo": "Hiển thị từ _START_ đến _END_ của _TOTAL_ bản ghi",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+
+            //"bLengthChange": false,
+            //"bFilter": false,
+            "aoColumnDefs": [{
+                'bSortable': false,
+                'aTargets': [0, 7],
+            }]
+        });
+    });
+    $('#user').select2();
+</script>
+<!--The end Scrip-->

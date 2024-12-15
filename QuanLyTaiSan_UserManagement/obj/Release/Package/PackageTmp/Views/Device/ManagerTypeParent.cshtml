@@ -1,0 +1,116 @@
+﻿@model QuanLyTaiSan_UserManagement.Models.TypeComponantOfDevice_Result
+@using QuanLyTaiSan_UserManagement.Models
+
+@using QuanLyTaiSan_UserManagement.Helper;
+@{
+    ViewBag.Title = "ManagerTypeParent";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <div class="panel-body">
+                <header class="panel-heading m-bot15">
+                    <label class="text">Quản lý loại Thiết bị Cha-Con</label>
+                </header>
+            </div>
+            <div class="col-md-12" id="DsChildType" name="DsChildType">
+                @foreach (var item in ViewData["TypeParentTypeChild"] as IList<TypeComponantOfDevice_Result>)
+
+            { <div class="panel-body tcssMarT ">
+                    <div class="row m-bot15">
+                        <h5 class="text">
+                            <span class="text" style="font-size:larger; font-weight: bold;">@item.NameTypeParents </span>
+                        </h5>
+
+                    </div>
+                    <div class="tcssMarT tcsspadtop">
+
+                        <div class="adv-table">
+                            <table class="display  table table-bordered table-striped table-hover table-responsive" id="example_Type" style="width:30% ; float:left">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center ; width:80%">Loại thiết bị con </th>
+                                        <th style="text-align:center ; width:20px">Xóa</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item1 in @item.numbers as IList<TypeComponantOfDevice_Result>)
+                                    {
+                                        <tr class="gradeA" id="row_@item1.TypeSymbolChildren">
+                                            <td style="width:80%">@item1.NameTypeChildren</td>
+                                            <td style="width:20%" class="center">
+                                                <a class="edit" href="#" onclick="DeleteTypeChildOfParent(@item1.TypeSymbolChildren,@item.TypeSymbolParents)"><i class="icon-trash"></i></a>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </section>
+    </div>
+
+
+    <div class="modal fade sm-side" id="Confirm_deleteCC" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Xác nhận</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md-12">
+                        <label> Bạn chắc chắn muốn xóa ? </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-success" onclick="Confirm_Delete()">Đồng ý</button>
+                    <button data-dismiss="modal" class="btn btn-white" type="button">Hủy</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <input type="hidden" id="hidden_IdChild" />
+    <input type="hidden" id="hidden_IdParent" />
+</div>
+<script>
+    $('.Tool').addClass('active');
+    $('.ManagerParentChild').addClass('active');
+
+
+    var DeleteTypeChildOfParent = function (idChild, idParent) {
+        $("#Confirm_deleteCC").modal('show');
+        $("#hidden_IdChild").val(idChild);
+        $("#hidden_IdParent").val(idParent);
+
+
+    }
+    var Confirm_Delete = function () {
+        var child_id = $("#hidden_IdChild").val()
+        var parent_id = $("#hidden_IdParent").val()
+        $.ajax({
+            type: "POST",
+            url: "/Device/DeleteTypeChildOfParent",
+            data: {
+                idChild: child_id,
+                idParent: parent_id
+            },
+            success: function (result) {
+                if (result) {
+                    $("#Confirm_deleteCC").modal('hide');
+                    location.reload();
+                } else {
+                    $("#Confirm_deleteCC").modal('hide');
+                    alert("Không thể xóa. Còn thiết bị con nằm trong thiết bị cha");
+                }
+
+            }
+        })
+    }
+
+</script>

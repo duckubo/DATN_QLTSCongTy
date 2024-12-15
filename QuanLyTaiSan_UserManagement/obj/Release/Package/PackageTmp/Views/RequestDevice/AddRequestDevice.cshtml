@@ -1,0 +1,204 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@{
+    ViewBag.Title = "Thêm yêu cầu thiết bị ";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<link href="~/Content/css/TcssProject.css" rel="stylesheet" />
+<script src="~/Content/ckeditor/ckeditor.js"></script>
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+<section class="panel">
+    <div class="panel-body">
+        <div class="panel-heading">
+            <a class="edit panel-default" style="margin-right:10px" href="@Url.Action("RequestDevice", "RequestDevice")">
+                <span class="icon-border">
+                    <i class="icon-arrow-left"> </i>
+                </span>
+            </a>
+            Thêm yêu cầu Thiết bị
+        </div>
+        @using (Html.BeginForm("AddRequestDevice", "RequestDevice", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal  editcontent", @id = "formIdRp" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="panel-body Tlabel-Edit">
+                <div class="col-md-12">
+                    <div class="col-md-2"></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group row">
+                        <label class="col-md-4 "> Người yêu cầu</label>
+                        <div class="col-md-8">
+                            <select class="form-control  myctr " name="UserRequest" id="UserRequest" required>
+                                <option value="">Người yêu cầu</option>
+                                @foreach (var item in ViewData["User"] as IList<User>)
+                                {
+                                    <option value="@item.Id"> @item.FullName </option>
+                                }
+                            </select>
+                            <label class="label" style="display:none ; color:#ff6c60" id="TestNullRepairDv">Bạn phải chọn người yêu cầu </label>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 ">Tên thiết bị</label>
+                        <div class="col-md-8"><input class="form-control  myctr" type="text" placeholder="Tên thiết bị" name="DeviceName" autocomplete="off"></div>
+                    </div>
+                    <div class="form-group row" style="display:none">
+                        <label class="col-md-4 "> Ngày yêu cầu</label>
+                        <div class="col-md-8   input-group">
+                            <input type="text" class="form-control myctr form-control-inline input-large default-date-picker" size="16" name="DateOfRequest" value="" placeholder="Click để chọn ngày" autocomplete="off" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-warning icon-calendar" style="line-height:inherit"></button>
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 "> Ngày sử dụng  </label>
+                        <div class="col-md-8   input-group">
+                            <input type="text" class="form-control myctr form-control-inline input-large default-date-picker" size="16" name="DateOfUse" value="" placeholder="Click để chọn ngày" autocomplete="off" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-warning icon-calendar" style="line-height:inherit"></button>
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="form-group row" id="divtype">
+                        <label class="col-md-4 "> Loại thiết bị  </label>
+                        <div class="col-md-8 input-group">
+                            <select class="form-control myctr TypeOfDevice" name="TypeOfDevice" required>
+                                <option value="">Chọn loại thiết bị</option>
+                                @foreach (var item in ViewData["DeviceTypes"] as IList<DeviceType>)
+                                {
+                                    <option value="@item.Id"> @item.TypeName </option>
+                                }
+                            </select>
+                            <span class="input-group-btn">
+                                <button class="btn btn-success icon-plus" onclick="CreateType()" type="button" style="line-height:inherit"></button>
+                            </span>
+
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 ">Số lượng thiết bị </label>
+                        <div class="col-md-8"><input class="form-control  myctr" type="number" placeholder="Số lượng thiết bị" name="NumDevice" id="NumDevice" autocomplete="off" required></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <input type="hidden" value="0" name="Status" id="Status" />
+                    <div class="form-group row">
+                        <label class="col-md-4"> Cấu hình </label>
+
+                        <div class="col-md-8 ">
+                            <textarea class="cke_editable form-control form myctr" rows="3" id="Configuration" name="Configuration"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-4 "> Chú thích </label>
+                        <div class="col-md-8">
+                            <textarea class="cke_editable form-control form myctr" rows="3" id="editer2" name="Notes"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-group row form-body">
+                <div class="TcssButton">
+                    <button type="submit" class="btn btn-primary btn-large"> Lưu yêu cầu</button>
+                    <button type="button" class="btn btn-white">@Html.ActionLink("Hủy", "RequestDevice", "RequestDevice") </button>
+
+                </div>
+            </div>
+        }
+        <div class="modal fade" id="AddType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" onclick="NoAdd()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Thêm loại thiết bị mới</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group m-bot15 clearfix ">
+                            <label class="control-label " style="color:red;display:none" id="requiredtype">Bạn Phải Nhập Tên Loại</label><br />
+                            <label class="control-label " style="color:red;display:none" id="requiredtypesymbol">Bạn Phải Nhập Ký Hiệu Loại</label>
+                        </div>
+                        <div class="form-group m-bot15 clearfix ">
+                            <label class="control-label col-md-4 ">Tên Loại</label>
+                            <div class="col-md-8 ">
+                                <input type="text" class="form-control myctr form" name="TypeName" id="TypeName" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix ">
+                            <label class="control-label col-md-4 ">Ký Hiệu Loại</label>
+                            <div class="col-md-8 ">
+                                <input type="text" class="form-control myctr form" id="TypeSymbol" name="TypeSymbol" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix ">
+                            <label class="control-label col-md-4 ">Notes</label>
+                            <div class="col-md-8 ">
+                                <textarea class="form-control form myctr" rows="5" name="Notes" id="Notes"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" onclick="AddType()">Thêm</button>
+                        <button data-dismiss="modal" class="btn btn-white" type="button" onclick="NoAdd()">Hủy</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    CKEDITOR.replace('Configuration')
+    $('#UserRequest').select2();
+    $('#UserApproved').select2();
+    $('.RequestDevice').addClass('active');
+    $('.AddRequestDevice').addClass('active');
+    $('.TypeOfDevice').select2();
+
+    var CreateType = function () {
+        $("#AddType").modal('show');
+    }
+    var AddType = function () {
+        var Typerequired = $('#TypeName');
+        var TypeSymbol = $('#TypeSymbol');
+        if (!Typerequired.val().trim()) {
+            // Add errors highlight
+            Typerequired.closest('.form-group').removeClass('has-success').addClass('has-error');
+            $("#requiredtype").show()
+        } else if (!TypeSymbol.val().trim()) {
+            TypeSymbol.closest('.form-group').removeClass('has-success').addClass('has-error');
+            $("#requiredtypesymbol").show()
+            return false;
+        }
+        else {
+            // Remove the errors highlight
+            Typerequired.closest('.form-group').removeClass('has-error').addClass('has-success');
+            var TypeName = $("#TypeName").val();
+            var Notes = $("#Notes").val();
+            var TypeSymbol = $("#TypeSymbol").val();
+            $.ajax({
+                type: "POST",
+                url: "/RequestDevice/AddDeviceType",
+                data: {
+                    TypeSymbol: TypeSymbol,
+                    TypeName: TypeName,
+                    Notes: Notes
+                },
+                success: function (result) {
+                    if (result) {
+                        $("#AddType").modal("hide");
+                        $("#divtype").load(location.href + " #divtype>*", "");
+                        $("#AddType").load(location.href + " #AddType>*", "");
+                    } else {
+                        $("#AddType").modal("hide");
+                        alert("Thêm bị lỗi");
+                    }
+                }
+            })
+        }
+    }
+
+</script>

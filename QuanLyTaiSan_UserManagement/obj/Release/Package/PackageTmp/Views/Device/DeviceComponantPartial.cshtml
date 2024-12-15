@@ -1,0 +1,923 @@
+﻿@model QuanLyTaiSan_UserManagement.Models.DeviceById_Result
+@using QuanLyTaiSan_UserManagement.Models
+@using QuanLyTaiSan_UserManagement.Helper;
+<script src="~/Scripts/select2.min.js"></script>
+<div class="row form-horizontal">
+    <div class="col-md-6">
+        <div class="form-group m-bot15 clearfix col-md-10" id="divtype1">
+            <label class="control-label col-md-4 ">Loại Thiết bị</label>
+            <div class="col-md-8 input-group">
+                <select class="form-control myctr DeviceTypeComponant" required id="TypeOfDevice1" name="TypeOfDevice1">
+                    <option value="">Chọn loại thiết bị con</option>
+                    @foreach (var item in ViewData["TypeOfDevice"] as IList<DeviceType>)
+                    {
+                        <option @(ViewBag.TypeDevice == @item.Id ? "selected" : "") value="@item.Id">@item.TypeName</option>
+                    }
+                </select>
+                <span class="input-group-btn">
+                    <button class="btn btn-success icon-plus" onclick="CreateType1()" type="button" style="line-height:inherit"></button>
+                </span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn-success btn" style="line-height:inherit" onclick="AddTypeChidren()">Chọn </button>
+        </div>
+    </div>
+    <div class="col-md-6">
+
+
+    </div>
+</div>
+@*Danh sach thanh phan*@
+<div class="col-md-12" id="DsChildType" name="DsChildType">
+    @foreach (var item in ViewData["TypeComponantOfDevice"] as IList<ChildrenOfDevice_Result>)
+
+    {
+        <div class="row">
+            <h5 class="text">
+                <span class="text" style="font-size:larger; font-weight: bold;">- @item.TypeName </span>
+                <span class="icon-search btn btn-success btn-small" style="background-color:white; color:black;margin-right:10px" onclick="SearchDeviceComponant1(@item.TypeSymbolChildren)">
+                </span>
+                <span class="icon-plus btn btn-success btn-small" style="background-color:white; color:black" onclick="CreateDeviceComponant(@item.TypeSymbolChildren)">
+                </span>
+            </h5>
+
+        </div>
+        <div class="tcssMarT tcsspadtop">
+            <div class="panel-body tcssMarT ">
+                <div class="adv-table">
+                    <table class="display  table table-bordered table-striped table-hover table-responsive" id="example_Dv">
+                        <thead>
+                            <tr>
+                                @*<th class="center"><input type="checkbox" id="checkAll" name="check" /></th>*@
+                                <th style="text-align:center">Mã thiết bị  </th>
+                                <th style="text-align:center">Tên thiết bị  </th>
+                                <th style="text-align:center">Giá</th>
+                                <th style="text-align:center">Cấu hình</th>
+                                <th style="text-align:center"> Trạng thái</th>
+                                <th style="text-align:center">Kiểu thiết bị</th>
+                                <th style="text-align:center">Xem</th>
+                                <th style="text-align:center">Gỡ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item1 in @item.numbers as IList<ChildrenOfDevice_Result>)
+                            {
+                                <tr class="gradeA" id="row_@item1.Id">
+                                    @*<td class="center" style="width:2%"><input type="checkbox" class="chkCheckBoxId checkbox check" name="check" value="@item.Id" /></td>*@
+                                    <td style="width:10%">@item1.DeviceCode</td>
+                                    <td style="width:25%">@item1.DeviceName</td>
+                                    <td style="width:10%; text-align:right" class="hidden-phone">@item1.Price</td>
+                                    <td style="width:24%" class="hidden-phone">@Html.Raw(item1.Configuration)</td>
+                                    <td style="width:15%" class="hidden-phone">@Html.Raw(Convert.ToInt32(item1.StatusRepair).GetEnumDescription(typeof(eStatus.RepairStatus)))</td>
+                                    <td style="width:10%" class="center">@Html.Raw(Convert.ToInt32(item1.TypeComponant).GetEnumDescription(typeof(eStatus.Type_TypeCom))) </td>
+                                    <td style="width:3%" class="center">
+                                        @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Project") && k.ActionName.Equals("EditProject")))
+                                            {*@
+                                        <a class="edit" href="@Url.Action("EditDevice", "Device", new { Id = @item1.DeviceCodeChildren })"><i class="icon-eye-open"></i></a>
+                                        @*}*@
+                                    </td>
+                                    <td style="width:3%" class="center">
+                                        @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Project") && k.ActionName.Equals("DeleteProject1")))
+                                            {*@
+                                        <a class="edit" href="javascript:void(0)" id="DeleteItem" onclick="ConfirmDeleteDv(@item1.DeviceCodeChildren)"><i class="icon-trash"></i></a>
+                                        @*}*@
+                                    </td>
+                                </tr>
+                            }
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+@*Thêm loại thiết bị mới*@
+<div class="modal fade" id="AddType1" tabindex="1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="NoAdd1()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Thêm loại thiết bị mới</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group m-bot15 clearfix ">
+                    <label class="control-label " style="color:red;display:none" id="requiredtype">Bạn Phải Nhập Tên Loại</label><br />
+                    <label class="control-label " style="color:red;display:none" id="requiredtypesymbol">Bạn Phải Nhập Ký Hiệu Loại</label>
+                </div>
+                <div class="form-group m-bot15 clearfix ">
+                    <label class="control-label col-md-4 ">Tên Loại</label>
+                    <div class="col-md-8 ">
+                        <input type="text" class="form-control myctr form" name="TypeName1" id="TypeName1" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group m-bot15 clearfix ">
+                    <label class="control-label col-md-4 ">Ký Hiệu Loại</label>
+                    <div class="col-md-8 ">
+                        <input type="text" class="form-control myctr form" id="TypeSymbol1" name="TypeSymbol1" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group m-bot15 clearfix">
+                    <label class="control-label col-md-4 ">Notes</label>
+                    <div class="col-md-8">
+                        <textarea class="form-control form myctr" rows="5" name="Notes1" id="Notes1"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button" onclick="NoAdd1()">Hủy</button>
+                <button class="btn btn-warning" type="button" onclick="AddType1()">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*Chọn thiết bị con từ danh sách*@
+<div class="modal fade" id="ModalAddDvChildren" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="width: 650px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                @*<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>*@
+                <h4 class="modal-title">Chọn thiết bị </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row" style="border: 1px solid #e5e5e5;" id="Body_TypeCom">
+                    <div class="text col-md-4" style="font-weight: bold;"> Chọn kiểu thiết bị : </div>
+                    <div class="col-md-4">
+                        <input type="radio" name="TypeCom" id="TypeCom" value="0" class="text"> Thiết bị ngoài<br>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="radio" name="TypeCom" id="TypeCom" value="1" class="text"> Thiết bị trong<br>
+                    </div>
+                </div>
+                <div class="adv-table">
+                    <table class="display  table table-bordered table-striped table-hover table-responsive clearfix" id="SearchDvComponant">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Mã</th>
+                                <th>Tên thiết bị </th>
+                                <th>Giá</th>
+                                <th>Cấu hình</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
+                </div>
+                <input type="hidden" id="hiddenprid" />
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button" onclick="ClickCancleSC()">Hủy</button>
+                <button class="btn btn-warning" id="btnContinueAdd" onclick="ClickAddSC()"> Chọn</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*Popup Xác nhận tháo thiết bị con*@
+<div class="modal fade sm-side" id="RemoveDeviceDevice" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Xác nhận </h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <label class="text" style="font-size:medium">Bạn chắc chắn muốn tháo thiết bị </label>
+                    </div>
+                    <div class="row">
+                        <label>Lý do</label>
+                        <textarea class="text" id="NotesResons" cols="70" rows="4" style="border-radius:5px"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="DeleteDvComponent()"> ĐỒng ý </button>
+                <button data-dismiss="modal" class="btn btn-white" type="button">Hủy</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@*Thêm thiết bị con đồng thời thêm thiết bị mới*@
+<div class="modal fade lg-side Indent1" id="AddDeviceDeviceNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" style="width: auto;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Thêm thiết bị con</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="panel-body">
+                            <div class="col-md-6">
+                                <div class="form-group m-bot15 clearfix" id="divtypeComponant">
+                                    <label class="control-label col-md-4 ">Loại Thiết bị</label>
+                                    <div class="col-md-8 input-group">
+                                        <select class="form-control myctr DeviceType" required id="TypeOfDeviceComponant" name="TypeOfDeviceComponant" onchange="ChangeTypeComponant()" disabled="disabled">
+                                            <option value="">Chọn loại thiết bị</option>
+                                            @foreach (var item in ViewData["TypeOfDevice"] as IList<DeviceType>)
+                                            {
+                                                <option @(ViewBag.TypeDevice == @item.Id ? "selected" : "") value="@item.Id">@item.TypeName</option>
+                                            }
+                                        </select>
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-success icon-plus" onclick="CreateType()" type="button" style="line-height:inherit" disabled="disabled"></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group m-bot15 clearfix ">
+                                    <label class="control-label col-md-4 ">Mã Thiết Bị </label>
+                                    <div class="col-md-8 input-group">
+                                        <input class="form-control myctr form-control-inline" type="text" size="16" id="DeviceCodeComponant" readonly name="DeviceCodeComponant" required="" autocomplete="off" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-success icon-barcode" type="button" onclick="CreateDeviceCode()" style="line-height:inherit"></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group m-bot15 clearfix">
+                                    <label class="control-label col-md-4 ">Tên Thiết bị</label>
+                                    <div class="col-md-8 ">
+                                        <input type="text" class="form-control myctr form" name="DeviceNameComponant" id="DeviceNameComponant" required="" autocomplete="off">
+                                    </div>
+                                </div>
+                                <div class="form-group m-bot15 clearfix ">
+                                    <label class="control-label  col-md-4 ">Giá</label>
+                                    <div class="col-md-8 ">
+                                        <input type="text" step="any" class="form-control myctr form" name="PriceComponant" id="PriceComponant" autocomplete="off" onkeyup="FormatNumber(this);">
+                                    </div>
+                                </div>
+                                <div class="form-group m-bot15 clearfix" id="Employees1">
+                                    <label class="control-label col-md-4 ">Người sử dụng</label>
+                                    <div class="col-md-8 input-group">
+                                        <select class="form-control myctr UserIdComponant" name="UserIdComponant" id="UserIdComponant" onchange="ChangeEmploys()">
+                                            <option value="0">Chọn người sử dụng</option>
+                                            @foreach (var item in ViewData["User"] as IList<User>)
+                                            {
+                                                <option value="@item.Id">@item.UserName-@item.FullName</option>
+                                            }
+                                        </select>
+
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-success icon-plus" type="button" @*onclick="CreateEmployees()"*@ style="line-height:inherit" disabled="disabled"></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group m-bot15 clearfix" id="Project1">
+                                    <label class="control-label col-md-4 "> Phòng</label>
+                                    <div class="col-md-8 input-group">
+                                        <select class="form-control myctr" name="ProjectDKCComponant" id="ProjectDKCComponant" onchange="ChangePR()">
+                                            <option value="0">Chọn Phòng ban </option>
+                                            @foreach (var item in ViewData["ProjectDKC"] as IList<ProjectDKC>)
+                                            {
+                                                <option value="@item.Id">@item.ProjectName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group m-bot15 clearfix" id="" style="display:none">
+                                    <label class="control-label col-md-4 ">Trạng Thái</label>
+                                    <div class="col-md-8 input-group">
+                                        <select class="form-control myctr" name="StatusComponant" id="StatusComponant">
+                                            <option value="0" selected>Rảnh</option>
+                                            <option value="3">Đang Bị Hỏng</option>
+                                            <option value="1" disabled>Đang trong dự án</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group m-bot15 clearfix">
+                                    <label class="control-label col-md-4 ">Cấu Hình</label>
+                                    <div class="col-md-8">
+                                        <textarea class="cke_editable form-control form myctr" rows="3" id="ConfigurationComponant" name="ConfigurationComponant">  </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group m-bot15 clearfix">
+                                    <label class="control-label col-md-4">Ngày mua</label>
+                                    <div class="col-md-8 input-group">
+                                        <input class="form-control form-control-inline input-medium default-date-picker" type="text" size="16" name="DateOfPurchaseComponant" id="DateOfPurchaseComponant" autocomplete="off" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning icon-calendar" style="line-height:inherit" type="button"></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group m-bot15 clearfix">
+                                    <label class="control-label col-md-4">Thời hạn bảo hành</label>
+                                    <div class="col-md-8 input-group">
+                                        <input class="form-control form-control-inline input-medium default-date-picker" type="text" size="16" name="GuaranteeComponant" id="GuaranteeComponant" autocomplete="off" />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning icon-calendar" style="line-height:inherit" type="button"></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="form-group m-bot15 clearfix" id="divid">
+                                    <label class="control-label col-md-4 ">Nhà cung cấp</label>
+                                    <div class="col-md-8 input-group">
+                                        <select class="form-control myctr SuplierSelect" name="SupplierIdComponant" id="SupplierIdComponant">
+                                            <option value="0" selected>Chọn Nhà Cung Cấp</option>
+                                            @foreach (var item in ViewData["Supplier"] as IList<Supplier>)
+                                            {
+                                                <option value="@item.Id">@item.Name</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group m-bot15 clearfix ">
+                                    <label class="control-label col-md-4 ">Thông tin mua</label>
+                                    <div class="col-md-8">
+                                        <textarea class="cke_editable form-control form myctr" rows="3" id="PurchaseContractComponant" name="PurchaseContractComponant"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group m-bot15 clearfix ">
+                                    <label class="control-label col-md-4 ">Ghi chú</label>
+                                    <div class="col-md-8">
+                                        <textarea class="cke_editable form-control form myctr" rows="3" id="NotesdvComponant" name="NotesdvComponant"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group m-bot15 clearfix ">
+                                    <label class="control-label " style="color:red;display:none" id="requiredcodedevice">Bạn Phải Nhập Mã Thiết Bị</label>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="TypeHiddenComponant" name="TypeHiddenComponant" />
+                        <input type="hidden" id="UserHiddenComponant" name="UserHiddenComponant" />
+                        <input type="hidden" id="ProjectHiddenComponant" name="ProjectHiddenComponant" />
+                        <input type="hidden" id="StatusHiddenComponant" name="StatusHiddenComponant" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button" onclick="AddDeviceComponantNew1()"> ĐỒng ý</button>
+                <button data-dismiss="modal" class="btn btn-white" type="button">Hủy</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+@*Thêm nhà cung cấp mới*@
+<div class="modal fade" id="AddSupplierComponant" tabindex="11" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" onclick="NoAdd()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Thêm Nhà cung cấp</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group m-bot15 clearfix ">
+                    <label class="control-label " style="color:red;display:none" id="requiredsupplier">Bạn Phải Nhập Tên Nhà Cung Cấp</label>
+                </div>
+                <div class="form-group m-bot15 clearfix ">
+                    <label class="control-label col-md-4 ">Tên Nhà cung cấp</label>
+                    <div class="col-md-8 ">
+                        <input type="text" class="form-control myctr form" name="Name" id="Name" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group m-bot15 clearfix ">
+                    <label class="control-label col-md-4 ">Email</label>
+                    <div class="col-md-8 ">
+                        <input type="email" class="form-control myctr form" name="Email" id="Email" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group m-bot15 clearfix ">
+                    <label class="control-label col-md-4 ">Phone</label>
+                    <div class="col-md-8 ">
+                        <input type="text" class="form-control myctr form" name="PhoneNumber" id="PhoneNumber" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group m-bot15 clearfix ">
+                    <label class="control-label col-md-4 ">Địa chỉ</label>
+                    <div class="col-md-8 ">
+                        <input type="text" class="form-control myctr form" name="Address" id="Address" autocomplete="off">
+                    </div>
+                </div>
+                <div class="form-group m-bot15 clearfix">
+                    <label class="control-label col-md-4 ">Liên lạc bảo hành</label>
+                    <div class="col-md-8">
+                        <textarea class="form-control form" rows="2" id="Support" name="Support"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button" onclick="NoAdd()">Hủy</button>
+                <button class="btn btn-warning" type="button" onclick="AddSupplier()">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+@*Popup xác định kiểu cho Loại thiết bị con(TB nằm trong or nằm ngoài)*@
+<div class="modal fade sm-side" id="Type_TypeComponant" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Chọn kiểu của loại thiết bị con </h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="radio" name="TypeCom_New" id="TypeCom_New" value="0" class="text"> Thiết bị ngoài<br>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="radio" name="TypeCom_New" id="TypeCom_New" value="1" class="text"> Thiết bị trong<br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" onclick="Add_TypeTypeComponant()">Chọn</button>
+                <button data-dismiss="modal" class="btn btn-white" type="button">Hủy</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="IdProject" value="@Model.IdProject " />
+<input type="hidden" id="IdUser" value="@Model.UserId " />
+
+@*@Html.Partial("SearchDeviceComponant")*@
+<input type="hidden" id="hiddenIddv" />
+<input type="hidden" id="TypeChild" />
+<input type="hidden" id="TypeComponant" />
+<input type="hidden" id="TypeComponant_New" />
+<input type="hidden" id="hiddenIdDelete" />
+<input type="hidden" id="hiddenTypeSympolChild" />
+<script>
+    $('.SuplierSelect').select2();
+    $('.DeviceTypeComponant').select2();
+    $('.UserIdComponant').select2();
+    $('#ProjectDKCComponant').select2();
+    var CreateType1 = function () {
+
+        $("#AddType1").modal('show');
+        $('#TypeName1').val('');
+        $('#TypeSymbol1').val('');
+        $('#Notes1').val('');
+    }
+    var NoAdd1 = function () {
+        $("#AddType1").load(location.href + " #AddType1>*", "");
+        $("#AddEmployees").load(location.href + " #AddEmployees>*", "");
+        $("#AddSupplier").load(location.href + " #AddSupplier>*", "");
+    }
+    // Thêm loại thiết bị
+    var AddType1 = function () {
+        var Typerequired = $('#TypeName1');
+        var TypeSymbol1 = $('#TypeSymbol1');
+        var a = $('#TypeSymbol1').val().trim().length
+        if (a == 3) {
+            if (!Typerequired.val().trim()) {
+                Typerequired.closest('.form-group').removeClass('has-success').addClass('has-error');
+                $("#requiredtype").show()
+            } else if (!TypeSymbol1.val().trim()) {
+                TypeSymbol1.closest('.form-group').removeClass('has-success').addClass('has-error');
+                $("#requiredtypesymbol").show()
+                return false;
+            }
+            else {
+                // Remove the errors highlight
+                Typerequired.closest('.form-group').removeClass('has-error').addClass('has-success');
+                var TypeName1 = $("#TypeName1").val();
+                var Notes1 = $("#Notes1").val();
+                var TypeSymbol1 = $("#TypeSymbol1").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Device/AddDeviceType",
+                    data: {
+                        TypeSymbol: TypeSymbol1,
+                        TypeName: TypeName1,
+                        Notes: Notes1
+                    },
+                    success: function (result) {
+                        if (result) {
+                            $("#AddType1").modal("hide");
+                            $("#divtype1").load(location.href + " #divtype1>*", "");
+                            $("#AddType1").load(location.href + " #AddType1>*", "");
+                        } else {
+                            alert("Ký Hiệu Loại Đã Được Dùng");
+                        }
+                    }
+                })
+            }
+        }
+        else {
+            alert('Ký Hiệu Loại Có Đúng 3 Chữ Cái')
+        }
+    }
+
+    //Thêm loại thiết bị con ứng với loại TB cha
+    var AddTypeChidren = function () {
+        var TypeChidren = $("#TypeOfDevice1").val();
+        if (TypeChidren == "")
+        {
+            alert("Vui lòng chọn loại thiết bị");
+        }
+        else
+        {
+            // $("#Type_TypeComponant").modal('show') ;
+            var TypeParent = @Model.TypeOfDevice ;
+            $.ajax({
+                type: "POST",
+                url: "/Device/AddTypeChidren",
+                data: {
+                    TypeChidren: TypeChidren,
+                    TypeParent: TypeParent,
+                },
+                success: function (result) {
+                    if(result)
+                    {
+                        $("#DsChildType").load(location.href + " #DsChildType>*", "");
+                        $("#Type_TypeComponant").modal("hide") ;
+                    }
+                    else
+                    {
+                        alert("Đã tồn tại loại thiết bị con");
+                        $("#Type_TypeComponant").modal("hide") ;
+                    }
+                }
+            })
+
+        }
+
+    }
+
+    // Hiển thị danh sách thiết bị để làm thiết bị con
+    var SearchDeviceComponant1 = function (TypeSymbolChildren){
+        $('#SearchDvComponant tbody tr').remove() ;
+        $("#SearchDvComponant").attr("style", "width:100%")
+        //  $("#SearchDvComponant").dataTable({ "bDestroy": true});
+        var TypeChildren =  TypeSymbolChildren ;
+        $("#TypeChild").val(TypeChildren) ;
+        $("#TypeComponant").val('');
+        //  $("#TypeComponant").val(TypeComponant) ;
+        $.ajax({
+            type: "POST",
+            //cache: false,
+            url: "/Device/SearchDeviceComponant",
+            data: {
+                TypeChidren: TypeSymbolChildren,
+
+
+            },
+            //  cache: false,
+            success: function (response) {
+                data = response.lst;
+                for(var i = 0  ; i< data.length ; i++ )
+                {
+                    $('#SearchDvComponant tbody').append("<tr class=" + 'gradeA' + " id=" + 'row_' + data[i].Id + "><td><input type = " + 'checkbox' + " class=" + 'check' + " name =" + 'check' + " value=" + data[i].Id + " ></td><td  class=" + 'DeviceId' + ">" +data[i].DeviceCode + "</td><td>" + data[i].DeviceName + "</td><td>" +data[i].PriceOne + "</td><td>" + data[i].Configuration + "</td></tr>");
+                }
+                // style="width:25%"
+                $("#ModalAddDvChildren").modal('show');
+                $('#SearchDvComponant').dataTable({
+                    "oLanguage": {
+                        "sLengthMenu":"Hiển thị _MENU_ bản ghi" ,
+                        "sZeroRecords":"Không tìm thấy bản ghi nào",
+                        "sInfoFiltered":"",
+                        "sInfoEmpty": "Hiển thị 0 bản ghi",
+                        "sInfo": "Hiển thị từ _START_ đến _END_ của _TOTAL_ bản ghi",
+                        "sSearch": "Tìm Kiếm",
+                        "oPaginate": {
+                            "sPrevious": "Trước",
+                            "sNext": "Tiếp",
+                        }
+                    },
+                    //  "sInfoFiltered":true ,
+                    // "fnFooterCallback": null,
+                    "iDisplayLength": 25,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "aoColumnDefs": [
+                        { "aTargets": [0], bSortable: false },
+                        { "aTargets": [1], bSortable: true },
+                        { "aTargets": [2], bSortable: true },
+                        { "aTargets": [3], bSortable: false },
+                        { "aTargets": [4], bSortable: false },
+                    ]
+                });
+            }
+        })
+    }
+    //$(document).ready(function () {
+    //    $('#SearchDvComponant').dataTable({
+    //        "oLanguage": {
+    //            "sInfo": "Hiển thị từ _START_ đến _END_ của _TOTAL_ bản ghi",
+    //            "sSearch": "Tìm Kiếm",
+    //            "oPaginate": {
+    //                "sPrevious": "Trước",
+    //                "sNext": "Tiếp",
+    //            }
+    //        },
+    //        "iDisplayLength": 25,
+    //        //"bLengthChange": false,
+    //        "bFilter": true,
+    //        //"aoColumnDefs": [
+    //        //    { "aTargets": [0], bSortable: false },
+    //        //    { "aTargets": [9], bSortable: false },
+    //        //    { "aTargets": [10], bSortable: false },
+    //        //]
+    //    });
+    //});
+
+    // Sự kiện Cancel Popup danh sách thiết bị con theo loại
+    var ClickCancleSC = function () {
+        var dataTable = $('#SearchDvComponant').DataTable();
+        //Xóa dữ liệu cũ của Table
+        dataTable.fnDestroy();
+        $("#TypeChild").val("") ;
+        //  dataTable.clear().draw();
+    }
+
+    //Thêm thiết bị con từ danh sách
+    var ClickAddSC = function () {
+        var Type_TypeCom = $('input[name=TypeCom]:checked').val();
+        if (Type_TypeCom == null)
+        {
+            alert("Chọn kiểu cho thiết bị ");
+        }
+        else
+        {
+            var chkArray = [];
+            //$(".check:checked").each(function () {
+            //    chkArray.push($(this).val());
+            //});
+            var table = $('#SearchDvComponant').dataTable()
+            table.$('input[type="checkbox"]').each(function () {
+                if (this.checked) {
+                    chkArray.push($(this).val());
+                }
+            });
+            if (chkArray.length > 0) {
+                // $("#hiddenIddv").val(chkArray);
+                //    $("#myModalAll").modal('show');
+                //var TypeComponant =  $("#TypeComponant").val() ;
+                var dvParent = @Model.Id;
+                var TypeParent = @Model.TypeOfDevice ;
+                //   var dvChild = chkArray ;
+                $("#hiddenIddv").val(chkArray);
+                var dvChild = $("#hiddenIddv").val();
+                var TypeChild = $("#TypeChild").val();
+                //  console.log(dvId);
+                $.ajax({
+                    type: "POST",
+                    url: "/Device/AddDeviceOfDevice",
+                    data: {
+                        dvParent: dvParent,
+                        dvChild: dvChild,
+                        TypeChild  : TypeChild,
+                        TypeParent : TypeParent,
+                        Type_TypeCom : Type_TypeCom
+                    },
+                    success: function (result) {
+                        if (result)
+                        {
+                            $("#ModalAddDvChildren").modal("hide");
+
+                            //  alert("Thêm thiết bị thành công");
+                            $("#DsChildType").load(location.href + " #DsChildType>*", "");
+                        } else
+                        {
+                            $("#ModalAddDvChildren").modal("hide");
+                            alert("Thêm thiết bị lỗi");
+                        }
+                        var dataTable = $('#SearchDvComponant').DataTable();
+                        //Xóa dữ liệu cũ của Table
+                        dataTable.fnDestroy();
+
+                    }
+                })
+
+            }
+        }
+    }
+    // Xóa thiết bị con khỏi thiết bị cha
+    var ConfirmDeleteDv = function (DeviceCodeChildren){
+        $("#hiddenIdDelete").val(DeviceCodeChildren);
+        $("#RemoveDeviceDevice").modal('show')
+    }
+
+    var DeleteDvComponent = function (){
+        var DeviceChildren = $("#hiddenIdDelete").val() ;
+        var NotesResons = $("#NotesResons").val().trim() ;
+
+
+        var dvParent = @Model.Id ;
+        $.ajax({
+            type: "POST",
+            url: "/Device/DeleteDvComponent",
+            data: {
+                dvChild: DeviceChildren,
+                dvParent : dvParent,
+                Resons : NotesResons
+            },
+            success: function (result) {
+                if(result = true)
+                {
+                    $("#RemoveDeviceDevice").modal('hide')
+                    $("#DsChildType").load(location.href + " #DsChildType>*", "");
+                }
+                else
+                    alert("Xóa bị lỗi");
+                $("#RemoveDeviceDevice").modal('hide');
+            }
+
+        })
+    }
+    // Chọn kiểu thiết bị
+    var CreateDeviceComponant  = function(TypeSymbolChildren) {
+        $("#Type_TypeComponant").modal("show") ;
+        $("#hiddenTypeSympolChild").val(TypeSymbolChildren);
+    }
+
+    // Thêm thiết bị con đồng thời tạo mới thiết bị
+    var Add_TypeTypeComponant = function () {
+        $("#Type_TypeComponant").modal("hide") ;
+
+        $("#DeviceNameComponant").val('') ;
+        $("#PriceComponant").val('') ;
+        $("#ConfigurationComponant").val('') ;
+        $("#DateOfPurchaseComponant").val('') ;
+        $("#GuaranteeComponant").val('') ;
+        $("#PurchaseContractComponant").val('') ;
+        $("#NotesdvComponant").val('') ;
+        $("#AddDeviceDeviceNew").modal('show') ;
+        var Type_TypeCom = $('input[name=TypeCom_New]:checked').val();
+        //  var TypeChidren = $("#TypeOfDevice1").val();
+        $("#TypeComponant_New").val('');
+        $("#TypeComponant_New").val(Type_TypeCom);
+        //  var IdPr = $("#IdProject").val() ;
+
+        var TypeSymbolChildren = $("#hiddenTypeSympolChild").val()
+
+
+        $("#TypeOfDeviceComponant option[value="+TypeSymbolChildren+"]").prop("selected", "selected")
+        $("#TypeHiddenComponant").val(TypeSymbolChildren);
+        //TB trong
+        if(Type_TypeCom == 1)
+        {
+            var IdUser = $("#IdUser").val() ;
+            var IdPr = $("#IdProject").val() ;
+            $("#UserHiddenComponant").val(IdUser);
+            $("#ProjectHiddenComponant").val(IdPr);
+            $("#UserIdComponant").prop('disabled', true);
+            $("#ProjectDKCComponant").prop('disabled', true);
+            $("#UserIdComponant option[value="+IdUser+"]").prop("selected", "selected");
+            $("#ProjectDKCComponant option[value="+IdPr+"]").prop("selected", "selected")    ;
+            //    $("#TypeOfDeviceComponant").selected.val(TypeSymbolChildren)  ;
+
+
+        }// TB ngoài
+        if (Type_TypeCom == 0)
+        {
+            $('#UserIdComponant').removeAttr('disabled') ;
+            $('#ProjectDKCComponant').removeAttr('disabled');
+        }
+
+        if (TypeSymbolChildren == 0) {
+            alert("Bạn Phải chọn loại thiết bị");
+        }
+        else {
+            $.ajax({
+                url: '/Device/AddDeviceCode',
+                data: {
+                    TypeOfDevice: TypeSymbolChildren,
+                },
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var data = response.data;
+                    $('#DeviceCodeComponant').val(data);
+                },
+            });
+        }
+        if (IdPr == 0)
+        {
+            //  $("#StatusComponant option[value=0]").prop("selected", "selected");
+            $("#StatusHiddenComponant").val(0) ;
+        }
+        else
+        {
+            // $("#StatusComponant option[value=1]").prop("selected", "selected");
+            $("#StatusHiddenComponant").val(1) ;
+        }
+    }
+
+    var ChangePR = function() {
+        var projectId =  $('#ProjectDKCComponant').val();
+        $("#ProjectHiddenComponant").val(projectId) ;
+        if(projectId == 0 )
+        {
+            $("#StatusHiddenComponant").val(0) ;
+        }
+        else
+        {
+            $("#StatusHiddenComponant").val(1) ;
+        }
+    }
+
+    var ChangeEmploys = function() {
+        var userId =  $('#UserIdComponant').val() ;
+        $("#UserHiddenComponant").val(userId) ;
+    }
+
+    var CreateSupplier = function () {
+        $("#AddSupplierComponant").modal('show');
+        $('#Name').val('');
+        $('#Email').val('');
+        $('#PhoneNumber').val('');
+        $("#Address").val('');
+        $("#Support").val('');
+    }
+
+    var AddDeviceComponantNew1 = function(){
+        var TypeComponant = $('#TypeOfDeviceComponant').val() ;
+        var  Type_TypeCom =   $("#TypeComponant_New").val();
+        var Name = $('#DeviceNameComponant').val() ;
+        var DeviceCode = $('#DeviceCodeComponant').val() ;
+        var Price = $('#PriceComponant').val().replace(/,/g, '') ;
+        var UserId = $('#UserHiddenComponant').val() ;
+        var Project = $('#ProjectHiddenComponant').val() ;
+        var status = $('#StatusComponant').val() ;
+        var Config = $('#ConfigurationComponant').val() ;
+        var PurchaseDate = $('#DateOfPurchaseComponant').val() ;
+        var Guarantee = $('#GuaranteeComponant').val() ;
+        var SupplierId = $('#SupplierIdComponant').val() ;
+        var PurchaseContract = $('#PurchaseContractComponant').val() ;
+        var Notes = $('#NotesdvComponant').val() ;
+        var IdParent = @Model.Id ;
+        var TypeParent = @Model.TypeOfDevice ;
+
+
+        var bmt = {
+            Type_TypeCom : Type_TypeCom,
+            TypeComponant: TypeComponant,
+            DeviceCode : DeviceCode,
+            Name: Name,
+            UserId: UserId,
+            Price: Price,
+            Project: Project,
+            Config: Config,
+            PurchaseDate: PurchaseDate,
+            Guarantee :Guarantee,
+            SupplierId :SupplierId,
+            PurchaseContract: PurchaseContract,
+            status : status,
+            Notes :Notes,
+            IdParent :IdParent,
+            TypeParent: TypeParent
+
+        }
+
+        if(Name.trim() == ""|| Name == null)
+        {
+            alert("Vui lòng nhập tên thiết bị ");
+            $('#DeviceNameComponant').focus();
+        }
+        else
+        {
+            $.ajax({
+                type: 'POST',
+                url: '/Device/AddDeviceComponantNew',
+                contentType: "application/json",
+                data: JSON.stringify({ com : bmt }),
+                success: function (result) {
+                    if ( result = true ) {
+                        alert("Thành công") ;
+                        $("#AddDeviceDeviceNew").modal('hide') ;
+                        $("#DsChildType").load(location.href + " #DsChildType>*", "")
+                    }
+                    else
+                        alert("Không thành công");
+                    $("#AddDeviceDeviceNew").modal('hide') ;
+
+                },
+            });
+        }
+
+    }
+    //var ChangeTypeComponant = function () {
+    //    var TypeOfDevice = $("#TypeOfDeviceComponant").val();
+    //    if (TypeOfDevice == 0) {
+    //        alert("Bạn Phải chọn loại thiết bị");
+    //    }
+    //    else {
+    //        $.ajax({
+    //            url: '/Device/AddDeviceCode',
+    //            data: {
+    //                TypeOfDevice: TypeOfDevice,
+    //            },
+    //            type: 'GET',
+    //            dataType: 'json',
+    //            success: function (response) {
+    //                var data = response.data;
+    //                $('#DeviceCodeComponant').val(data);
+    //            },
+    //        });
+    //    }
+    //}
+</script>

@@ -1,0 +1,798 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@{
+    ViewBag.Title = "Thêm Mới";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Content/ckeditor/ckeditor.js"></script>
+<script src="~/Scripts/select2.min.js"></script>
+
+@*Chia Tab*@
+
+<section class="panel">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <section class="panel">
+                            @using (Html.BeginForm("Create", "Device", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal kh", @id = "formdevice" }))
+            {
+                                @Html.AntiForgeryToken()
+                                <header class="panel-heading mypanel">
+                                    Thêm thiết bị
+                                    <div class="pull-right">
+                                        <button type="button" class="btn btn-success" ID="btnGenerate" onclick="GenBarCode()">Tạo Mã Vạch</button>
+                                    </div>
+                                </header>
+                                <div class="panel-body">
+                                    <div class="col-md-6">
+                                        <div class="form-group m-bot15 clearfix" id="divtype">
+                                            <label class="control-label col-md-4 ">Loại Thiết bị</label>
+                                            <div class="col-md-8 input-group">
+                                                <select class="form-control myctr DeviceType" required id="TypeOfDevice" name="TypeOfDevice" onchange="ChangeType()">
+                                                    <option value="">Chọn loại thiết bị</option>
+                                                    @foreach (var item in ViewData["TypeOfDevice"] as IList<DeviceType>)
+                                                    {
+                                                        <option @(ViewBag.TypeDevice == @item.Id ? "selected" : "") value="@item.Id">@item.TypeName</option>
+                                                    }
+                                                </select>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-success icon-plus" onclick="CreateType()" type="button" style="line-height:inherit"></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-bot15 clearfix ">
+                                            <label class="control-label col-md-4 ">Mã Thiết Bị </label>
+                                            <div class="col-md-8 input-group">
+                                                <input class="form-control myctr form-control-inline" type="text" size="16" id="DeviceCode" readonly name="DeviceCode" required="" autocomplete="off" />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-success icon-barcode" type="button" onclick="CreateDeviceCode()" style="line-height:inherit"></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-bot15 clearfix">
+                                            <label class="control-label col-md-4 ">Tên Thiết bị</label>
+                                            <div class="col-md-8 ">
+                                                <input type="text" class="form-control myctr form" name="DeviceName" required="" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-bot15 clearfix ">
+                                            <label class="control-label  col-md-4 ">Giá</label>
+                                            <div class="col-md-8 ">
+                                                <input type="text" step="any" class="form-control myctr form" name="Price" id="Price" autocomplete="off" onkeyup="FormatNumber(this);">
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-bot15 clearfix" id="Employees">
+                                            <label class="control-label col-md-4 ">Người sử dụng</label>
+                                            <div class="col-md-8 input-group">
+                                                <select class="form-control myctr userid" name="UserId" id="UserId" onchange="ChangeEmployees()">
+                                                    <option value="0">Chọn người sử dụng</option>
+                                                    @foreach (var item in ViewData["User"] as IList<User>)
+                                                    {
+                                                        <option value="@item.Id">@item.UserName-@item.FullName</option>
+                                                    }
+                                                </select>
+                                                <span class="input-group-btn" style="display:none" id="edituser">
+                                                    <button class="btn btn-warning icon-pencil" type="button" onclick="GetEmployees()" style="line-height:inherit;border-radius: unset;"></button>
+                                                </span>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-success icon-plus" type="button" onclick="CreateEmployees()" style="line-height:inherit"></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-bot15 clearfix" id="Project">
+                                            <label class="control-label col-md-4 ">Phòng</label>
+                                            <div class="col-md-8 input-group">
+                                                <select class="form-control myctr projectid" name="ProjectDKC" id="ProjectDKC" onchange="ChangePRJ()">
+                                                    <option value="0">Chọn Phòng ban </option>
+                                                    @foreach (var item in ViewData["ProjectDKC"] as IList<ProjectDKC>)
+                                                    {
+                                                        <option value="@item.Id">@item.ProjectName</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-bot15 clearfix" id="Status">
+                                            <label class="control-label col-md-4 ">Trạng Thái</label>
+                                            <div class="col-md-8 input-group">
+                                                <select class="form-control myctr" name="Status">
+                                                    <option value="0" selected>Rảnh</option>
+                                                    <option value="3">Đang Bị Hỏng</option>
+                                                    <option value="1" disabled>Đang trong phòng ban</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-bot15 clearfix">
+                                            <label class="control-label col-md-4 ">Cấu Hình</label>
+                                            <div class="col-md-8">
+                                                <textarea class="cke_editable form-control form" rows="3" id="Configuration" name="Configuration"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group m-bot15 clearfix">
+                                            <label class="control-label col-md-4">Ngày mua</label>
+                                            <div class="col-md-8 input-group">
+                                                <input class="form-control form-control-inline input-medium default-date-picker" type="text" size="16" name="DateOfPurchase" autocomplete="off" />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-warning icon-calendar" style="line-height:inherit" type="button"></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-bot15 clearfix">
+                                            <label class="control-label col-md-4">Thời hạn bảo hành</label>
+                                            <div class="col-md-8 input-group">
+                                                <input class="form-control form-control-inline input-medium default-date-picker" type="text" size="16" name="Guarantee" autocomplete="off" />
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-warning icon-calendar" style="line-height:inherit" type="button"></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-bot15 clearfix" id="divid">
+                                            <label class="control-label col-md-4 ">Nhà cung cấp</label>
+                                            <div class="col-md-8 input-group">
+                                                <select class="form-control myctr SuplierSelect" name="SupplierId">
+                                                    <option value="0" selected>Chọn Nhà Cung Cấp</option>
+                                                    @foreach (var item in ViewData["Supplier"] as IList<Supplier>)
+                                                    {
+                                                        <option value="@item.Id">@item.Name</option>
+                                                    }
+                                                </select>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-success icon-plus" type="button" onclick="CreateSupplier()" style="line-height:inherit"></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        @*Hiển thị khi vào xem chi tiết thiết bị*@ 
+                                        <div class="form-group m-bot15 clearfix" style="display:none">
+                                            <label class="control-label col-md-4 ">Là Thiết bị con của</label>
+                                            <div class="col-md-8">
+                                                <select class="form-control myctr parentid" name="ParentId">
+                                                    <option value="0" selected>Không phải là thiết bị con</option>
+                                                    @foreach (var item in ViewData["Device"] as IList<Device>)
+                                                    {
+                                                        <option value="@item.Id">@item.DeviceCode</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-bot15 clearfix ">
+                                            <label class="control-label col-md-4 ">Thông tin mua</label>
+                                            <div class="col-md-8">
+                                                <textarea class="cke_editable form-control form" rows="3" id="PurchaseContract" name="PurchaseContract"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-bot15 clearfix ">
+                                            <label class="control-label col-md-4 ">Ghi chú</label>
+                                            <div class="col-md-8">
+                                                <textarea class="cke_editable form-control form" rows="3" id="Notesdv" name="Notesdv"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-bot15 clearfix ">
+                                            <label class="control-label " style="color:red;display:none" id="requiredcodedevice">Bạn Phải Nhập Mã Thiết Bị</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" style="text-align: center">
+                                    <button type="submit" class="btn btn-primary">Lưu</button>
+                                    <button type="button" class="btn btn-danger">@Html.ActionLink("Hủy", "Device", "Device")</button>
+                                </div>
+                            }
+                            <div class="modal fade" id="AddType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" onclick="NoAdd()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Thêm loại thiết bị mới</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label " style="color:red;display:none" id="requiredtype">Bạn Phải Nhập Tên Loại</label><br />
+                                                <label class="control-label " style="color:red;display:none" id="requiredtypesymbol">Bạn Phải Nhập Ký Hiệu Loại</label>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">Tên Loại</label>
+                                                <div class="col-md-8 ">
+                                                    <input type="text" class="form-control myctr form" name="TypeName" id="TypeName" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">Ký Hiệu Loại</label>
+                                                <div class="col-md-8 ">
+                                                    <input type="text" class="form-control myctr form" id="TypeSymbol" name="TypeSymbol" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix">
+                                                <label class="control-label col-md-4 ">Notes</label>
+                                                <div class="col-md-8">
+                                                    <textarea class="form-control form myctr" rows="5" name="Notes" id="Notes"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button data-dismiss="modal" class="btn btn-default" type="button" onclick="NoAdd()">Hủy</button>
+                                            <button class="btn btn-warning" type="button" onclick="AddType()">Thêm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="AddSupplier" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" onclick="NoAdd()" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Thêm Nhà cung cấp</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label " style="color:red;display:none" id="requiredsupplier">Bạn Phải Nhập Tên Nhà Cung Cấp</label>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">Tên Nhà cung cấp</label>
+                                                <div class="col-md-8 ">
+                                                    <input type="text" class="form-control myctr form" name="Name" id="Name" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">Email</label>
+                                                <div class="col-md-8 ">
+                                                    <input type="email" class="form-control myctr form" name="Email" id="Email" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">Phone</label>
+                                                <div class="col-md-8 ">
+                                                    <input type="text" class="form-control myctr form" name="PhoneNumber" id="PhoneNumber" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">Địa chỉ</label>
+                                                <div class="col-md-8 ">
+                                                    <input type="text" class="form-control myctr form" name="Address" id="Address" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix">
+                                                <label class="control-label col-md-4 ">Liên lạc bảo hành</label>
+                                                <div class="col-md-8">
+                                                    <textarea class="form-control form" rows="2" id="Support" name="Support"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button data-dismiss="modal" class="btn btn-default" type="button" onclick="NoAdd()">Hủy</button>
+                                            <button class="btn btn-warning" type="button" onclick="AddSupplier()">Thêm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="AddEmployees" class="modal fade" tabindex="-1" role="dialog">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content" id="parsley-div">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="NoAdd()">&times;</button>
+                                            <h4 class="modal-title">Thêm Nhân Viên</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label " style="color:red;display:none" id="requiredUserName">Bạn Phải Nhập UserName</label><br />
+                                                <label class="control-label " style="color:red;display:none" id="requiredFullName">Bạn Phải Nhập Tên Đầy Đủ</label>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">UserName</label>
+                                                <div class="col-md-8 ">
+                                                    <input type="text" class="form-control myctr form" name="UserName" id="UserName" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix">
+                                                <label class="control-label col-md-4 ">Tên Đầy Đủ</label>
+                                                <div class="col-md-8 ">
+                                                    <input type="text" class="form-control myctr form" name="FullName" id="FullName" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label  col-md-4 ">Email</label>
+                                                <div class="col-md-8 ">
+                                                    <input type="email" class="form-control myctr form" name="Email" id="Email" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">Phone</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control myctr form" name="PhoneNumber" id="PhoneNumber" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix">
+                                                <label class="control-label col-md-4 ">Địa Chỉ</label>
+                                                <div class="col-md-8">
+                                                    <textarea class="form-control form" rows="2" id="Address" name="Address"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">Phòng</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control myctr form" name="Department" autocomplete="off" id="Department">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">Vị Trí</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control myctr form" name="Position" autocomplete="off" id="Position">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button data-dismiss="modal" class="btn btn-default" type="button" onclick="NoAdd()">Hủy</button>
+                                            <button class="btn btn-warning" type="button" onclick="AddEmployees()">Thêm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Mã Vạch</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <img class="center" id="BarCodeDevice" alt="" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-success" onclick="printImg()">Print</button>
+                                            <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="editemployees" class="modal fade" tabindex="-1" role="dialog">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content" id="parsley-div">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title">Sửa Nhân Viên</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">UserName</label>
+                                                <div class="col-md-8 ">
+                                                    <input type="text" class="form-control myctr form" id="EditName" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix">
+                                                <label class="control-label col-md-4 ">Tên Đầy Đủ</label>
+                                                <div class="col-md-8 ">
+                                                    <input type="text" class="form-control myctr form" id="EditFullName" autocomplete="off">
+                                                    <input type="hidden" class="form-control myctr form" id="EditID">
+                                                    <input type="hidden" class="form-control myctr form" id="EditAddress">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label  col-md-4 ">Email</label>
+                                                <div class="col-md-8 ">
+                                                    <input type="email" class="form-control myctr form" id="EditEmail" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">Phone</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control myctr form" id="EditPhone" autocomplete="off">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">Phòng</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control myctr form" autocomplete="off" id="EditDepartment">
+                                                </div>
+                                            </div>
+                                            <div class="form-group m-bot15 clearfix ">
+                                                <label class="control-label col-md-4 ">Vị Trí</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control myctr form" autocomplete="off" id="EditPosition">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                                            <button class="btn btn-warning" type="button" onclick="EditEmployees()">Sửa</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+
+
+</section>
+
+@*Chia Tab*@
+
+
+
+<script src="~/Scripts/parsley.js"></script>
+<script>
+    CKEDITOR.replace('Configuration')
+    CKEDITOR.replace('PurchaseContract')
+    CKEDITOR.replace('Notesdv')
+    $('.parentid').select2();
+    $('.DeviceType').select2();
+    $('.SuplierSelect').select2();
+    $('.userid').select2();
+    $('.projectid').select2();
+  
+    $('.Device').addClass('active');
+    $('.Create').addClass('active');
+</script>
+<script>
+    var CreateSupplier = function () {
+        $("#AddSupplier").modal('show');
+        $('#Name').val('');
+        $('#Email').val('');
+        $('#PhoneNumber').val('');
+        $("#Address").val('');
+        $("#Support").val('');
+    }
+    var AddSupplier = function () {
+        var NameSupplier = $("#Name");
+        if (!NameSupplier.val().trim()) {
+            // Add errors highlight
+            NameSupplier.closest('.form-group').removeClass('has-success').addClass('has-error');
+            $("#requiredsupplier").show()
+        } else {
+            // Remove the errors highlight
+            NameSupplier.closest('.form-group').removeClass('has-error').addClass('has-success');
+            var Name = $("#Name").val();
+            var Email = $("#Email").val();
+            var PhoneNumber = $("#PhoneNumber").val();
+            var Address = $("#Address").val();
+            var Support = $("#Support").val();
+            $.ajax({
+                type: "POST",
+                url: "/Device/AddSupplier",
+                data: {
+                    Name: Name,
+                    Email: Email,
+                    PhoneNumber: PhoneNumber,
+                    Address: Address,
+                    Support: Support
+                },
+                success: function (result) {
+                    if (result) {
+                        $("#AddSupplier").modal("hide");
+                        $("#divid").load(location.href + " #divid>*", "");
+                        $("#AddSupplier").load(location.href + " #AddSupplier>*", "");
+                    } else {
+                        $("#AddSupplier").modal("hide");
+                        alert("Thêm bị lỗi");
+                    }
+                }
+            })
+        }
+    }
+    document.getElementById("formdevice").onsubmit = function () {
+        var DeviceCode = $('#DeviceCode');
+        // Check if there is an entered value
+        var TypeOfDevice = $("#TypeOfDevice").val();
+        if (!DeviceCode.val().trim()) {
+            // Add errors highlight
+            DeviceCode.closest('.form-group').removeClass('has-success').addClass('has-error');
+            $("#requiredcodedevice").show()
+            // Stop submission of the form
+            return false;
+        } else {
+            // Remove the errors highlight
+            DeviceCode.closest('.form-group').removeClass('has-error').addClass('has-success');
+        }
+    }
+</script>
+<script>
+    var NoAdd = function () {
+        $("#AddType").load(location.href + " #AddType>*", "");
+        $("#AddEmployees").load(location.href + " #AddEmployees>*", "");
+        $("#AddSupplier").load(location.href + " #AddSupplier>*", "");
+    }
+    var CreateType = function () {
+        $("#AddType").modal('show');
+        $('#TypeName').val('');
+        $('#TypeSymbol').val('');
+        $('#Notes').val('');
+    }
+    var AddType = function () {
+        var Typerequired = $('#TypeName');
+        // Check if there is an entered value
+        var TypeSymbol = $('#TypeSymbol');
+        var a = $('#TypeSymbol').val().trim().length
+        // Check if there is an entered value
+        if (a == 3) {
+            // Check if there is an entered value
+            if (!Typerequired.val().trim()) {
+                // Add errors highlight
+                Typerequired.closest('.form-group').removeClass('has-success').addClass('has-error');
+                $("#requiredtype").show()
+            } else if (!TypeSymbol.val().trim()) {
+                TypeSymbol.closest('.form-group').removeClass('has-success').addClass('has-error');
+                $("#requiredtypesymbol").show()
+                return false;
+            }
+            else {
+                // Remove the errors highlight
+                Typerequired.closest('.form-group').removeClass('has-error').addClass('has-success');
+                var TypeName = $("#TypeName").val();
+                var Notes = $("#Notes").val();
+                var TypeSymbol = $("#TypeSymbol").val();
+                $.ajax({
+                    type: "POST",
+                    url: "/Device/AddDeviceType",
+                    data: {
+                        TypeSymbol: TypeSymbol,
+                        TypeName: TypeName,
+                        Notes: Notes
+                    },
+                    success: function (result) {
+                        if (result) {
+                            $("#AddType").modal("hide");
+                            $("#divtype").load(location.href + " #divtype>*", "");
+                            $("#AddType").load(location.href + " #AddType>*", "");
+                        } else {
+                            alert("Ký Hiệu Loại Đã Được Dùng");
+                        }
+                    }
+                })
+            }
+        }
+        else {
+            alert('Ký Hiệu Loại Có Đúng 3 Chữ Cái')
+        }
+    }
+</script>
+<script>
+    var CreateEmployees = function () {
+        $("#AddEmployees").modal('show');
+        $("#UserName").val('');
+        $("#FullName").val('');
+        $("#Email").val('');
+        $("#PhoneNumber").val('');
+        $("#Address").val('');
+        $("#Department").val('');
+        $("#Position").val('');
+    }
+    var AddEmployees = function () {
+        var NameUser = $("#UserName");
+        var FullUserName = $("#FullName");
+        if (!NameUser.val().trim()) {
+            // Add errors highlight
+            NameUser.closest('.form-group').removeClass('has-success').addClass('has-error');
+            $("#requiredUserName").show();
+        }
+        else if (!FullUserName.val().trim()) {
+            // Add errors highlight
+            FullUserName.closest('.form-group').removeClass('has-success').addClass('has-error');
+            $("#requiredFullName").show()
+        }
+        else {
+            var UserName = $("#UserName").val();
+            var FullName = $("#FullName").val();
+            var Email = $("#Email").val();
+            var PhoneNumber = $("#PhoneNumber").val();
+            var Address = $("#Address").val();
+            var Department = $("#Department").val();
+            var Position = $("#Position").val();
+            $.ajax({
+                type: "POST",
+                url: "/Device/AddEmployees",
+                data: {
+                    UserName: UserName,
+                    FullName: FullName,
+                    Email: Email,
+                    PhoneNumber: PhoneNumber,
+                    Address: Address,
+                    Department: Department,
+                    Position: Position
+                },
+                success: function (result) {
+                    if (result) {
+                        $("#AddEmployees").modal("hide");
+                        $("#AddEmployees").load(location.href + " #AddEmployees>*", "");
+                        $("#Employees").load(location.href + " #Employees>*", "");
+                    } else {
+                        $("#AddEmployees").modal("hide");
+                        alert("Thêm bị lỗi");
+                    }
+                }
+            })
+
+        }
+    }
+</script>
+<script>
+    var CreateDeviceCode = function () {
+        var TypeOfDevice = $("#TypeOfDevice").val();
+        if (TypeOfDevice == 0) {
+            alert("Bạn Phải chọn loại thiết bị");
+        }
+        else {
+            $.ajax({
+                url: '/Device/AddDeviceCode',
+                data: {
+                    TypeOfDevice: TypeOfDevice,
+                },
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var data = response.data;
+                    $('#DeviceCode').val(data);
+                },
+            });
+        }
+    }
+</script>
+<script>
+    var ChangePRJ = function () {
+        Prjdkc = $('#ProjectDKC').val()
+        if (Prjdkc == 0) {
+            $("#Status option[value=0]").prop("selected", "selected")
+            $("#Status option[value=0]").removeAttr('disabled');
+            $("#Status option[value=3]").removeAttr('disabled');
+            $("#Status option[value=1]").attr('disabled', 'disabled');
+        }
+        else {
+            $("#Status option[value=1]").prop("selected", "selected")
+            $("#Status option[value=1]").removeAttr('disabled');
+            $("#Status option[value=0]").attr('disabled', 'disabled');
+            $("#Status option[value=3]").attr('disabled', 'disabled');
+        }
+    }
+    var ChangeType = function () {
+        var TypeOfDevice = $("#TypeOfDevice").val();
+        if (TypeOfDevice == 0) {
+            alert("Bạn Phải chọn loại thiết bị");
+        }
+        else {
+            $.ajax({
+                url: '/Device/AddDeviceCode',
+                data: {
+                    TypeOfDevice: TypeOfDevice,
+                },
+                type: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    var data = response.data;
+                    $('#DeviceCode').val(data);
+                },
+            });
+        }
+    }
+</script>
+<script>
+    var GenBarCode = function () {
+        var barcode = $('#DeviceCode').val().trim();
+        if (!barcode) {
+            alert("Bạn Phải Nhập Mã Thiết  Bị")
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/Device/GenerateBarCode",
+                data: {
+                    barcode: barcode,
+                },
+                success: function (response) {
+                    var data = response.data;
+                    $('#myModal').modal('show')
+                    var BarCodeDevice = $("#BarCodeDevice");
+                    $("#BarCodeDevice").attr('src', data);
+                }
+            })
+        }
+    }
+    var printImg = function () {
+        var win = window.open('');
+        var url = document.getElementById('BarCodeDevice').src
+        win.document.write('<img src="' + url + '" onload="window.print();window.close()" />');
+        win.focus();
+    }
+</script>
+<script>
+    var GetEmployees = function () {
+        $('#editemployees').modal('show');
+        var id = $("#UserId").val()
+        $.ajax({
+            url: '/Device/GetEmployees',
+            data: {
+                id: id
+            },
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var data = response.data;
+               
+                $('#EditName').val(data.UserName);
+                $('#EditFullName').val(data.FullName);
+                $('#EditEmail').val(data.Email);
+                $('#EditPhone').val(data.PhoneNumber);
+                $('#EditDepartment').val(data.Department);
+                $('#EditPosition').val(data.Position);
+                $('#EditID').val(data.Id);
+                ('#EditAddress').val(data.Address);
+            },
+        });
+    }
+    var EditEmployees = function () {
+        var dvId = $("#EditID").val();
+        var UserName = $('#EditName').val();
+        var FullName = $('#EditFullName').val();
+        var PhoneNumber = $('#EditPhone').val();
+        var Email = $('#EditEmail').val();
+        var Department = $('#EditDepartment').val();
+        var Position = $('#EditPosition').val();
+        var Address = $('#EditAddress').val();
+        $.ajax({
+            url: '/Device/EditEmployees',
+            data: {
+                Id: dvId,
+                UserName: UserName,
+                FullName: FullName,
+                PhoneNumber: PhoneNumber,
+                Email: Email,
+                Department: Department,
+                Position: Position
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+                if (result) {
+                    $("#editemployees").modal("hide");
+                } else {
+                    $("#editemployees").modal("hide");
+                    alert("Sửa lỗi");
+                }
+            }
+        });
+    }
+    var ChangeEmployees = function () {
+        var id = $("#UserId").val()
+        if (id != 0) {
+            $("#edituser").show()
+        }
+        else {
+            $("#edituser").hide()
+        }
+    }
+  
+    // DInh dang so 
+    function FormatNumberValue(strvalue) {
+        var num;
+
+        num = strvalue.toString().replace(/\$|\,/g, '');
+        if (isNaN(num))
+            num = "";
+        sign = (num == (num = Math.abs(num)));
+        num = Math.floor(num * 100 + 0.50000000001);
+        num = Math.floor(num / 100).toString();
+        for (var i = 0; i < Math.floor((num.length - (1 + i)) / 3) ; i++)
+            num = num.substring(0, num.length - (4 * i + 3)) + ',' +
+            num.substring(num.length - (4 * i + 3));
+        return (((sign) ? '' : '-') + num);
+
+    }
+    //dinh dang so
+    function FormatNumber(obj) {
+
+        var strvalue;
+        if (eval(obj))
+            strvalue = eval(obj).value;
+        else
+            strvalue = obj;
+        eval(obj).value = FormatNumberValue(strvalue);
+    }
+
+ 
+
+    //  var formatNumber = function () {
+    //    var x = $("#Price").val()
+    //
+    //    x.value = format1(x, '£')
+
+    //    return x;
+    //  }
+
+</script>

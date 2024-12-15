@@ -1,0 +1,116 @@
+﻿@using QuanLyTaiSan_UserManagement.Models
+@using QuanLyTaiSan_UserManagement.Helper;
+@{
+    ViewBag.Title = "Nhà Cung Cấp";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Nhà Cung Cấp
+                <div class="btn-group pull-right">
+                    @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Supplier") && k.ActionName.Equals("AddSupplier")))
+                    {*@
+                        <button class="btn green btn-success" data-toggle="modal" href="#myModals">
+                            Thêm mới<i class="icon-plus"></i>
+                        </button>
+                    @*}*@
+                </div>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div class="clearfix ">
+                        <table class="display table table-bordered table-striped table-hover" id="example">
+                            <thead>
+                                <tr>
+                                    <th>Tên Nhà Cung Cấp</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Địa Chỉ</th>
+                                    <th>Liên Lạc bảo hành</th>
+                                    <th>Trạng Thái</th>
+                                    <th>Xem</th>
+                                    <th>Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewData["Supplier"] as IList<Supplier>)
+                                {
+                                    <tr class="gradeA">
+                                        <td>
+                                            @item.Name
+                                        </td>
+                                        <td>@item.Email</td>
+                                        <td>@item.Phone</td>
+                                        <td>@item.Address</td>
+                                        <td>@item.Support</td>
+                                        <td>@Html.Raw(item.Status.Value.GetEnumDescription(typeof(eStatus.SupplierStatus)))</td>
+                                        <td class="center"><a class="edit icon-eye-open" href="@Url.Action("EditSupplier", "Supplier",new { Id = item.Id })"></a></td>
+                                        <td class="center">
+                                            @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Supplier") && k.ActionName.Equals("DeleteSupplier")))
+                                            {*@
+                                                <a class="icon-trash" onclick="ConfirmDelete(@item.Id)"></a>
+                                            @*}*@
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <input type="hidden" id="hiddenId" />
+                    </div>
+                </div>
+            </div>
+            @Html.Partial("~/Views/Supplier/CreateSupplier.cshtml")
+            <div class="modal fade" id="supplierdelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">DELETE</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn xóa nhà cung cấp ?
+                            <div style="text-align:center;display:none" id="loaderDiv">
+                                <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <button class="btn btn-warning" onclick="DeleteSupplier()"> Xoá</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    $('.Tool').addClass('active');
+    $('.Supplier').addClass('active');
+    var ConfirmDelete = function (Id) {
+        $("#hiddenId").val(Id);
+        $("#supplierdelete").modal('show')
+    }
+    var DeleteSupplier = function () {
+        $("#loaderDiv").show();
+        var dvId = $("#hiddenId").val();
+        $.ajax({
+            type: "POST",
+            url: "/Supplier/DeleteSupplier",
+            data: { Id: dvId },
+            success: function (result) {
+                if (result) {
+                    $("#loaderDiv").hide();
+                    $("#supplierdelete").modal("hide");
+                    window.location = '@Url.Action("Supplier", "Supplier")';
+                } else {
+                    $("#loaderDiv").hide();
+                    $("#supplierdelete").modal("hide");
+                    alert("Xóa nhà cung cấp bị lỗi");
+                }
+            }
+        });
+    }
+</script>
+

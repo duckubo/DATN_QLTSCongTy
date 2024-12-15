@@ -1,0 +1,1579 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QuanLyTaiSanCtyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="DestructivelDevice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DeviceId" Type="Int32" />
+    <Property Name="DateOfDestructive" Type="DateTime" Precision="0" />
+    <Property Name="TypeOfDestructive" Type="Int32" />
+    <Property Name="AddressOfDestructive" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="DestructiveType" Relationship="Self.FK_CancelDevice_CancelType" FromRole="DestructivelDevice" ToRole="DestructiveType" />
+    <NavigationProperty Name="Device" Relationship="Self.FK_CancelDevice_Device" FromRole="DestructivelDevice" ToRole="Device" />
+    <NavigationProperty Name="User" Relationship="Self.FK_CancelDevice_User" FromRole="DestructivelDevice" ToRole="User" />
+  </EntityType>
+  <EntityType Name="DestructiveType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="DestructivelDevices" Relationship="Self.FK_CancelDevice_CancelType" FromRole="DestructiveType" ToRole="DestructivelDevice" />
+  </EntityType>
+  <EntityType Name="Device">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DeviceCode" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <Property Name="DeviceName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="TypeOfDevice" Type="Int32" Nullable="true" />
+    <Property Name="ParentId" Type="Int32" />
+    <Property Name="Configuration" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="PurchaseContract" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="DateOfPurchase" Type="DateTime" Precision="0" />
+    <Property Name="SupplierId" Type="Int32" />
+    <Property Name="Guarantee" Type="DateTime" Precision="0" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="DestructivelDevices" Relationship="Self.FK_CancelDevice_Device" FromRole="Device" ToRole="DestructivelDevice" />
+    <NavigationProperty Name="DeviceType" Relationship="Self.FK_Device_DeviceType" FromRole="Device" ToRole="DeviceType" />
+    <NavigationProperty Name="Supplier" Relationship="Self.FK_Device_Supplier" FromRole="Device" ToRole="Supplier" />
+    <NavigationProperty Name="User" Relationship="Self.FK_Device_User" FromRole="Device" ToRole="User" />
+    <NavigationProperty Name="DeviceOfProjects" Relationship="Self.FK_DeviceOfProject_Device" FromRole="Device" ToRole="DeviceOfProject" />
+    <NavigationProperty Name="RepairDetails" Relationship="Self.FK_RepairDetails_Device" FromRole="Device" ToRole="RepairDetails" />
+    <NavigationProperty Name="ScheduleTests" Relationship="Self.FK_ScheduleTest_Device" FromRole="Device" ToRole="ScheduleTest" />
+    <NavigationProperty Name="UsageDevices" Relationship="QuanLyTaiSanCtyModel.FK_UsageDevice_Device" FromRole="Device" ToRole="UsageDevice" />
+    <Property Name="StatusRepair" Type="Int32" />
+    <Property Name="Notes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="NewCode" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <NavigationProperty Name="DeviceDevices" Relationship="QuanLyTaiSanCtyModel.FK_DeviceDevice_Device" FromRole="Device" ToRole="DeviceDevice" />
+    <NavigationProperty Name="DeviceDevices1" Relationship="QuanLyTaiSanCtyModel.FK_DeviceDevice_Device1" FromRole="Device" ToRole="DeviceDevice" />
+  </EntityType>
+  <EntityType Name="DeviceOfProject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectId" Type="Int32" />
+    <Property Name="DeviceId" Type="Int32" />
+    <Property Name="DateOfDelivery" Type="DateTime" Precision="0" />
+    <Property Name="DateOfReturn" Type="DateTime" Precision="0" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="Notes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="Device" Relationship="Self.FK_DeviceOfProject_Device" FromRole="DeviceOfProject" ToRole="Device" />
+    <NavigationProperty Name="ProjectDKC" Relationship="Self.FK_DeviceOfProject_ProjectDKC" FromRole="DeviceOfProject" ToRole="ProjectDKC" />
+  </EntityType>
+  <EntityType Name="DeviceType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="true" />
+    <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Devices" Relationship="Self.FK_Device_DeviceType" FromRole="DeviceType" ToRole="Device" />
+    <NavigationProperty Name="RequestDevices" Relationship="Self.FK_RequestDevice_DeviceType" FromRole="DeviceType" ToRole="RequestDevice" />
+    <Property Name="TypeSymbol" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="OrderCode" Type="Int32" />
+    <NavigationProperty Name="DeviceTypeComponantTypes" Relationship="QuanLyTaiSanCtyModel.FK_DeviceTypeComponantType_DeviceType" FromRole="DeviceType" ToRole="DeviceTypeComponantType" />
+    <NavigationProperty Name="DeviceTypeComponantTypes1" Relationship="QuanLyTaiSanCtyModel.FK_DeviceTypeComponantType_DeviceType1" FromRole="DeviceType" ToRole="DeviceTypeComponantType" />
+  </EntityType>
+  <EntityType Name="ProjectDKC">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ManagerProject" Type="Int32" />
+    <Property Name="Address" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="FromDate" Type="DateTime" Precision="0" />
+    <Property Name="ToDate" Type="DateTime" Precision="0" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="DeviceOfProjects" Relationship="Self.FK_DeviceOfProject_ProjectDKC" FromRole="ProjectDKC" ToRole="DeviceOfProject" />
+    <NavigationProperty Name="User" Relationship="Self.FK_ProjectDKC_User" FromRole="ProjectDKC" ToRole="User" />
+    <NavigationProperty Name="UsageDevices" Relationship="QuanLyTaiSanCtyModel.FK_UsageDevice_ProjectDKC" FromRole="ProjectDKC" ToRole="UsageDevice" />
+    <Property Name="ProjectSymbol" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
+    <Property Name="TypeProject" Type="Int32" />
+  </EntityType>
+  <EntityType Name="RepairDetail">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DeviceId" Type="Int32" />
+    <Property Name="DateOfRepair" Type="DateTime" Precision="0" />
+    <Property Name="NextDateOfRepair" Type="DateTime" Precision="0" />
+    <Property Name="TimeOrder" Type="Int32" />
+    <Property Name="TypeOfRepair" Type="Int32" />
+    <Property Name="AddressOfRepair" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="CreateDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Device" Relationship="Self.FK_RepairDetails_Device" FromRole="RepairDetails" ToRole="Device" />
+    <NavigationProperty Name="RepairType" Relationship="Self.FK_RepairDetails_RepairType" FromRole="RepairDetails" ToRole="RepairType" />
+    <NavigationProperty Name="User" Relationship="Self.FK_RepairDetails_User" FromRole="RepairDetails" ToRole="User" />
+    <Property Name="Price" Type="Double" />
+    <Property Name="Status" Type="Int32" />
+  </EntityType>
+  <EntityType Name="RepairType">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="RepairDetails" Relationship="Self.FK_RepairDetails_RepairType" FromRole="RepairType" ToRole="RepairDetails" />
+  </EntityType>
+  <EntityType Name="RequestDevice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserRequest" Type="Int32" />
+    <Property Name="DateOfRequest" Type="DateTime" Precision="0" />
+    <Property Name="DateOfUse" Type="DateTime" Precision="0" />
+    <Property Name="DeviceName" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="TypeOfDevice" Type="Int32" />
+    <Property Name="Configuration" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="Notes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="Approved" Type="Boolean" />
+    <Property Name="UserApproved" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="Status" Type="Int32" />
+    <NavigationProperty Name="DeviceType" Relationship="Self.FK_RequestDevice_DeviceType" FromRole="RequestDevice" ToRole="DeviceType" />
+    <NavigationProperty Name="User" Relationship="Self.FK_RequestDevice_User" FromRole="RequestDevice" ToRole="User" />
+    <Property Name="NumDevice" Type="Int32" />
+    <Property Name="NoteProcess" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="NoteReasonRefuse" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="NameUserApproved" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="ScheduleTest">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DeviceId" Type="Int32" />
+    <Property Name="DateOfTest" Type="DateTime" Precision="0" />
+    <Property Name="NextDateOfTest" Type="DateTime" Precision="0" />
+    <Property Name="CategoryTest" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="UserTest" Type="Int32" />
+    <Property Name="Notes" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="CreateDate" Type="DateTime" Precision="0" />
+    <NavigationProperty Name="Device" Relationship="Self.FK_ScheduleTest_Device" FromRole="ScheduleTest" ToRole="Device" />
+    <NavigationProperty Name="User" Relationship="Self.FK_ScheduleTest_User" FromRole="ScheduleTest" ToRole="User" />
+  </EntityType>
+  <EntityType Name="Supplier">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <Property Name="Phone" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Support" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Status" Type="Int32" />
+    <NavigationProperty Name="Devices" Relationship="Self.FK_Device_Supplier" FromRole="Supplier" ToRole="Device" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <Property Name="PassWord" Type="String" MaxLength="200" FixedLength="true" Unicode="false" />
+    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="true" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="Department" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="RoleId" Type="Int32" />
+    <Property Name="Status" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="DestructivelDevices" Relationship="Self.FK_CancelDevice_User" FromRole="User" ToRole="DestructivelDevice" />
+    <NavigationProperty Name="Devices" Relationship="Self.FK_Device_User" FromRole="User" ToRole="Device" />
+    <NavigationProperty Name="ProjectDKCs" Relationship="Self.FK_ProjectDKC_User" FromRole="User" ToRole="ProjectDKC" />
+    <NavigationProperty Name="RepairDetails" Relationship="Self.FK_RepairDetails_User" FromRole="User" ToRole="RepairDetails" />
+    <NavigationProperty Name="RequestDevices" Relationship="Self.FK_RequestDevice_User" FromRole="User" ToRole="RequestDevice" />
+    <NavigationProperty Name="ScheduleTests" Relationship="Self.FK_ScheduleTest_User" FromRole="User" ToRole="ScheduleTest" />
+    <NavigationProperty Name="UsageDevices" Relationship="QuanLyTaiSanCtyModel.FK_UsageDevice_User" FromRole="User" ToRole="UsageDevice" />
+    <Property Name="GroupID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_CancelDevice_CancelType">
+    <End Role="DestructiveType" Type="Self.DestructiveType" Multiplicity="0..1" />
+    <End Role="DestructivelDevice" Type="Self.DestructivelDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DestructiveType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DestructivelDevice">
+        <PropertyRef Name="TypeOfDestructive" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CancelDevice_Device">
+    <End Role="Device" Type="Self.Device" Multiplicity="0..1" />
+    <End Role="DestructivelDevice" Type="Self.DestructivelDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DestructivelDevice">
+        <PropertyRef Name="DeviceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CancelDevice_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="DestructivelDevice" Type="Self.DestructivelDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DestructivelDevice">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Device_DeviceType">
+    <End Role="DeviceType" Type="Self.DeviceType" Multiplicity="0..1" />
+    <End Role="Device" Type="Self.Device" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeviceType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Device">
+        <PropertyRef Name="TypeOfDevice" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Device_Supplier">
+    <End Role="Supplier" Type="Self.Supplier" Multiplicity="0..1" />
+    <End Role="Device" Type="Self.Device" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Supplier">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Device">
+        <PropertyRef Name="SupplierId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Device_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="Device" Type="Self.Device" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Device">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeviceOfProject_Device">
+    <End Role="Device" Type="Self.Device" Multiplicity="0..1" />
+    <End Role="DeviceOfProject" Type="Self.DeviceOfProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeviceOfProject">
+        <PropertyRef Name="DeviceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RepairDetails_Device">
+    <End Role="Device" Type="Self.Device" Multiplicity="0..1" />
+    <End Role="RepairDetails" Type="Self.RepairDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RepairDetails">
+        <PropertyRef Name="DeviceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ScheduleTest_Device">
+    <End Role="Device" Type="Self.Device" Multiplicity="0..1" />
+    <End Role="ScheduleTest" Type="Self.ScheduleTest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ScheduleTest">
+        <PropertyRef Name="DeviceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeviceOfProject_ProjectDKC">
+    <End Role="ProjectDKC" Type="Self.ProjectDKC" Multiplicity="0..1" />
+    <End Role="DeviceOfProject" Type="Self.DeviceOfProject" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectDKC">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeviceOfProject">
+        <PropertyRef Name="ProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequestDevice_DeviceType">
+    <End Role="DeviceType" Type="Self.DeviceType" Multiplicity="0..1" />
+    <End Role="RequestDevice" Type="Self.RequestDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeviceType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RequestDevice">
+        <PropertyRef Name="TypeOfDevice" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProjectDKC_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="ProjectDKC" Type="Self.ProjectDKC" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProjectDKC">
+        <PropertyRef Name="ManagerProject" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RepairDetails_RepairType">
+    <End Role="RepairType" Type="Self.RepairType" Multiplicity="0..1" />
+    <End Role="RepairDetails" Type="Self.RepairDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="RepairType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RepairDetails">
+        <PropertyRef Name="TypeOfRepair" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RepairDetails_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="RepairDetails" Type="Self.RepairDetail" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RepairDetails">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RequestDevice_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="RequestDevice" Type="Self.RequestDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RequestDevice">
+        <PropertyRef Name="UserRequest" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ScheduleTest_User">
+    <End Role="User" Type="Self.User" Multiplicity="0..1" />
+    <End Role="ScheduleTest" Type="Self.ScheduleTest" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ScheduleTest">
+        <PropertyRef Name="UserTest" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QuanLyTaiSanCtyEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="DestructivelDevices" EntityType="Self.DestructivelDevice" />
+    <EntitySet Name="DestructiveTypes" EntityType="Self.DestructiveType" />
+    <EntitySet Name="Devices" EntityType="Self.Device" />
+    <EntitySet Name="DeviceOfProjects" EntityType="Self.DeviceOfProject" />
+    <EntitySet Name="DeviceTypes" EntityType="Self.DeviceType" />
+    <EntitySet Name="ProjectDKCs" EntityType="Self.ProjectDKC" />
+    <EntitySet Name="RepairDetails" EntityType="Self.RepairDetail" />
+    <EntitySet Name="RepairTypes" EntityType="Self.RepairType" />
+    <EntitySet Name="RequestDevices" EntityType="Self.RequestDevice" />
+    <EntitySet Name="ScheduleTests" EntityType="Self.ScheduleTest" />
+    <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+    <EntitySet Name="Users" EntityType="Self.User" />
+    <AssociationSet Name="FK_CancelDevice_CancelType" Association="Self.FK_CancelDevice_CancelType">
+      <End Role="DestructiveType" EntitySet="DestructiveTypes" />
+      <End Role="DestructivelDevice" EntitySet="DestructivelDevices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CancelDevice_Device" Association="Self.FK_CancelDevice_Device">
+      <End Role="Device" EntitySet="Devices" />
+      <End Role="DestructivelDevice" EntitySet="DestructivelDevices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CancelDevice_User" Association="Self.FK_CancelDevice_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="DestructivelDevice" EntitySet="DestructivelDevices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Device_DeviceType" Association="Self.FK_Device_DeviceType">
+      <End Role="DeviceType" EntitySet="DeviceTypes" />
+      <End Role="Device" EntitySet="Devices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Device_Supplier" Association="Self.FK_Device_Supplier">
+      <End Role="Supplier" EntitySet="Suppliers" />
+      <End Role="Device" EntitySet="Devices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Device_User" Association="Self.FK_Device_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="Device" EntitySet="Devices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeviceOfProject_Device" Association="Self.FK_DeviceOfProject_Device">
+      <End Role="Device" EntitySet="Devices" />
+      <End Role="DeviceOfProject" EntitySet="DeviceOfProjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RepairDetails_Device" Association="Self.FK_RepairDetails_Device">
+      <End Role="Device" EntitySet="Devices" />
+      <End Role="RepairDetails" EntitySet="RepairDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ScheduleTest_Device" Association="Self.FK_ScheduleTest_Device">
+      <End Role="Device" EntitySet="Devices" />
+      <End Role="ScheduleTest" EntitySet="ScheduleTests" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeviceOfProject_ProjectDKC" Association="Self.FK_DeviceOfProject_ProjectDKC">
+      <End Role="ProjectDKC" EntitySet="ProjectDKCs" />
+      <End Role="DeviceOfProject" EntitySet="DeviceOfProjects" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequestDevice_DeviceType" Association="Self.FK_RequestDevice_DeviceType">
+      <End Role="DeviceType" EntitySet="DeviceTypes" />
+      <End Role="RequestDevice" EntitySet="RequestDevices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProjectDKC_User" Association="Self.FK_ProjectDKC_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="ProjectDKC" EntitySet="ProjectDKCs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RepairDetails_RepairType" Association="Self.FK_RepairDetails_RepairType">
+      <End Role="RepairType" EntitySet="RepairTypes" />
+      <End Role="RepairDetails" EntitySet="RepairDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RepairDetails_User" Association="Self.FK_RepairDetails_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="RepairDetails" EntitySet="RepairDetails" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RequestDevice_User" Association="Self.FK_RequestDevice_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="RequestDevice" EntitySet="RequestDevices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ScheduleTest_User" Association="Self.FK_ScheduleTest_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="ScheduleTest" EntitySet="ScheduleTests" />
+    </AssociationSet>
+    <FunctionImport Name="AddDevice">
+      <Parameter Name="DeviceCode" Mode="In" Type="String" />
+      <Parameter Name="NewCode" Mode="In" Type="String" />
+      <Parameter Name="DeviceName" Mode="In" Type="String" />
+      <Parameter Name="TypeOfDevice" Mode="In" Type="Int32" />
+      <Parameter Name="ParentId" Mode="In" Type="Int32" />
+      <Parameter Name="Configuration" Mode="In" Type="String" />
+      <Parameter Name="Price" Mode="In" Type="Double" />
+      <Parameter Name="PurchaseContract" Mode="In" Type="String" />
+      <Parameter Name="DateOfPurchase" Mode="In" Type="DateTime" />
+      <Parameter Name="SupplierId" Mode="In" Type="Int32" />
+      <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+      <Parameter Name="Guarantee" Mode="In" Type="DateTime" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AddDeviceOfProject">
+      <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+      <Parameter Name="DeviceId" Mode="In" Type="Int32" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AddDeviceType">
+      <Parameter Name="TypeName" Mode="In" Type="String" />
+      <Parameter Name="TypeSymbol" Mode="In" Type="String" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AddProject_">
+      <Parameter Name="ProjectSymbol" Mode="In" Type="String" />
+      <Parameter Name="ProjectName" Mode="In" Type="String" />
+      <Parameter Name="ManagerProject" Mode="In" Type="Int32" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AddRepairDetails">
+      <Parameter Name="DeviceId" Mode="In" Type="Int32" />
+      <Parameter Name="DateOfRepair" Mode="In" Type="DateTime" />
+      <Parameter Name="NextDateOfRepair" Mode="In" Type="DateTime" />
+      <Parameter Name="TimeOrder" Mode="In" Type="Int32" />
+      <Parameter Name="TypeOfRepair" Mode="In" Type="Int32" />
+      <Parameter Name="AddressOfRepair" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AddRepairType">
+      <Parameter Name="TypeName" Mode="In" Type="String" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AddRequestDevice">
+      <Parameter Name="UserRequest" Mode="In" Type="Int32" />
+      <Parameter Name="DateOfRequest" Mode="In" Type="DateTime" />
+      <Parameter Name="DateOfUse" Mode="In" Type="DateTime" />
+      <Parameter Name="DeviceName" Mode="In" Type="String" />
+      <Parameter Name="TypeOfDevice" Mode="In" Type="Int32" />
+      <Parameter Name="Configuration" Mode="In" Type="String" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+      <Parameter Name="NumDevice" Mode="In" Type="Int32" />
+      <Parameter Name="UserApproved" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AddRole">
+      <Parameter Name="RoleName" Mode="In" Type="String" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AddScheduleTest">
+      <Parameter Name="DeviceId" Mode="In" Type="Int32" />
+      <Parameter Name="DateOfTest" Mode="In" Type="DateTime" />
+      <Parameter Name="NextDateOfTest" Mode="In" Type="DateTime" />
+      <Parameter Name="CategoryTest" Mode="In" Type="String" />
+      <Parameter Name="UserTest" Mode="In" Type="Int32" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AddSupplier">
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="Phone" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Support" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="AddUser">
+      <Parameter Name="UserName" Mode="In" Type="String" />
+      <Parameter Name="PassWord" Mode="In" Type="String" />
+      <Parameter Name="FullName" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="PhoneNumber" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Department" Mode="In" Type="String" />
+      <Parameter Name="Position" Mode="In" Type="String" />
+      <Parameter Name="RoleId" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteDevice">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteDeviceOfProject">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteDeviceType">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteProject">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteRepairDetails">
+      <Parameter Name="Id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteRepairType">
+      <Parameter Name="Id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteRequestDevice">
+      <Parameter Name="Id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteRole">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteScheduleTest">
+      <Parameter Name="Id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteSupplier">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteUser">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeviceById" ReturnType="Collection(QuanLyTaiSanCtyModel.DeviceById_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeviceTypeById" ReturnType="Collection(QuanLyTaiSanCtyModel.DeviceTypeById_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="EditRepairDetails">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="DeviceId" Mode="In" Type="Int32" />
+      <Parameter Name="DateOfRepair" Mode="In" Type="DateTime" />
+      <Parameter Name="NextDateOfRepair" Mode="In" Type="DateTime" />
+      <Parameter Name="TimeOrder" Mode="In" Type="Int32" />
+      <Parameter Name="TypeOfRepair" Mode="In" Type="Int32" />
+      <Parameter Name="AddressOfRepair" Mode="In" Type="String" />
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+      <Parameter Name="Price" Mode="In" Type="Double" />
+    </FunctionImport>
+    <FunctionImport Name="EditRepairType">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="TypeName" Mode="In" Type="String" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ProjectById" ReturnType="Collection(QuanLyTaiSanCtyModel.ProjectById_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="RoleById" ReturnType="Collection(QuanLyTaiSanCtyModel.RoleById_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SeachDeviceOfProject">
+      <Parameter Name="devicetypes" Mode="In" Type="Int32" />
+      <Parameter Name="status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SearchDevice" ReturnType="Collection(QuanLyTaiSanCtyModel.SearchDevice_Result)">
+      <Parameter Name="status" Mode="In" Type="Int32" />
+      <Parameter Name="devicetype" Mode="In" Type="Int32" />
+      <Parameter Name="guarantee" Mode="In" Type="Int32" />
+      <Parameter Name="projectid" Mode="In" Type="Int32" />
+      <Parameter Name="devicecode" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SearchDeviceType" ReturnType="Collection(QuanLyTaiSanCtyModel.SearchDeviceType_Result)" />
+    <FunctionImport Name="SearchProject" ReturnType="Collection(QuanLyTaiSanCtyModel.SearchProject_Result)">
+      <Parameter Name="managerProject" Mode="In" Type="Int32" />
+      <Parameter Name="status" Mode="In" Type="Int32" />
+      <Parameter Name="TypeProject" Mode="In" Type="Int32" />
+      <Parameter Name="ProjectSymbol" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SearchRole" ReturnType="Collection(QuanLyTaiSanCtyModel.SearchRole_Result)" />
+    <FunctionImport Name="SearchSupplier">
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SearchUser" ReturnType="Collection(QuanLyTaiSanCtyModel.SearchUser_Result)">
+      <Parameter Name="status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(QuanLyTaiSanCtyModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(QuanLyTaiSanCtyModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="SupplierById" ReturnType="Collection(QuanLyTaiSanCtyModel.SupplierById_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateDevice">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="DeviceCode" Mode="In" Type="String" />
+      <Parameter Name="NewCode" Mode="In" Type="String" />
+      <Parameter Name="DeviceName" Mode="In" Type="String" />
+      <Parameter Name="TypeOfDevice" Mode="In" Type="Int32" />
+      <Parameter Name="ParentId" Mode="In" Type="Int32" />
+      <Parameter Name="Configuration" Mode="In" Type="String" />
+      <Parameter Name="Price" Mode="In" Type="Double" />
+      <Parameter Name="PurchaseContract" Mode="In" Type="String" />
+      <Parameter Name="DateOfPurchase" Mode="In" Type="DateTime" />
+      <Parameter Name="SupplierId" Mode="In" Type="Int32" />
+      <Parameter Name="Guarantee" Mode="In" Type="DateTime" />
+      <Parameter Name="UserId" Mode="In" Type="Int32" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+      <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateDeviceOfProject">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+      <Parameter Name="DeviceId" Mode="In" Type="Int32" />
+      <Parameter Name="DateOfDelivery" Mode="In" Type="DateTime" />
+      <Parameter Name="DateOfReturn" Mode="In" Type="DateTime" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+      <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateDeviceType">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="TypeName" Mode="In" Type="String" />
+      <Parameter Name="TypeSymbol" Mode="In" Type="String" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateProject">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="ProjectSymbol" Mode="In" Type="String" />
+      <Parameter Name="ProjectName" Mode="In" Type="String" />
+      <Parameter Name="ManagerProject" Mode="In" Type="Int32" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+      <Parameter Name="CreatedDate" Mode="In" Type="DateTime" />
+      <Parameter Name="ModifiedDate" Mode="In" Type="DateTime" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+      <Parameter Name="IsDeleted" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateRequestDevice">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="UserRequest" Mode="In" Type="Int32" />
+      <Parameter Name="DateOfRequest" Mode="In" Type="DateTime" />
+      <Parameter Name="DateOfUse" Mode="In" Type="DateTime" />
+      <Parameter Name="DeviceName" Mode="In" Type="String" />
+      <Parameter Name="TypeOfDevice" Mode="In" Type="Int32" />
+      <Parameter Name="Configuration" Mode="In" Type="String" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+      <Parameter Name="Approved" Mode="In" Type="Boolean" />
+      <Parameter Name="UserApproved" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+      <Parameter Name="NumDevice" Mode="In" Type="Int32" />
+      <Parameter Name="NoteProcess" Mode="In" Type="String" />
+      <Parameter Name="NoteReasonRefuse" Mode="In" Type="String" />
+      <Parameter Name="NameUserApproved" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateRole">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="RoleName" Mode="In" Type="String" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateScheduleTest">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="DeviceId" Mode="In" Type="Int32" />
+      <Parameter Name="DateOfTest" Mode="In" Type="DateTime" />
+      <Parameter Name="NextDateOfTest" Mode="In" Type="DateTime" />
+      <Parameter Name="CategoryTest" Mode="In" Type="String" />
+      <Parameter Name="UserTest" Mode="In" Type="Int32" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateSupplier">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="Phone" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Support" Mode="In" Type="String" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UpdateUser">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+      <Parameter Name="UserName" Mode="In" Type="String" />
+      <Parameter Name="PassWord" Mode="In" Type="String" />
+      <Parameter Name="FullName" Mode="In" Type="String" />
+      <Parameter Name="Email" Mode="In" Type="String" />
+      <Parameter Name="PhoneNumber" Mode="In" Type="String" />
+      <Parameter Name="Address" Mode="In" Type="String" />
+      <Parameter Name="Department" Mode="In" Type="String" />
+      <Parameter Name="Position" Mode="In" Type="String" />
+      <Parameter Name="RoleId" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="UserById" ReturnType="Collection(QuanLyTaiSanCtyModel.UserById_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteDevice1">
+      <Parameter Name="Id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SelectList" ReturnType="Collection(QuanLyTaiSanCtyModel.SelectList_Result)">
+      <Parameter Name="Id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteProject1">
+      <Parameter Name="Id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="DeviceOfProjectAll" ReturnType="Collection(QuanLyTaiSanCtyModel.DeviceOfProjectAll_Result)">
+      <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="splitstring" IsComposable="true" ReturnType="Collection(String)">
+      <Parameter Name="stringToSplit" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="ReturnDeviceOfProject">
+      <Parameter Name="ProjectId" Mode="In" Type="Int32" />
+      <Parameter Name="DeviceId" Mode="In" Type="Int32" />
+      <Parameter Name="Notes" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="SearchRepairDetails" ReturnType="Collection(QuanLyTaiSanCtyModel.SearchRepairDetails_Result)">
+      <Parameter Name="repairtypes" Mode="In" Type="Int32" />
+      <Parameter Name="user" Mode="In" Type="Int32" />
+      <Parameter Name="iddevice" Mode="In" Type="Int32" />
+      <Parameter Name="status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="RepairDetailsById" ReturnType="Collection(QuanLyTaiSanCtyModel.RepairDetailsById_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="LiquidationDevice">
+      <Parameter Name="Id" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="RepairDetailsAll" ReturnType="Collection(QuanLyTaiSanCtyModel.RepairDetailsAll_Result)" />
+    <FunctionImport Name="SearchRequestDevice">
+      <Parameter Name="status" Mode="In" Type="Int32" />
+      <Parameter Name="approved" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SearchScheduleTest" ReturnType="Collection(QuanLyTaiSanCtyModel.SearchScheduleTest_Result)">
+      <Parameter Name="user" Mode="In" Type="Int32" />
+      <Parameter Name="status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ScheduleTestById" ReturnType="Collection(QuanLyTaiSanCtyModel.ScheduleTestById_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="HistoryScheduleTestById" ReturnType="Collection(QuanLyTaiSanCtyModel.HistoryScheduleTestById_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="HistoryRepairDetails" ReturnType="Collection(QuanLyTaiSanCtyModel.HistoryRepairDetails_Result)">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SearchRequestDeviceNew" ReturnType="Collection(QuanLyTaiSanCtyModel.SearchRequestDeviceNew_Result)">
+      <Parameter Name="status" Mode="In" Type="Int32" />
+      <Parameter Name="approved" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <EntitySet Name="UsageDevices" EntityType="QuanLyTaiSanCtyModel.UsageDevice" />
+    <AssociationSet Name="FK_UsageDevice_Device" Association="QuanLyTaiSanCtyModel.FK_UsageDevice_Device">
+      <End Role="Device" EntitySet="Devices" />
+      <End Role="UsageDevice" EntitySet="UsageDevices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsageDevice_ProjectDKC" Association="QuanLyTaiSanCtyModel.FK_UsageDevice_ProjectDKC">
+      <End Role="ProjectDKC" EntitySet="ProjectDKCs" />
+      <End Role="UsageDevice" EntitySet="UsageDevices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UsageDevice_User" Association="QuanLyTaiSanCtyModel.FK_UsageDevice_User">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UsageDevice" EntitySet="UsageDevices" />
+    </AssociationSet>
+    <FunctionImport Name="SearchUseDevice" ReturnType="Collection(QuanLyTaiSanCtyModel.SearchUseDevice_Result)">
+      <Parameter Name="DeviceId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="SearchRequestDevice1">
+      <Parameter Name="status" Mode="In" Type="Int32" />
+      <Parameter Name="approved" Mode="In" Type="Boolean" />
+    </FunctionImport>
+    <FunctionImport Name="SearchRepairDevice" ReturnType="Collection(QuanLyTaiSanCtyModel.SearchRepairDevice_Result)">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteRepairDetailsOne">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="ReturnDeviceProject">
+      <Parameter Name="DeviceId" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="OderCode" ReturnType="Collection(QuanLyTaiSanCtyModel.OderCode)">
+      <Parameter Name="Id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="StatisticalDevice" ReturnType="Collection(QuanLyTaiSanCtyModel.StatisticalDevice_Result)" />
+    <FunctionImport Name="StatisticProject" ReturnType="Collection(QuanLyTaiSanCtyModel.StatisticProject_Result)" />
+    <FunctionImport Name="DeviceHistory" ReturnType="Collection(QuanLyTaiSanCtyModel.DeviceHistory_Result)" />
+    <EntitySet Name="DeviceDevices" EntityType="QuanLyTaiSanCtyModel.DeviceDevice" />
+    <EntitySet Name="DeviceTypeComponantTypes" EntityType="QuanLyTaiSanCtyModel.DeviceTypeComponantType" />
+    <FunctionImport Name="ChildrenOfDevice" ReturnType="Collection(QuanLyTaiSanCtyModel.ChildrenOfDevice_Result)">
+      <Parameter Name="DeviceCodeParents" Mode="In" Type="Int32" />
+      <Parameter Name="TypeSymbolChildren" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="TypeComponantOfDevice" ReturnType="Collection(QuanLyTaiSanCtyModel.TypeComponantOfDevice_Result)">
+      <Parameter Name="TypeParent" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AddTypeChidren">
+      <Parameter Name="TypeChidren" Mode="In" Type="Int32" />
+      <Parameter Name="TypeParent" Mode="In" Type="Int32" />
+      <Parameter Name="Type_TypeCom" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="AddDeviceOfDevice">
+      <Parameter Name="IdParent" Mode="In" Type="Int32" />
+      <Parameter Name="IdChild" Mode="In" Type="Int32" />
+      <Parameter Name="TypeChild" Mode="In" Type="Int32" />
+      <Parameter Name="TypeParent" Mode="In" Type="Int32" />
+      <Parameter Name="TypeComponant" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteDeviceOfDevice">
+      <Parameter Name="IdParent" Mode="In" Type="Int32" />
+      <Parameter Name="IdChild" Mode="In" Type="Int32" />
+      <Parameter Name="Resons" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="Credentials" EntityType="QuanLyTaiSanCtyModel.Credential" />
+    <EntitySet Name="UserGroups" EntityType="QuanLyTaiSanCtyModel.UserGroup" />
+    <EntitySet Name="Roles" EntityType="QuanLyTaiSanCtyModel.Role" />
+    <FunctionImport Name="DeleteAllRole">
+      <Parameter Name="GroupId" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="UserLogins" EntityType="QuanLyTaiSanCtyModel.UserLogin" />
+    <AssociationSet Name="FK_Credential_UserGroup" Association="QuanLyTaiSanCtyModel.FK_Credential_UserGroup">
+      <End Role="Role" EntitySet="Roles" />
+      <End Role="Credential" EntitySet="Credentials" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Credential_UserGroup1" Association="QuanLyTaiSanCtyModel.FK_Credential_UserGroup1">
+      <End Role="UserGroup" EntitySet="UserGroups" />
+      <End Role="Credential" EntitySet="Credentials" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeviceDevice_Device" Association="QuanLyTaiSanCtyModel.FK_DeviceDevice_Device">
+      <End Role="Device" EntitySet="Devices" />
+      <End Role="DeviceDevice" EntitySet="DeviceDevices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeviceDevice_Device1" Association="QuanLyTaiSanCtyModel.FK_DeviceDevice_Device1">
+      <End Role="Device" EntitySet="Devices" />
+      <End Role="DeviceDevice" EntitySet="DeviceDevices" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeviceTypeComponantType_DeviceType" Association="QuanLyTaiSanCtyModel.FK_DeviceTypeComponantType_DeviceType">
+      <End Role="DeviceType" EntitySet="DeviceTypes" />
+      <End Role="DeviceTypeComponantType" EntitySet="DeviceTypeComponantTypes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DeviceTypeComponantType_DeviceType1" Association="QuanLyTaiSanCtyModel.FK_DeviceTypeComponantType_DeviceType1">
+      <End Role="DeviceType" EntitySet="DeviceTypes" />
+      <End Role="DeviceTypeComponantType" EntitySet="DeviceTypeComponantTypes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserLogin_UserGroup" Association="QuanLyTaiSanCtyModel.FK_UserLogin_UserGroup">
+      <End Role="UserGroup" EntitySet="UserGroups" />
+      <End Role="UserLogin" EntitySet="UserLogins" />
+    </AssociationSet>
+    <FunctionImport Name="UpdateUserDevice">
+      <Parameter Name="IdDv" Mode="In" Type="Int32" />
+      <Parameter Name="IdUser" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="DeleteTypeParentTypeChild">
+      <Parameter Name="TypeChidren" Mode="In" Type="Int32" />
+      <Parameter Name="TypeParent" Mode="In" Type="Int32" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="DeviceById_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="DeviceCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DeviceName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="TypeOfDevice" Nullable="true" />
+    <Property Type="Int32" Name="ParentId" Nullable="true" />
+    <Property Type="String" Name="Configuration" Nullable="true" MaxLength="500" />
+    <Property Type="Double" Name="Price" Nullable="true" />
+    <Property Type="String" Name="PurchaseContract" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="DateOfPurchase" Nullable="true" />
+    <Property Type="Int32" Name="SupplierId" Nullable="true" />
+    <Property Type="DateTime" Name="Guarantee" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" />
+    <Property Type="DateTime" Name="ModifiedDate" Nullable="true" />
+    <Property Type="Int32" Name="Status" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="String" Name="ProjectName" Nullable="true" />
+    <Property Type="Int32" Name="IdProject" Nullable="true" />
+    <Property Type="Int32" Name="StatusRepair" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" />
+    <Property Type="String" Name="NewCode" Nullable="true" />
+    <Property Type="String" Name="PriceOne" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="DeviceTypeById_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="TypeName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Notes" Nullable="true" MaxLength="1000" />
+  </ComplexType>
+  <ComplexType Name="ProjectById_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="ManagerProject" Nullable="true" />
+    <Property Type="String" Name="Address" Nullable="true" MaxLength="1000" />
+    <Property Type="DateTime" Name="FromDate" Nullable="true" />
+    <Property Type="DateTime" Name="ToDate" Nullable="true" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" />
+    <Property Type="DateTime" Name="ModifiedDate" Nullable="true" />
+    <Property Type="Int32" Name="Status" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="Int32" Name="Id1" Nullable="false" />
+    <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="PassWord" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="PhoneNumber" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="Address1" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Department" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Position" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="RoleId" Nullable="true" />
+    <Property Type="Int32" Name="Status1" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted1" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="RoleById_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="RoleName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Notes" Nullable="true" MaxLength="2000" />
+  </ComplexType>
+  <ComplexType Name="SearchDeviceType_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="TypeName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Notes" Nullable="true" MaxLength="1000" />
+  </ComplexType>
+  <ComplexType Name="SearchRole_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="RoleName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Notes" Nullable="true" MaxLength="2000" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="SupplierById_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Phone" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="Address" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Support" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="Status" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="UserById_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="UserName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="PassWord" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="PhoneNumber" Nullable="true" MaxLength="15" />
+    <Property Type="String" Name="Address" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Department" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="Position" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="RoleId" Nullable="true" />
+    <Property Type="Int32" Name="Status" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectList_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="DeviceCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DeviceName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="TypeOfDevice" Nullable="true" />
+    <Property Type="Int32" Name="ParentId" Nullable="true" />
+    <Property Type="String" Name="Configuration" Nullable="true" MaxLength="500" />
+    <Property Type="Double" Name="Price" Nullable="true" />
+    <Property Type="String" Name="PurchaseContract" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="DateOfPurchase" Nullable="true" />
+    <Property Type="Int32" Name="SupplierId" Nullable="true" />
+    <Property Type="DateTime" Name="Guarantee" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" />
+    <Property Type="DateTime" Name="ModifiedDate" Nullable="true" />
+    <Property Type="Int32" Name="Status" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="DeviceOfProjectAll_Result">
+    <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DeviceName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Configuration" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="TypeOfDevice" Nullable="true" />
+    <Property Type="DateTime" Name="DateOfDelivery" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="false" />
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="TypeName" Nullable="false" />
+    <Property Type="String" Name="DeviceCode" Nullable="false" />
+    <Property Type="Int32" Name="Status" Nullable="false" />
+    <Property Type="Int32" Name="StatusRepair" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SearchDevice_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="DeviceName" Nullable="true" />
+    <Property Type="String" Name="DeviceCode" Nullable="true" />
+    <Property Type="Double" Name="Price" Nullable="true" />
+    <Property Type="String" Name="TypeName" Nullable="true" />
+    <Property Type="String" Name="FullName" Nullable="true" />
+    <Property Type="String" Name="ProjectName" Nullable="true" />
+    <Property Type="String" Name="Configuration" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="true" />
+    <Property Type="Int32" Name="SupplierId" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="Int32" Name="StatusRepair" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" />
+    <Property Type="String" Name="NewCode" Nullable="true" />
+    <Property Type="String" Name="ProjectSymbol" Nullable="true" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="false" />
+    <Property Type="String" Name="PriceOne" Nullable="true" />
+    <Property Type="Int32" Name="ParentId" Nullable="true" />
+    <Property Type="Int32" Name="Status" Nullable="true" />
+    <Property Type="String" Name="NameTypeComponant" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SearchUser_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="UserName" Nullable="true" />
+    <Property Type="Int32" Name="Status" Nullable="false" />
+    <Property Type="String" Name="FullName" Nullable="true" />
+    <Property Type="String" Name="Email" Nullable="true" />
+    <Property Type="String" Name="PhoneNumber" Nullable="false" />
+    <Property Type="String" Name="Department" Nullable="true" />
+    <Property Type="String" Name="Position" Nullable="true" />
+    <Property Type="String" Name="Address" Nullable="true" />
+    <Property Type="String" Name="ProjectName" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="SearchProject_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="ProjectName" Nullable="true" />
+    <Property Type="Int32" Name="ManagerProject" Nullable="true" />
+    <Property Type="String" Name="Address" Nullable="true" />
+    <Property Type="DateTime" Name="FromDate" Nullable="true" />
+    <Property Type="DateTime" Name="ToDate" Nullable="true" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" />
+    <Property Type="DateTime" Name="ModifiedDate" Nullable="true" />
+    <Property Type="Int32" Name="Status" Nullable="false" />
+    <Property Type="String" Name="FullName" Nullable="true" />
+    <Property Type="String" Name="ProjectSymbol" Nullable="true" />
+    <Property Type="Int32" Name="NumDevice" Nullable="true" />
+    <Property Type="Int32" Name="TypeProject" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SearchRepairDetails_Result">
+    <Property Type="String" Name="DeviceName" Nullable="true" />
+    <Property Type="DateTime" Name="DateOfRepair" Nullable="true" />
+    <Property Type="String" Name="AddressOfRepair" Nullable="true" />
+    <Property Type="Int32" Name="TimeOrder" Nullable="true" />
+    <Property Type="String" Name="TypeName" Nullable="true" />
+    <Property Type="String" Name="FullName" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" />
+    <Property Type="DateTime" Name="NextDateOfRepair" Nullable="true" />
+    <Property Type="Int32" Name="DeviceId" Nullable="true" />
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="DeviceCode" Nullable="false" />
+    <Property Type="Int32" Name="Status" Nullable="false" />
+    <Property Type="Double" Name="Price" Nullable="true" />
+    <Property Type="String" Name="PriceOne" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="RepairDetailsById_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="DeviceId" Nullable="true" />
+    <Property Type="DateTime" Name="DateOfRepair" Nullable="true" />
+    <Property Type="DateTime" Name="NextDateOfRepair" Nullable="true" />
+    <Property Type="Int32" Name="TimeOrder" Nullable="true" />
+    <Property Type="Int32" Name="TypeOfRepair" Nullable="true" />
+    <Property Type="String" Name="AddressOfRepair" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" MaxLength="1000" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" />
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DeviceName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="TypeName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DeviceCode" Nullable="true" MaxLength="50" />
+    <Property Type="Double" Name="Price" Nullable="true" />
+    <Property Type="String" Name="DeviceTypeName" Nullable="true" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="Int32" Name="Status" Nullable="false" />
+    <Property Type="String" Name="PriceOne" Nullable="true" />
+    <Property Type="String" Name="PriceRepair" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="RepairDetailsAll_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="DeviceId" Nullable="true" />
+    <Property Type="String" Name="AddressOfRepair" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="DateOfRepair" Nullable="true" />
+    <Property Type="DateTime" Name="NextDateOfRepair" Nullable="true" />
+    <Property Type="Int32" Name="TimeOrder" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" MaxLength="1000" />
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DeviceName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="TypeName" Nullable="true" MaxLength="100" />
+  </ComplexType>
+  <ComplexType Name="SearchScheduleTest_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="DeviceId" Nullable="true" />
+    <Property Type="DateTime" Name="DateOfTest" Nullable="true" />
+    <Property Type="DateTime" Name="NextDateOfTest" Nullable="true" />
+    <Property Type="String" Name="CategoryTest" Nullable="true" />
+    <Property Type="Int32" Name="UserTest" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" />
+    <Property Type="Int32" Name="Status" Nullable="false" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" />
+    <Property Type="String" Name="FullName" Nullable="false" />
+    <Property Type="String" Name="DeviceName" Nullable="true" />
+    <Property Type="String" Name="DeviceCode" />
+  </ComplexType>
+  <ComplexType Name="ScheduleTestById_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="DeviceId" Nullable="true" />
+    <Property Type="DateTime" Name="DateOfTest" Nullable="true" />
+    <Property Type="DateTime" Name="NextDateOfTest" Nullable="true" />
+    <Property Type="String" Name="CategoryTest" Nullable="true" MaxLength="2000" />
+    <Property Type="Int32" Name="UserTest" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" MaxLength="2000" />
+    <Property Type="Int32" Name="Status" Nullable="false" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" />
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DeviceName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DeviceCode" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="HistoryScheduleTestById_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="DeviceId" Nullable="true" />
+    <Property Type="DateTime" Name="DateOfTest" Nullable="true" />
+    <Property Type="DateTime" Name="NextDateOfTest" Nullable="true" />
+    <Property Type="String" Name="CategoryTest" Nullable="true" MaxLength="2000" />
+    <Property Type="Int32" Name="UserTest" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" MaxLength="2000" />
+    <Property Type="Int32" Name="Status" Nullable="false" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" />
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DeviceName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DeviceCode" Nullable="true" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="HistoryRepairDetails_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="DeviceId" Nullable="true" />
+    <Property Type="DateTime" Name="DateOfRepair" Nullable="true" />
+    <Property Type="DateTime" Name="NextDateOfRepair" Nullable="true" />
+    <Property Type="Int32" Name="TimeOrder" Nullable="true" />
+    <Property Type="Int32" Name="TypeOfRepair" Nullable="true" />
+    <Property Type="String" Name="AddressOfRepair" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" MaxLength="1000" />
+    <Property Type="DateTime" Name="CreateDate" Nullable="true" />
+    <Property Type="String" Name="FullName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DeviceName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="DeviceCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="TypeName" Nullable="false" />
+    <Property Type="Int32" Name="Status" Nullable="false" />
+    <Property Type="Double" Name="Price" Nullable="true" />
+    <Property Type="String" Name="PriceOne" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SearchRequestDeviceNew_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="UserRequest" Nullable="true" />
+    <Property Type="DateTime" Name="DateOfRequest" Nullable="true" />
+    <Property Type="DateTime" Name="DateOfUse" Nullable="true" />
+    <Property Type="String" Name="DeviceName" Nullable="true" />
+    <Property Type="Int32" Name="TypeOfDevice" Nullable="true" />
+    <Property Type="String" Name="Configuration" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" />
+    <Property Type="Boolean" Name="Approved" Nullable="true" />
+    <Property Type="Int32" Name="UserApproved" Nullable="true" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" />
+    <Property Type="Int32" Name="Status" Nullable="true" />
+    <Property Type="String" Name="FullName" Nullable="true" />
+    <Property Type="String" Name="TypeName" Nullable="true" />
+    <Property Type="Int32" Name="NumDevice" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="UsageDevice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DateUse" Type="DateTime" Precision="0" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="ProjectId" Type="Int32" />
+    <Property Name="Notes" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="DeviceId" Type="Int32" />
+    <NavigationProperty Name="Device" Relationship="QuanLyTaiSanCtyModel.FK_UsageDevice_Device" FromRole="UsageDevice" ToRole="Device" />
+    <NavigationProperty Name="ProjectDKC" Relationship="QuanLyTaiSanCtyModel.FK_UsageDevice_ProjectDKC" FromRole="UsageDevice" ToRole="ProjectDKC" />
+    <NavigationProperty Name="User" Relationship="QuanLyTaiSanCtyModel.FK_UsageDevice_User" FromRole="UsageDevice" ToRole="User" />
+  </EntityType>
+  <Association Name="FK_UsageDevice_Device">
+    <End Type="QuanLyTaiSanCtyModel.Device" Role="Device" Multiplicity="0..1" />
+    <End Type="QuanLyTaiSanCtyModel.UsageDevice" Role="UsageDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsageDevice">
+        <PropertyRef Name="DeviceId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsageDevice_ProjectDKC">
+    <End Type="QuanLyTaiSanCtyModel.ProjectDKC" Role="ProjectDKC" Multiplicity="0..1" />
+    <End Type="QuanLyTaiSanCtyModel.UsageDevice" Role="UsageDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ProjectDKC">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsageDevice">
+        <PropertyRef Name="ProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UsageDevice_User">
+    <End Type="QuanLyTaiSanCtyModel.User" Role="User" Multiplicity="0..1" />
+    <End Type="QuanLyTaiSanCtyModel.UsageDevice" Role="UsageDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UsageDevice">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <ComplexType Name="SearchUseDevice_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="DateTime" Name="DateUse" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="Int32" Name="ProjectId" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="DeviceId" Nullable="true" />
+    <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="200" />
+  </ComplexType>
+  <ComplexType Name="SearchRepairDevice_Result">
+    <Property Type="String" Name="TypeName" Nullable="false" />
+    <Property Type="String" Name="FullName" Nullable="false" />
+    <Property Type="String" Name="Name" Nullable="false" />
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Double" Name="Price" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="OderCode">
+    <Property Type="Int32" Name="Code" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="StatisticalDevice_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="DeviceCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DeviceName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="TypeOfDevice" Nullable="true" />
+    <Property Type="Int32" Name="ParentId" Nullable="true" />
+    <Property Type="String" Name="Configuration" Nullable="true" MaxLength="500" />
+    <Property Type="Double" Name="Price" Nullable="true" />
+    <Property Type="String" Name="PurchaseContract" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="DateOfPurchase" Nullable="true" />
+    <Property Type="Int32" Name="SupplierId" Nullable="true" />
+    <Property Type="DateTime" Name="Guarantee" Nullable="true" />
+    <Property Type="Int32" Name="UserId" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" MaxLength="2000" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" />
+    <Property Type="DateTime" Name="ModifiedDate" Nullable="true" />
+    <Property Type="Int32" Name="Status" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="Int32" Name="StatusRepair" Nullable="true" />
+    <Property Type="String" Name="NewCode" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="TimeUse" Nullable="true" />
+    <Property Type="Int32" Name="TimeRepair" Nullable="true" />
+    <Property Type="String" Name="SumPrice" Nullable="true" />
+    <Property Type="String" Name="PriceOne" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="StatisticProject_Result">
+    <Property Type="Int32" Name="NumDevice" Nullable="true" />
+    <Property Type="Int32" Name="NumDeviceActive" Nullable="false" />
+    <Property Type="String" Name="ProjectName" Nullable="false" />
+    <Property Type="String" Name="ProjectSymbol" Nullable="false" />
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="Int32" Name="NumDeviceReturn" Nullable="false" />
+    <Property Type="Int32" Name="Status" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="DeviceHistory_Result">
+    <Property Type="String" Name="ProjectName" Nullable="true" MaxLength="200" />
+    <Property Type="Int32" Name="DeviceId" Nullable="true" />
+    <Property Type="String" Name="DeviceName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Configuration" Nullable="true" MaxLength="500" />
+    <Property Type="Int32" Name="TypeOfDevice" Nullable="true" />
+    <Property Type="DateTime" Name="DateOfDelivery" Nullable="true" />
+    <Property Type="DateTime" Name="DateOfReturn" Nullable="true" />
+    <Property Type="String" Name="Notes" Nullable="true" MaxLength="2000" />
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="TypeName" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="DeviceCode" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Status" Nullable="true" />
+    <Property Type="Int32" Name="StatusRepair" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="DeviceDevice">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DeviceCodeParents" Type="Int32" />
+    <Property Name="DeviceCodeChildren" Type="Int32" />
+    <Property Name="TypeSymbolParents" Type="Int32" />
+    <Property Name="TypeSymbolChildren" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+    <Property Name="UserCreated" Type="Int32" />
+    <Property Name="UserModified" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="Notes" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Device" Relationship="QuanLyTaiSanCtyModel.FK_DeviceDevice_Device" FromRole="DeviceDevice" ToRole="Device" />
+    <NavigationProperty Name="Device1" Relationship="QuanLyTaiSanCtyModel.FK_DeviceDevice_Device1" FromRole="DeviceDevice" ToRole="Device" />
+    <Property Name="TypeComponant" Type="Int32" />
+  </EntityType>
+  <EntityType Name="DeviceTypeComponantType">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TypeSymbolParents" Type="Int32" />
+    <Property Name="TypeSymbolChildren" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="0" />
+    <Property Name="ModifiedDate" Type="DateTime" Precision="0" />
+    <Property Name="UserCreated" Type="Int32" />
+    <Property Name="UserModified" Type="Int32" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <NavigationProperty Name="DeviceType" Relationship="QuanLyTaiSanCtyModel.FK_DeviceTypeComponantType_DeviceType" FromRole="DeviceTypeComponantType" ToRole="DeviceType" />
+    <NavigationProperty Name="DeviceType1" Relationship="QuanLyTaiSanCtyModel.FK_DeviceTypeComponantType_DeviceType1" FromRole="DeviceTypeComponantType" ToRole="DeviceType" />
+    <Property Name="TypeComponant" Type="Int32" />
+  </EntityType>
+  <ComplexType Name="ChildrenOfDevice_Result">
+    <Property Type="Int32" Name="Id" Nullable="false" />
+    <Property Type="String" Name="DeviceCode" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="DeviceName" Nullable="true" MaxLength="200" />
+    <Property Type="String" Name="Configuration" Nullable="true" MaxLength="500" />
+    <Property Type="String" Name="Price" Nullable="true" />
+    <Property Type="String" Name="PurchaseContract" Nullable="true" MaxLength="500" />
+    <Property Type="DateTime" Name="DateOfPurchase" Nullable="true" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="Int32" Name="StatusRepair" Nullable="true" />
+    <Property Type="String" Name="TypeName" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="DeviceCodeParents" Nullable="true" />
+    <Property Type="Int32" Name="DeviceCodeChildren" Nullable="true" />
+    <Property Type="Int32" Name="TypeSymbolParents" Nullable="true" />
+    <Property Type="Int32" Name="TypeSymbolChildren" Nullable="true" />
+    <Property Type="Int32" Name="TypeComponant" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="TypeComponantOfDevice_Result">
+    <Property Type="String" Name="NameTypeParents" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="NameTypeChildren" Nullable="true" MaxLength="100" />
+    <Property Type="Int32" Name="TypeSymbolParents" Nullable="true" />
+    <Property Type="Int32" Name="TypeSymbolChildren" Nullable="true" />
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="Boolean" Name="IsDeleted" Nullable="true" />
+    <Property Type="Int32" Name="TypeComponant" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="Credential">
+    <Key>
+      <PropertyRef Name="UserGroupID" />
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="UserGroupID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="RoleID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Role" Relationship="QuanLyTaiSanCtyModel.FK_Credential_UserGroup" FromRole="Credential" ToRole="Role" />
+    <NavigationProperty Name="UserGroup" Relationship="QuanLyTaiSanCtyModel.FK_Credential_UserGroup1" FromRole="Credential" ToRole="UserGroup" />
+  </EntityType>
+  <EntityType Name="UserGroup">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Credentials" Relationship="QuanLyTaiSanCtyModel.FK_Credential_UserGroup1" FromRole="UserGroup" ToRole="Credential" />
+    <NavigationProperty Name="UserLogins" Relationship="QuanLyTaiSanCtyModel.FK_UserLogin_UserGroup" FromRole="UserGroup" ToRole="UserLogin" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Credentials" Relationship="QuanLyTaiSanCtyModel.FK_Credential_UserGroup" FromRole="Role" ToRole="Credential" />
+  </EntityType>
+  <EntityType Name="UserLogin">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <Property Name="PassWord" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <Property Name="GroupID" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+    <Property Name="IsDeleted" Type="Boolean" />
+    <Property Name="Status" Type="Int32" />
+    <NavigationProperty Name="UserGroup" Relationship="QuanLyTaiSanCtyModel.FK_UserLogin_UserGroup" FromRole="UserLogin" ToRole="UserGroup" />
+  </EntityType>
+  <Association Name="FK_Credential_UserGroup">
+    <End Type="QuanLyTaiSanCtyModel.Role" Role="Role" Multiplicity="1" />
+    <End Type="QuanLyTaiSanCtyModel.Credential" Role="Credential" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Credential">
+        <PropertyRef Name="RoleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Credential_UserGroup1">
+    <End Type="QuanLyTaiSanCtyModel.UserGroup" Role="UserGroup" Multiplicity="1" />
+    <End Type="QuanLyTaiSanCtyModel.Credential" Role="Credential" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserGroup">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Credential">
+        <PropertyRef Name="UserGroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeviceDevice_Device">
+    <End Type="QuanLyTaiSanCtyModel.Device" Role="Device" Multiplicity="0..1" />
+    <End Type="QuanLyTaiSanCtyModel.DeviceDevice" Role="DeviceDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeviceDevice">
+        <PropertyRef Name="DeviceCodeChildren" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeviceDevice_Device1">
+    <End Type="QuanLyTaiSanCtyModel.Device" Role="Device" Multiplicity="0..1" />
+    <End Type="QuanLyTaiSanCtyModel.DeviceDevice" Role="DeviceDevice" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Device">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeviceDevice">
+        <PropertyRef Name="DeviceCodeParents" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeviceTypeComponantType_DeviceType">
+    <End Type="QuanLyTaiSanCtyModel.DeviceType" Role="DeviceType" Multiplicity="0..1" />
+    <End Type="QuanLyTaiSanCtyModel.DeviceTypeComponantType" Role="DeviceTypeComponantType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeviceType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeviceTypeComponantType">
+        <PropertyRef Name="TypeSymbolChildren" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DeviceTypeComponantType_DeviceType1">
+    <End Type="QuanLyTaiSanCtyModel.DeviceType" Role="DeviceType" Multiplicity="0..1" />
+    <End Type="QuanLyTaiSanCtyModel.DeviceTypeComponantType" Role="DeviceTypeComponantType" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DeviceType">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="DeviceTypeComponantType">
+        <PropertyRef Name="TypeSymbolParents" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserLogin_UserGroup">
+    <End Type="QuanLyTaiSanCtyModel.UserGroup" Role="UserGroup" Multiplicity="0..1" />
+    <End Type="QuanLyTaiSanCtyModel.UserLogin" Role="UserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserGroup">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserLogin">
+        <PropertyRef Name="GroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

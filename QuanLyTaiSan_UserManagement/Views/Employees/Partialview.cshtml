@@ -1,0 +1,80 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+<div class="modal fade" id="myModaldelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">DELETE</h4>
+            </div>
+            <div class="modal-body">
+                Bạn có muốn xóa người dùng đã chọn?
+                <div style="text-align:center;display:none" id="loaderDiv">
+                    <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                <a id="btnContinueDelete" onclick="DeleteDevice()" class="btn btn-warning"> Xoá</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Chọn Thiết Bị</h4>
+            </div>
+            <div class="modal-body">
+                <div class="radio">
+                    <label><input type="radio" name="optradio">MH1</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio">MH1</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio">MH1</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio">MH1</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="optradio">MH1</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                <button class="btn btn-warning" type="button"> Chọn</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var ConfirmDelete=function(Id){
+        $("#hiddenId").val(Id);
+        $("#myModaldelete").modal('show')
+    }
+    var DeleteDevice = function () {
+        $("#loaderDiv").show();
+        var dvId = $("#hiddenId").val();
+        $.ajax({
+            type: "POST",
+            url: "/Employees/DeleteUser",
+            data: { Id: dvId },
+            success: function (result) {
+                if (result) {
+                    $("#loaderDiv").hide();
+                    $("#myModaldelete").modal("hide");
+                    alert("Xóa thành công!");
+                    window.location = '@Url.Action("UserManagement", "Employees")';
+                } else {
+
+                    $("#loaderDiv").hide();
+                    $("#myModaldelete").modal("hide");
+                    alert("Xóa người dùng lỗi");
+                }
+            }
+        })
+    }
+</script>

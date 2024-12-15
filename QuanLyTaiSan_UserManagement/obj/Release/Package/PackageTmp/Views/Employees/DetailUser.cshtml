@@ -1,0 +1,103 @@
+﻿@model QuanLyTaiSan_UserManagement.Models.User
+@using QuanLyTaiSan_UserManagement.Models
+@{
+    ViewBag.Title = Model.UserName;
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            @using (Html.BeginForm("DetailUser", "Employees", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal" }))
+            {
+                @Html.AntiForgeryToken()
+                <header class="panel-heading mypanel">
+                    @Model.UserName
+                    <div class="pull-right">
+                        @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Employees") && k.ActionName.Equals("DetailUser1")))
+                        {*@
+                            <button type="submit" class="btn btn-primary"> Lưu </button>@*}*@
+                        @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("Employees") && k.ActionName.Equals("DeleteUser")))
+                        {*@
+                            <button type="button" class="btn btn-danger" onclick="ConfirmDelete(@Model.Id)">Xóa</button>@*}*@
+                    </div>
+                </header>
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        <div class="form-group m-bot15 clearfix ">
+                            <label class="control-label col-md-4 ">Tên Người dùng</label>
+                            <div class="col-md-8 ">
+                                <input class="form-control myctr form" data-val="true" data-val-required="Tên Nhân Viên Không Được Trống." name="UserName" type="text" value="@Model.UserName" autocomplete="off">
+                                <span class="field-validation-valid text-danger" data-valmsg-for="UserName" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group hidden ">
+                            <div class="col-md-8 ">
+                                <input type="text" class="form-control myctr form" value="@Model.Id" name="Id">
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix">
+                            <label class="control-label col-md-4 ">Tên Đầy Đủ</label>
+                            <div class="col-md-8 ">
+                                <input class="form-control myctr form" data-val="true" data-val-required="Tên Đầy Đủ Không Được Trống." name="FullName" type="text" autocomplete="off"  value="@Model.FullName" >
+                                <span class="field-validation-valid text-danger" data-valmsg-for="FullName" data-valmsg-replace="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix ">
+                            <label class="control-label  col-md-4 ">Email</label>
+                            <div class="col-md-8 ">
+                                <input type="text" class="form-control myctr form" value="@Model.Email" name="Email">
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix ">
+                            <label class="control-label col-md-4 ">Phone</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control myctr form" value="@Model.PhoneNumber" name="PhoneNumber">
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix">
+                            <label class="control-label col-md-4 ">Địa Chỉ</label>
+                            <div class="col-md-8">
+                                <textarea class="form-control form myctr" rows="2" id="comment" name="Address">@Model.Address</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group m-bot15 clearfix ">
+                            <label class="control-label col-md-4 ">Phòng</label>
+                            <div class="col-md-8">
+                                @*<input type="text" class="form-control myctr form" value="@Model.Department" name="Department">*@
+                                <select class="input-large form-control myctr form-control" name="Department" id="Department">
+                                    <option value="0" selected> Chọn  phòng </option>
+                                    @foreach (var item in ViewData["Department"] as IList<ProjectDKC>)
+                                    {
+                                        <option value="@item.Id" @( ViewBag.ID  == @item.Id ? "selected" : "")> @item.ProjectName </option>
+                                    }
+                                   
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix ">
+                            <label class="control-label col-md-4 ">Vị Trí</label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control myctr form" value="@Model.Position" name="Position">
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix">
+                            <label class="control-label col-md-4 ">Trạng Thái</label>
+                            <div class="col-md-8 input-group">
+                                <select class="form-control myctr" name="Status">
+                                    <option value="-1" @(Model.Status == -1 ? "selected" : "")>Chọn Trạng Thái </option>
+                                    <option value="0" @(Model.Status == 0 ? "selected" : "")>Hoạt Động</option>
+                                    <option value="1" @(Model.Status == 1 ? "selected" : "")>Nghỉ</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="hiddenId" />
+            }
+        </section>
+        @Html.Partial("~/Views/Employees/Partialview.cshtml")
+    </div>
+</div>
+@Scripts.Render("~/bundles/jqueryval")

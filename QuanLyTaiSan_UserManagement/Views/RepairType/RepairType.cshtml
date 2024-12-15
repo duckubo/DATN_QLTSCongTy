@@ -1,0 +1,84 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@model QuanLyTaiSan_UserManagement.Models.RepairType
+@{
+    ViewBag.Title = "Danh sách kiểu sửa chữa";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<section class="panel">
+    <div class="panel-heading tcssPadb ">
+        Danh sách kiểu sửa chữa
+        @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("RepairType") && k.ActionName.Equals("AddRepairType")))
+        {*@
+            <button class="btn btn-primary tcssLeft" type="button" data-toggle="modal" data-target="#myModal"> Thêm <i class="icon-plus"></i> </button>
+
+        @*}*@
+    </div>
+    <section class="panel-body">
+        <!--Tabale Device of Project-->
+        <div class="adv-table table">
+            <table class="display table table-bordered table-striped table-hover" id="exampletype">
+                <thead>
+                    <tr>
+                        <th>Tên loại   </th>
+                        <th>Mô tả</th>
+                        <th>Sửa</th>
+                        <th>Xóa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewData["RepairTypes"] as IList<RepairType>)
+                    {
+                        <tr class="gradeA" id="row_@item.Id">
+                            <td>@item.TypeName</td>
+                            <td>@item.Notes</td>
+                            <td class="center">
+                                @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("RepairType") && k.ActionName.Equals("EditRepairType")))
+                                {*@
+                                    <a href="javascript:void(0)" onclick="GetDetail(@item.Id)"><i class="icon-edit"></i></a>
+                                @*}*@
+                            </td>
+                            <td class="center">
+                                @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>).Any(k => k.ControllerName.Equals("RepairType") && k.ActionName.Equals("AddRepairType")))
+                                {*@
+                                    <a href="javascript:void(0)" onclick="ConfirmDelete(@item.Id)"><i class="icon-trash"></i></a>
+                                @*}*@
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <input type="hidden" name="hiddenId" id="hiddenId" />
+            <input type="hidden" name="hiddenId1" id="hiddenId1" />
+            <input type="hidden" id="hidID" />
+        </div>
+    </section>
+    <!--The end table-->
+    @Html.Partial("AddRepairType")
+    @Html.Partial("DeleteRepairTypePartial")
+    @Html.Partial("EditRepairType")
+</section>
+<!--Start Scrip-->
+<script>
+    $(document).ready(function () {
+        $('#exampletype').dataTable({
+            "oLanguage": {
+                "sInfo": "Hiển thị từ _START_ đến _END_ của _TOTAL_ bản ghi",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+            "bLengthChange": false,
+            "bFilter": false,
+            "aoColumnDefs": [{
+                'bSortable': false,
+                'aTargets': [2, 3],
+            }]
+        });
+    });
+    $('.RepairDetails').addClass('active');
+    $('.RepairType').addClass('active');
+</script>
+<!--The end Scrip-->

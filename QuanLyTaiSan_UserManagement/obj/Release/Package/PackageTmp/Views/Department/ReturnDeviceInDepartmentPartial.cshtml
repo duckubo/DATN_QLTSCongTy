@@ -1,0 +1,73 @@
+﻿
+@using QuanLyTaiSan_UserManagement.Models;
+@model QuanLyTaiSan_UserManagement.Models.ProjectDKC
+<!--Popup EDIT-->
+<div id="myModalReturn" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Xác nhận</h4>
+            </div>
+            <div class="modal-body">
+                <!--Containt-->
+                <div class="clearfix">
+                    <div class="col-md-12"> <h5 class="text">  Bạn muốn trả thiết bị về kho</h5>  </div>
+                    <div class="col-md-3">
+                        <label>Chú thích</label>
+                    </div>
+                    <div class="col-md-9">
+                        <textarea class="cke_editable form-control form myctr" rows="3" id="Notes" name="Notes"></textarea>
+                    </div>
+                </div>                
+                <!--The end Containt-->
+            </div>
+            <div class="modal-footer col-md-12">
+                <div class="col-md-5  left">
+                </div>
+                <div class="col-md-7">
+                    <button type="button" class="btn btn-primary" onclick="ReturnDeviceInProject()">Đồng ý <i class="icon-arrow-down"></i></button>
+                    <button type="button" class="btn btn-white" data-dismiss="modal"> Hủy <i class="icon-remove"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--The end popup-->
+<!--Return ONE-->
+<script>
+    var ConfirmReturn = function (Id) {
+        $("#hiddenIddv").val(Id);
+        $("#myModalReturn").modal('show')
+    }
+    var ReturnDeviceInProject = function () {
+        var dvId = $("#hiddenIddv").val();
+        var prId = $("#hiddenIdpr").val();
+        var notes = $("#Notes").val();
+        $("#loaderDiv").show();
+        $.ajax({
+            type: "POST",
+            url: "/Department/ReturnDeviceInDepartment",
+            data: {
+                Idpr: prId,
+                Iddv: dvId,
+                notes: notes,
+            },
+            success: function (result) {
+                if (result) {
+                    $("#loaderDiv").hide();
+                    $("#myModalReturn").modal("hide");                  
+                    $("#row_" + dvId).remove();
+                }
+                else {
+                    $("#loaderDiv").hide();
+                    $("#myModalReturn").modal("hide");
+                    alert("Trả thiết bị lỗi. Thiết bị là thiết bị con nằm trong thiết bị khác");
+                }
+            }
+        })
+    }
+</script>
+
+
+

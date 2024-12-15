@@ -1,0 +1,188 @@
+﻿@model IEnumerable<QuanLyTaiSan_UserManagement.Models.DeviceType>
+@using QuanLyTaiSan_UserManagement.Models
+@{
+    ViewBag.Title = "DeviceType";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+    QuanLyTaiSanCtyEntities data = new QuanLyTaiSanCtyEntities();
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Loại Thiết Bị
+                <div class="btn-group pull-right">
+                        <button class="btn green btn-success" data-toggle="modal" href="#myModal1">
+                            Thêm mới<i class="icon-plus"></i>
+                        </button>
+                </div>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div class="clearfix ">
+                        <table class="display table table-bordered table-striped table-hover" id="example">
+                            <thead>
+                                <tr>
+                                    <th>Tên Loại</th>
+                                    <th>Ký Hiệu Loại</th>
+                                    <th>Số Lượng Thiết Bị</th>
+                                    <th>Ghi Chú</th>
+                                    <th class="center">Xem</th>
+                                    <th class="center">Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr class="gradeA">
+                                        <td>
+                                            @item.TypeName
+                                        </td>
+                                        <td>@item.TypeSymbol</td>
+                                        <td class="center">@data.SearchDevice(null, item.Id, null, null, null).Where(x => x.Status != 2).Count()</td>
+                                        <td>@item.Notes</td>
+                                        <td class="center"><a class="edit icon-eye-open" onclick="GetDetail(@item.Id)"></a></td>
+                                        <td class="center">
+                                                <a class="icon-trash" onclick="ConfirmDelete(@item.Id)"></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            @Html.Partial("~/Views/DeviceType/CreateDeviceType.cshtml")
+            <div class="modal fade" id="supplierdelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">DELETE</h4>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có muốn xóa loại thiết bị đã chọn?
+                            <div style="text-align:center;display:none" id="loaderDiv">
+                                <img src="~/Content/img/Spinner-1s-200px.gif" width="150" />
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                            <a id="btnContinueDelete" onclick="DeleteDevice()" class="btn btn-warning"> Xoá</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="edittype" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">Loại Thiết Bị</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group m-bot15 clearfix ">
+                                <label class="control-label col-md-4 ">Tên Loại</label>
+                                <div class="col-md-8 ">
+                                    <input type="text" class="form-control myctr form" id="TypeName" name="TypeName">
+                                    <input type="hidden" id="hidID" />
+                                </div>
+                            </div>
+                            <div class="form-group m-bot15 clearfix ">
+                                <label class="control-label col-md-4 ">Ký Hiệu Loại</label>
+                                <div class="col-md-8 ">
+                                    <input type="text" class="form-control myctr form" id="TypeSymbol1" name="TypeSymbol1">
+                                </div>
+                            </div>
+                            <div class="form-group m-bot15 clearfix">
+                                <label class="control-label col-md-4 ">Notes</label>
+                                <div class="col-md-8">
+                                    <textarea class="form-control form myctr" rows="5" id="Notes" name="Notes"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                                <button class="btn btn-warning" onclick="EditType()">Sửa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" id="hiddenId" />
+        </section>
+    </div>
+</div>
+<script>
+    $('.Tool').addClass('active');
+    $('.DeviceType').addClass('active');
+    var ConfirmDelete = function (Id) {
+        $("#hiddenId").val(Id);
+        $("#supplierdelete").modal('show')
+    }
+    var DeleteDevice = function () {
+        $("#loaderDiv").show();
+        var dvId = $("#hiddenId").val();
+        $.ajax({
+            type: "POST",
+            url: "/DeviceType/DeleteDeviceType",
+            data: { Id: dvId },
+            success: function (result) {
+                if (result) {
+                    $("#loaderDiv").hide();
+                    $("#supplierdelete").modal("hide");
+                    window.location = '@Url.Action("DeviceType", "DeviceType")';
+                } else {
+                    $("#loaderDiv").hide();
+                    $("#supplierdelete").modal("hide");
+                    alert("Xóa loại thiết bị lỗi");
+                }
+            }
+        });
+    }
+</script>
+<script>
+    var GetDetail = function (Id) {
+        $('#edittype').modal('show');
+        var id = Id;
+        $.ajax({
+            url: '/DeviceType/GetDetail',
+            data: {
+                id: id
+            },
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var data = response.data;
+                $('#hidID').val(data.Id);
+                $('#TypeName').val(data.TypeName);
+                $('#TypeSymbol1').val(data.TypeSymbol);
+                $('#Notes').val(data.Notes);
+            },
+        });
+    }
+    var EditType = function () {
+        var dvId = $("#hidID").val();
+        var TypeName = $("#TypeName").val();
+        var TypeSymbol = $("#TypeSymbol1").val();
+        var Notes = $("#Notes").val();
+        $.ajax({
+            url: '/DeviceType/EditDeviceType',
+            data: {
+                Id: dvId,
+                TypeName: TypeName,
+                TypeSymbol: TypeSymbol,
+                Notes: Notes
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (result) {
+                if (result) {
+                    $("#edittype").modal("hide");
+                    window.location = '@Url.Action("DeviceType", "DeviceType")';
+                } else {
+                    $("#edittype").modal("hide");
+                    alert("Sửa lỗi");
+                }
+            }
+        });
+    }
+</script>

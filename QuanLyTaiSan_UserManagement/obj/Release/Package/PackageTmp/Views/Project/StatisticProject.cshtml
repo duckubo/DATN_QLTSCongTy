@@ -1,0 +1,127 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@using QuanLyTaiSan_UserManagement.Helper;
+@{
+    ViewBag.Title = "Thống kê dự án";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<section class="panel">
+    <header class="panel-heading tcssPadb">
+        <div class="">
+            Thống kê phòng ban
+            <div class="btn-group " style="float:right">
+                <button class="btn dropdown-toggle btn-white" data-toggle="dropdown">
+                    Export<i class="icon-angle-down"></i>
+                </button>
+                <ul class="dropdown-menu pull-right">
+                    @*<li><a href="javascript:void(0)" onclick="printDivPr()">Print</a></li>*@
+                    <li><a href="javascript:void(0)" id="btnExportPr" onclick="fnExcelReportPr();">Export to Excel</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <div class="panel-body">
+        <div class="adv-table ">
+            <table class="display panel-body table table-bordered table-striped table-hover table-responsive" id="exampleT">
+                <thead>
+                    <tr>
+                        <th>Mã phòng </th>
+                        <th>Tên phòng </th>
+                        <th>Trạng thái</th>
+                        <th>Thiết bị </th>
+                        <th>Thiết bị còn trong phòng</th>
+                        <th>Thiết bị đã trả</th>
+                        <th>Xem chi tiết</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewData["StatisticProject"] as IList<StatisticProject_Result>)
+                    {
+                        <tr class="gradeA">
+                            <td>@item.ProjectSymbol</td>
+                            <td>@item.ProjectName</td>
+                            <td>@Html.Raw(item.Status.GetEnumDescription(typeof(eStatus.ProjectStatus)))</td>
+                            <td style="text-align:right">@item.NumDevice</td>
+                            <td style="text-align:right">@item.NumDeviceActive</td>
+                            <td style="text-align:right">@item.NumDeviceReturn </td>
+                            <td class="center">
+                                @*@if (Session["AuthenticationFeature"] != null && (Session["AuthenticationFeature"] as List<SystemFeature>
+).Any(k => k.ControllerName.Equals("Project") && k.ActionName.Equals("EditProject")))
+                                {*@
+                                    <a class="edit" href="@Url.Action("EditDepartment","Department",new{Id=@item.Id})"><i class="icon-eye-open"></i></a>
+                                @*}*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        $('#exampleT').dataTable({
+            "oLanguage": {
+                "sInfo": "Hiển thị từ _START_ đến _END_ bản ghi",
+                "sSearch": "Tìm Kiếm",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+            //"bInfo": false,
+            "iDisplayLength": 100,
+            //"bLengthChange": false,
+            //"bFilter": false,
+            "aoColumnDefs": [
+            //{ "sWidth": "10%", "aTargets": [0], },
+            //{ "sWidth": "25%", "aTargets": [1] },
+            // { "sWidth": "15%", "aTargets": [2] },
+            //{ "sWidth": "10%", "aTargets": [3] },
+            //{ "sWidth": "20%", "aTargets": [4] },
+            //{ "sWidth": "10%", "aTargets": [5] },
+            { "aTargets": [6], bSortable: false },
+            ]
+        });
+    });
+    function fnExcelReportPr() {
+        var tab_text = "<table border='2px'><tr bgcolor=''>";
+        var textRange; var j = 0;
+        tab = document.getElementById('exampleT'); // id of table
+        for (j = 0 ; j < tab.rows.length ; j++) {
+            tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+            //tab_text=tab_text+"</tr>";
+        }
+        tab_text = tab_text + "</table>";
+        tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+        tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html", "replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus();
+            sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
+        }
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+        return (sa);
+    }
+    function printDivPr() {
+        var divToPrint = document.getElementById('exampleT');
+        newWin = window.open("");
+        newWin.document.write(divToPrint.outerHTML);
+        newWin.print();
+        newWin.close();
+    }
+    $('.Statistical').addClass('active');
+    $('.StatisticProject').addClass('active');
+</script>
+
+
+
+
+
+

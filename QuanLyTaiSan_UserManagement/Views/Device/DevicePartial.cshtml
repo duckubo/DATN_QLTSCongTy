@@ -1,0 +1,151 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+
+@*Xác nhận xóa từng thiết bị (Trên màn thanh lý,...)*@ 
+<div class="modal fade" id="myModaldelete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">DELETE</h4>
+            </div>
+            <div class="modal-body">
+                Bạn có muốn xóa thiết bị đã chọn?
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                <a id="btnContinueDelete" onclick="DeleteDevice()" class="btn btn-warning"> Xoá</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Xác nhận thêm thiết bị vào phòng ban (Màn chi tiết TB)*@
+<div class="modal fade" id="myModalg1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Chọn dự án</h4>
+            </div>
+            <div class="modal-body">
+                <table class="display table table-bordered table-striped table-hover" id="project">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Tên Dự Án</th>
+                            <th>Người quản Lý</th>
+                            <th>Địa chỉ</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewData["sProjectDKC"] as IList<SearchProject_Result>)
+                        {
+                            <tr class="gradeA" id="tr-id-2">
+                                <td class="center">
+                                    <input type="radio" class="checkon" value="@item.Id" name="product_variation" />
+                                </td>
+                                <td>@item.ProjectName</td>
+                                <td>@item.FullName</td>
+                                <td>@item.Address</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <input type="hidden" id="hiddenprid" />
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                <button class="btn btn-warning" id="btnContinueAdd"> Chọn</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var ConfirmDelete = function (Id, Status) {
+        $("#hiddenId").val(Id);
+        $("#Statushidden").val(Status);
+        $("#myModaldelete").modal('show')
+    }
+    var DeleteDevice = function () {
+        var sta = $("#Statushidden").val();
+        if (sta == 1) {
+            alert("Thiết bị này đang được sử dụng không thể xóa!")
+            $("#myModaldelete").modal("hide");
+        }
+        else {
+            //  $("#loaderDiv").show();
+            var dvId = $("#hiddenId").val();
+            $.ajax({
+                type: "POST",
+                url: "/Device/DeleteDevice",
+                data: { Id: dvId },
+                success: function (result) {
+                    if (result) {
+                        //  $("#loaderDiv").hide();
+                        $("#myModaldelete").modal("hide");
+                        location.reload();
+                    } else {
+
+                        //  $("#loaderDiv").hide();
+                        $("#myModaldelete").modal("hide");
+                        alert("Xóa thiết bị lỗi. Thiết bị là thiết bị con nằm trong thiết bị khác");
+                    }
+                }
+            })
+        }
+    }
+</script>
+<script>
+    var Confim = function () {
+        var chkArray = [];
+        var status = 0;
+        / look for all checkboes that have a class 'chk' attached to it and check if it was checked /
+        var table = $('#example').dataTable()
+        table.$('input[type="checkbox"]').each(function () {
+            if (this.checked) {
+                chkArray.push($(this).val());
+                status += $(this).data("status")
+            }
+        });
+        //$(".check:checked").each(function () {
+        //    chkArray.push($(this).val());
+        //    status += $(this).data("status")
+        //});
+        / we join the array separated by the comma /
+      
+        if (chkArray.length > 0) {
+            if (status != 0) {
+                alert("Có những thiết bị đã có sẵn trong dự án hoặc không thể gán!");
+            }
+            else {
+                $("#hiddenId1").val(chkArray);
+                $("#myModalg1").modal('show');
+                $('#btnContinueAdd').click(function () {
+                    $(".checkon:checked").each(function () {
+                        var check = $(this).val();
+                        $("#hiddenprid").val(check);
+                    });
+                    var pjId = $("#hiddenprid").val();
+                    var dvId = $("#hiddenId1").val();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Device/AddDeviceProject1",
+                        data: {
+                            Id: dvId,
+                            PJ: pjId
+                        },
+                        success: function (result) {
+                            if (result) {
+                                $("#myModalg1").modal("hide");
+                                location.reload();
+                            } else {                   
+                                $("#myModalg1").modal("hide");
+                                alert("Thêm thiết bị lỗi. Có thiết bị con nằm trong thiết bị cha");
+                            }
+                        }
+                    })
+                })
+            }
+        }
+    }
+</script>

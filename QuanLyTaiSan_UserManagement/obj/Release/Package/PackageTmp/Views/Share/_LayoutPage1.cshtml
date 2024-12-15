@@ -1,0 +1,222 @@
+﻿<!DOCTYPE html>
+@using QuanLyTaiSan_UserManagement.Common;
+@using QuanLyTaiSan_UserManagement.Models
+@{
+    QuanLyTaiSanCtyEntities data = new QuanLyTaiSanCtyEntities();
+    ViewData["DeviceType"] = data.DeviceTypes.ToList();
+    ViewBag.CountDeviceType = data.SearchDevice(null, null, null, null, null).Where(x => x.Status != 2 ).Count();
+    ViewBag.CountDeviceType1 = data.SearchDevice(null, null, null, null, null).Where(x => x.Status == 2).Count();
+    ViewBag.CountPr = data.SearchProject(null, null, 0, null).Count();
+    ViewBag.CountRoom = data.SearchProject(null, null, 1, null).Count();
+    ViewBag.CountRepairDetails = data.SearchRepairDetails(null, null, null, null).Count();
+    ViewBag.CountRequestDevice = data.SearchRequestDeviceNew(null, null).Count();
+    ViewBag.CountScheduleTest = data.SearchScheduleTest(null, null).Count();
+    var session = (UserLoginSec)HttpContext.Current.Session[CommonConstants.USER_SESSION];
+    ViewBag.SecName = data.UserLogins.Where(x => x.UserName == session.UserName).Select(x => x.FullName).FirstOrDefault();
+}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="">
+    <title>@ViewBag.Title</title>
+    <!-- Bootstrap CSS -->
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/bootstrap-reset.css" rel="stylesheet" />
+    <!--external css-->
+    <link href="~/Content/assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/css/owl.carousel.css" rel="stylesheet" type="text/css" />
+    <!--device-->
+    <link type="text/css" href="~/Content/assets/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" />
+    <link href="~/Content/assets/advanced-datatable/media/css/demo_page.css" rel="stylesheet" />
+    <link href="~/Content/assets/advanced-datatable/media/css/demo_table.css" rel="stylesheet" />
+    <link href="~/Content/js/dropdownCheckboxes.min.css" rel="stylesheet" />
+    <!-- Custom styles for this template -->
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/css/style-responsive.css" rel="stylesheet" />
+    <link href="~/Content/css/mytcsss.css" rel="stylesheet" />
+    <link href="~/Content/css/TcssProject.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery.js"></script>
+    <script src="~/Content/js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+    <section id="container">
+        <!--sidebar start-->
+        <aside>
+            <div id="sidebar" class="nav-collapse ">
+                <!-- sidebar menu start-->
+                <ul class="sidebar-menu" id="nav-accordion" style="margin-top: 15px;">
+                    <li>
+                        <a href="@Url.Action("Index", "Home")" class="Home">
+                            <i class="icon-dashboard"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="Device">
+                            <i class="icon-laptop"></i>
+                            <span>Thiết bị</span>
+                        </a>
+                        <ul class="sub" id="Devicediv">
+                            <li class="Devicetable"><a href="@Url.Action("Device", "Device")">Tất cả  (@ViewBag.CountDeviceType)</a></li>
+                            @foreach (var item in ViewData["DeviceType"] as IList<DeviceType>)
+                            {
+                                <li class="@item.Id"><a href="@Url.Action("TypeDevice", "Device", new { Id = item.Id })">@item.TypeName (@data.SearchDevice(null, item.Id, null, null, null).Where(x => x.Status != 2).Count())</a></li>
+                            }
+                            <li class="Deviceliquidation"><a href="@Url.Action("Deviceliquidation", "Device")">Thiết Bị Đã Thanh Lý (@ViewBag.CountDeviceType1)</a></li>
+
+                            <li class="Create">@Html.ActionLink("Thêm Thiết Bị Mới", "Create", "Device", new { Id = -1 }, null)</li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="Department">
+                            <i class="icon-home"></i>
+                            <span>Phòng ban</span>
+                        </a>
+                        <ul class="sub">
+                            <li class="DepartmentTable">
+                                <a href="@Url.Action("Department", "Department")">Danh sách phòng ban (@ViewBag.CountRoom) </a>
+                            </li>
+                            <li class="AddDepartment">@Html.ActionLink("Thêm mới phòng ban", "AddDepartment", "Department")</li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="RepairDetails">
+                            <i class="icon-wrench"></i>
+                            <span>Sửa chữa thiết bị </span>
+                        </a>
+                        <ul class="sub">
+                            <li class="RepairDetailsTable"><a href="@Url.Action(  "RepairDetails", "RepairDetails")">Danh sách sửa chữa (@ViewBag.CountRepairDetails) </a></li>
+                            <li class="AddRepairDetails">@Html.ActionLink("Thêm sửa chữa", "AddRepairDetails", "RepairDetails")</li>
+                            <li class="RepairType">@Html.ActionLink("Kiểu sửa chữa", "RepairType", "RepairType")</li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="RequestDevice">
+                            <i class="icon-inbox"></i>
+                            <span>Yêu cầu thiết bị</span>
+                        </a>
+                        <ul class="sub">
+                            <li class="RequestDeviceTable"><a href="@Url.Action("RequestDevice", "RequestDevice")">Danh sách yêu cầu (@ViewBag.CountRequestDevice) </a></li>
+                            <li class="AddRequestDevice">@Html.ActionLink("Thêm yêu cầu", "AddRequestDevice", "RequestDevice")</li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="ScheduleTest">
+                            <i class="icon-calendar"></i>
+                            <span>Lịch kiểm tra thiết bị</span>
+                        </a>
+                        <ul class="sub">
+                            <li class="ScheduleTestTable"><a href="@Url.Action( "ScheduleTest", "ScheduleTest")">Lịch kiểm tra (@ViewBag.CountScheduleTest) </a></li>
+                            <li class="AddScheduleTest">@Html.ActionLink("Lập lịch kiểm tra", "AddScheduleTest", "ScheduleTest")</li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="Tool">
+                            <i class="icon-tasks"></i>
+                            <span>Quản lý tác vụ</span>
+                        </a>
+                        <ul class="sub">
+                            <li class="ScanerDevice">@Html.ActionLink("Quét mã vạch", "ScanerDevice", "Device")</li>
+                            <li class="DeviceType">@Html.ActionLink("Quản lý loại thiết bị", "DeviceType", "DeviceType")</li>
+                            <li class="Supplier">@Html.ActionLink("Quản lý nhà cung cấp", "Supplier", "Supplier")</li>
+                            <li class="Usertable">@Html.ActionLink("Danh sách nhân viên", "UserManagement", "Employees")</li>
+                            <li class="CreateUser">@Html.ActionLink("Thêm nhân viên", "CreateUser", "Employees")</li>
+                            <li class="ManagerParentChild">@Html.ActionLink("Quản lý loại TB cha-con", "ManagerTypeParent", "Device")</li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="Statistical">
+                            <i class="icon-bar-chart"></i>
+                            <span>Báo cáo - Thống kê</span>
+                        </a>
+                        <ul class="sub">
+                            <li class="StatisticalDeviceType">@Html.ActionLink("Thống kê theo loại thiết bị", "StatisticalDeviceType", "DeviceType")</li>
+                            <li class="StatisticalDevice">@Html.ActionLink("Thống kê thiết bị", "StatisticalDevice", "Device")</li>
+                            <li class="StatisticProject">@Html.ActionLink("Thống kê phòng ban", "StatisticDepartment", "Department")</li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="RoleUser">
+                            <i class="icon-user"></i>
+                            <span>Quản lý người dùng</span>
+                        </a>
+                        <ul class="sub">
+                            <li>@Html.ActionLink("Danh sách người dùng", "UserIndex", "UserRole")</li>
+                            <li class="RoleForUserGroup">@Html.ActionLink("Phân quyền - Tính năng ", "RoleIndex", "Role")</li>
+                        </ul>
+                    </li>
+                    <li class="sub-menu">
+                        <a href="javascript:;" class="">
+                            <i class="icon-meh"></i>
+                            <span> (@ViewBag.SecName) </span>
+                        </a>
+                        <ul class="sub">
+                            @*<li class="Supplier">@Html.ActionLink("Đổi mật khẩu", "ChangePassword", "Account")</li>*@
+                            @if (1 == 1)
+                            {
+                                using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <li class="Supplier"><a href="javascript:document.getElementById('logoutForm').submit()">Đăng Xuất</a></li>
+                                }
+                            }
+                        </ul>
+                    </li>
+                </ul>
+                <!-- sidebar menu end-->
+            </div>
+        </aside>
+        <!--sidebar end-->
+        <!--main content start-->
+        <section id="main-content">
+            <section class="wrapper" style="min-height:600px; margin-top:0px;">
+                @RenderBody()
+            </section>
+            <!--footer start-->
+            <footer class="site-footer">
+                <div class="text-center">
+                    2019 &copy; BMT.
+                    <a href="#" class="go-top">
+                        <i class="icon-angle-up"></i>
+                    </a>
+                </div>
+            </footer>
+            <!--footer end-->
+        </section>
+    </section>
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="~/Content/js/dropdownCheckboxes.min.js"></script>
+    <script src="~/Content/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/Content/js/hover-dropdown.js"></script>
+    <script class="include" type="text/javascript" src="~/Content/js/jquery.dcjqaccordion.2.7.js"></script>
+    <script src="~/Content/js/jquery.scrollTo.min.js"></script>
+    <script src="~/Content/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="~/Content/js/jquery.sparkline-11.js" type="text/javascript"></script>
+    <script src="~/Content/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js"></script>
+    <script src="~/Content/js/owl.carousel.js"></script>
+    <script src="~/Content/js/jquery.customSelect.min.js"></script>
+    <script src="~/Content/assets/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <!--device-->
+    <script type="text/javascript" src="~/Content/js/ga.js"></script>
+    <script type="text/javascript" language="javascript" src="~/Content/assets/advanced-datatable/media/js/jquery.dataTables.js"></script>
+    <!---->
+    <script src="~/Content/js/respond.min.js"></script>
+    <script class="include" type="text/javascript" src="~/Content/js/jquery.dcjqaccordion.2.7.js"></script>
+    <!--common script for all pages-->
+    <script type="text/javascript" src="~/Content/js/advanced-form-components.js"></script>
+    <script src="~/Content/js/common-scripts.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#checkAll").click(function () {
+                $('input:checkbox').not(this).prop('checked', this.checked);
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            $('.cq-dropdown').dropdownCheckboxes();
+        });
+    </script>
+</body>
+</html>

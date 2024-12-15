@@ -1,0 +1,308 @@
+﻿@using Microsoft.AspNet.Identity
+@using QuanLyTaiSan_UserManagement.Models;
+@*@model RegisterUser*@
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Quản Lý Người Dùng
+                <div class="btn-group pull-right">
+                    <button class="btn green btn-success" data-toggle="modal" data-target="#registerModal" onclick="registerModal()">
+                        Thêm Mới<i class="icon-plus"></i>
+                    </button>
+
+                </div>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div class="clearfix ">
+                        <table class="display table table-bordered table-striped table-hover" style="table-layout: fixed">
+                            <thead>
+                                <tr>
+                                    <th>Tên người Dùng</th>
+                                    <th>Tên đăng nhập</th>
+                                    <th>Quyền</th>
+                                    <th>Tên quyền</th>
+                                    <th style="width: 10%; text-align: center">Sửa</th>
+                                    <th style="width: 10%; text-align: center">Xóa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in (IList<QuanLyTaiSan_UserManagement.InformationUser>)ViewData["Users"])
+                                {
+                                    <tr>
+                                        <td>@item.FullName</td>
+                                        <td>@item.Username</td>
+                                        <td>@item.RoleGroupID</td>
+                                        <td>@item.RoleGroupName</td>
+                                        <td class="center">
+                                            <a class="EditUserLogin icon-pencil" href="#" data-id="@item.Username"></a>
+                                        </td>
+                                        <td class="center">
+                                            <a class="delete icon-trash" href="#" id="deleteItem" data-id="@item.Id"></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content form-horizontal">
+            @*@using (Html.BeginForm("UserIndex1", "UserRole", FormMethod.Post, new { @class = "form-horizontal ", role = "form" }))
+                {*@
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Đăng kí tài khoản mới</h4>
+            </div>
+            <div class="modal-body">
+                @*@Html.AntiForgeryToken()*@
+                <div class="login-wrap">
+                    <label class="text-danger" id="ToastCheckNullName" style="display:none">Bạn phải nhập Tên đăng nhập</label>
+                    <label class="text-danger" id="ToastCheckNullPass" style="display:none">Bạn phải nhập Mật khẩu</label>
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Tên đầy đủ</label>
+                        <div class="col-md-8">
+                            <input class="form-control" id="FullName" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Tên đăng nhập</label>
+                        <div class="col-md-8">
+                            <input class="form-control" id="Username" autocomplete="off" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"> Quyền </label>
+                        <div class="col-md-8">
+                            <select class="form-control" style="color: #888484" name="Role" id="Role">
+                                @foreach (var item in ViewData["Roles"] as IList<UserGroup>)
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Mật khẩu</label>
+                        <div class="col-md-8">
+                            <input class="form-control" id="Password" required autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="Create btn btn-primary" type="button">Tạo mới</button>
+                <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+
+            </div>
+            @*}*@
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="EditregisterModal" tabindex="-1" role="dialog" aria-labelledby="registerModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content form-horizontal">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Sửa tài khoản</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="login-wrap">
+                    <label class="text-danger" id="ToastCheckNullNameEdit" style="display:none">Bạn phải nhập Tên đăng nhập</label>
+                    <label class="text-danger" id="ToastCheckNullPassEdit" style="display:none">Bạn phải nhập Mật khẩu</label>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Tên đầy đủ</label>
+                        <div class="col-md-8">
+                            <input class="form-control" id="FullNameEdit" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label">Tên đăng nhập</label>
+                        <div class="col-md-8">
+                            <input class="form-control" id="UsernameEdit" autocomplete="off" readonly="readonly" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label"> Quyền </label>
+                        <div class="col-md-8">
+                            <select class="form-control" style="color: #888484" name="RoleEdit" id="RoleEdit">
+                                @foreach (var item in ViewData["Roles"] as IList<UserGroup>)
+                                {
+                                    <option value="@item.ID">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display:none">
+                        <label class="col-md-4 control-label">Mật khẩu</label>
+                        <div class="col-md-8">
+                            <input class="form-control" id="PasswordEdit" required autocomplete="off" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="Edit btn btn-primary" type="button" id="btnConfirmEdit">Cập nhật</button>
+                <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="teM" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Xóa người dùng</h4>
+            </div>
+            <div class="modal-body">
+                Bạn có muốn xóa người dùng?
+
+            </div>
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button">Hủy</button>
+                <a id="btnConfirmDelete" class="btn btn-warning"> Xoá</a>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="HiddenUserName" type="hidden" />
+<input id="HiddenUserIdRole" type="hidden" />
+<script>
+
+    var registerModal = function () {
+        $('#ToastCheckNullPass').hide();
+        $('#ToastCheckNullName').hide();
+    }
+    //Thêm người dùng
+    $(".Create").click(function (e) {
+        var FullName = $('#FullName').val().trim();
+        var Role = $('#Role').val().trim();
+        var Username = $('#Username').val().trim();
+        var Password = $('#Password').val().trim();
+        if (Username == "" || Username == null) {
+            $('#ToastCheckNullName').show();
+            $('#ToastCheckNullPass').hide();
+        }
+        else if (Password == "" || Password == null) {
+            $('#ToastCheckNullPass').show();
+            $('#ToastCheckNullName').hide();
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/UserRole/RegisterUser",
+                data: { FullName: FullName, Username: Username, Role: Role, Password: Password },
+                success: function (result) {
+                    if (result) {
+                        location.reload();
+                    } else {
+                        alert('Tên đăng nhập đã tồn tại');
+                    }
+                }
+            });
+        }
+    })
+    //Sửa thông tin người dùng
+    $(".EditUserLogin").click(function (e) {
+        e.preventDefault();
+        var id = $(this).attr('data-id');
+        //  var roleId = $(this).attr('data-role-id');
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            url: "/UserRole/GetInfoAccount",
+            data: { userId: id },
+            success: function (response) {
+                // var a = response.result;
+                var data = response.lstInfo;
+                if (data != null) {
+                    $('#EditregisterModal').modal('show');
+                    $('#FullNameEdit').val(data.FullName.trim());
+                    $('#UsernameEdit').val(data.UserName.trim());
+                    $('#RoleEdit').val(data.GroupID.trim());
+                    $('#PasswordEdit').val(data.PassWord.trim());
+                    $('#HiddenUserIdRole').val(data.Id);
+
+                } else {
+                    alert('Có lỗi xảy ra trong quá trình xử lí');
+                }
+            }
+        });
+    });
+
+  
+    $("#btnConfirmEdit").click(function () {
+        var ID = $('#HiddenUserIdRole').val().trim();
+        var FullNameEdit = $('#FullNameEdit').val().trim();
+        var UsernameEdit = $('#UsernameEdit').val().trim();
+        var RoleEdit = $('#RoleEdit').val().trim();
+        var PasswordEdit = $('#PasswordEdit').val().trim();
+        if (UsernameEdit == "" || UsernameEdit == null) {
+            $('#ToastCheckNullNameEdit').show();
+            $('#ToastCheckNullPassEdit').hide();
+        }
+        else if (PasswordEdit == "" || PasswordEdit == null) {
+            $('#ToastCheckNullPassEdit').show();
+            $('#ToastCheckNullNameEdit').hide();
+
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: "/UserRole/ChangeRoleByUserId",
+                data: { ID: ID, FullName: FullNameEdit, Username: UsernameEdit, Role: RoleEdit, Password: PasswordEdit },
+                success: function (result) {
+                    if (result) {
+                        location.reload();
+                    } else {
+                        alert('Có lỗi xảy ra trong quá trình xử lí');
+                    }
+                }
+            });
+        }
+    });
+    //Xóa thông tin người dùng
+    $(".delete").click(function () {
+        var id = $(this).attr('data-id');
+        $('#deleteModal').modal('show');
+        $("#btnConfirmDelete").click(function () {
+            $.ajax({
+                type: "POST",
+                url: "/UserRole/DeleteUser",
+                data: { userId: id },
+                success: function (result) {
+                    if (result) {
+                        location.reload();
+                    }
+                    else {
+                        alert('Có lỗi xảy ');
+                    }
+                }
+            });
+        });
+
+    });
+</script>
+
+
+

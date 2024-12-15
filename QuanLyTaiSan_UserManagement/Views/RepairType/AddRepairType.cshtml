@@ -1,0 +1,50 @@
+﻿<!--Popup DELETE -->
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+    @using (Html.BeginForm("AddRepairType", "RepairType", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal  editcontent ", @Id = "formId" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Thêm loại sửa chữa mới </h4>
+                </div>
+                <div class="modal-body">
+                    <!--Containt-->
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Tên Loại</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input class="form-control  myctr" type="text" placeholder="Nhập tên loại" name="TypeName" id="TypeName" autocomplete="off" required >
+                            <label class="label" style="display:none ; color:red" id="TestNullRepairType">Bạn phải điền tên loại sửa chữa </label>
+                         </div>
+                    </div>
+                    <div class="form-group m-bot15 clearfix">
+                        <div class="col-md-4">
+                            <label>Mô tả</label>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea class="cke_editable form-control form myctr" rows="3" name="Notes" placeholder="Mô tả"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit"  class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-white" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<script> 
+    document.getElementById("formId").onsubmit = function () {
+        var Typerequired = $('#TypeName');        
+        if (!Typerequired.val().trim()) {           
+            $("#TestNullRepairType").show();
+            return false;
+        } else {
+         
+        }
+    }
+</script>

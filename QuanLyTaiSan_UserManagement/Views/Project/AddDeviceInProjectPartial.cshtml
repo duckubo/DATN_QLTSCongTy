@@ -1,0 +1,112 @@
+﻿
+@using QuanLyTaiSan_UserManagement.Models;
+@model QuanLyTaiSan_UserManagement.Models.ProjectDKC
+<!--Popup EDIT-->
+<div id="myModal1" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Xác nhận</h4>
+            </div>
+            <div class="modal-body">
+                <!--Containt-->
+                <div class="form-body">
+                    <label> Bạn chắc chắn muốn thêm thiết bị vào dự án</label>
+                </div>
+                <div class="form-group m-bot15 clearfix">
+                    <input type="hidden" value="@Model.Id" name="ProjectId" />
+                    <input type="hidden" value="id" name="DeviceId" />
+                    <div class="col-md-3">
+                        <label>Chú thích</label>
+                    </div>
+                    <div class="col-md-9">
+                        <textarea class="cke_editable form-control form myctr" rows="3" id="Notes" name="Notes"></textarea>
+                    </div>
+                </div>
+                <!--The end Containt-->
+            </div>
+            <div class="modal-footer col-md-12">
+                <div class="col-md-4">
+                    <div class="btn btn-primary">
+                        <a onclick="AddDeviceInProjectReturn()"> <i class="icon-arrow-left"> </i>Thêm và quay lại</a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <button type="button" class="btn btn-primary" onclick="AddDeviceInProject()">Thêm và tiếp tục <i class="icon-arrow-down"></i></button>
+                    <button type="button" class="btn btn-white" data-dismiss="modal"> Hủy <i class="icon-remove"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--The end popup-->
+
+<script>
+    var ConfirmAdd = function (Id) {
+        $("#hiddenIddv").val(Id);
+        $("#myModal1").modal('show')
+    }
+    var AddDeviceInProject = function () {
+        var dvId = $("#hiddenIddv").val();
+        var prId = $("#hiddenIdpr").val();
+        var notes = $("#Notes").val();
+        $("#loaderDiv").show();
+        $.ajax({
+            type: "POST",
+            url: "/Project/AddDeviceInProject1",
+            data: {
+                Idpr: prId,
+                Iddv: dvId,
+                Notes: notes
+            },
+            success: function (result) {
+                if (result) {
+                    $("#loaderDiv").hide();
+                    $("#myModal1").modal("hide");
+                    $("#row_" + dvId).remove();
+                    window.location = '@Url.Action("AddDeviceInProject", "Project", new {DeviceType = 0 })';
+                  
+                }
+                else {
+                    $("#loaderDiv").hide();
+                    $("#myModal1").modal("hide");
+                    alert("Thêm thiết bị lỗi");
+                }
+
+            }
+        })
+    }
+</script>
+
+<script>
+    var AddDeviceInProjectReturn = function () {
+        var dvId = $("#hiddenIddv").val();
+        var prId = $("#hiddenIdpr").val();
+        var notes = $("#Notes").val();
+        $("#loaderDiv").show();
+        $.ajax({
+            type: "POST",
+            url: "/Project/AddDeviceInProject1",
+            data: {
+                Idpr: prId,
+                Iddv: dvId,
+                Notes: notes
+            },
+            success: function (result) {
+                if (result) {
+                    $("#loaderDiv").hide();
+                    $("#myModal1").modal("hide");
+                    $("#row_" + dvId).remove();
+                
+                    window.location = '@Url.Action("EditProject", "Project", new { id = Model.Id })';
+                }
+                else {
+                    $("#loaderDiv").hide();
+                    $("#myModal1").modal("hide");
+                    alert("Thêm thiết bị lỗi");
+                }
+            }
+        })
+    }
+</script>

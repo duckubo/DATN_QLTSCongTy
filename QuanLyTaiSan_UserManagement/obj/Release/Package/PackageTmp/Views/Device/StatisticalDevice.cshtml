@@ -1,0 +1,130 @@
+﻿@model  IEnumerable<QuanLyTaiSan_UserManagement.Models.StatisticalDevice_Result>
+@using QuanLyTaiSan_UserManagement.Models;
+@using QuanLyTaiSan_UserManagement.Helper;
+@{
+    ViewBag.Title = "Thống Kê Thiết Bị";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<div class="row">
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading mypanel">
+                Thống Kê Thiết Bị
+                <div class="btn-group pull-right">
+                    <button class="btn" id="btnExport" onclick="fnExcelReport();">
+                        Export
+                    </button>
+                </div>
+            </header>
+            <div class="panel-body">
+                <div class="adv-table">
+                    <div class="clearfix ">
+                        @using (Html.BeginForm("SearchStatisticalDevice", "Device", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal kh" }))
+                        {
+                            <div class="pull-left row col-md-12 nopadding">
+                                <div class="col-md-2 TcssMarg">
+                                    <select class="form-control input-sm m-bot15 myctr" name="TypeOfDevice" id="TypeOfDevice">
+                                        <option value="0">Chọn loại thiết bị</option>
+                                        @foreach (var item in ViewData["TypeOfDevice"] as IList<DeviceType>)
+                                        {
+                                            <option value="@item.Id" @(ViewBag.type == @item.Id ? "selected" : "")>@item.TypeName</option>
+                                        }
+                                    </select>
+                                </div>
+                                <div class="col-md-2 TcssMarg">
+                                    <select class="form-control input-sm m-bot15  myctr" name="Status" id="Status">
+                                        <option value="-1" @(ViewBag.status == -1 ? "selected" : "")>Chọn Trạng Thái </option>
+                                        <option value="0" @(ViewBag.status == 0 ? "selected" : "")>Rảnh</option>
+                                        <option value="1" @(ViewBag.status == 1 ? "selected" : "")>Đang trong phòng ban</option>
+                                        <option value="3" @(ViewBag.status == 3 ? "selected" : "")>Đang Bị Hỏng</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1 TcssMarg">
+                                    <div class="btn-group">
+                                        <button class="btn btn-primary btn-sm" type="submit">Tìm kiếm<i class="icon-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <table class="table table-bordered table-hover table-striped" id="history" style="margin-bottom:0px">
+                            <thead>
+                                <tr>
+                                    <th>Mã TB</th>
+                                    <th>Tên TB</th>
+                                    <th>Giá</th>
+                                    <th>Số Lần Sử Dụng</th>
+                                    <th>Số Lần Sửa Chữa</th>
+                                    <th>Tổng Tiền Sửa Chữa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.DeviceCode</td>
+                                        <td>@item.DeviceName</td>
+                                        <td style="text-align:right">@item.PriceOne</td>
+                                        <td style="text-align:right">@item.TimeUse</td>
+                                        <td style="text-align:right">@item.TimeRepair</td>
+                                        <td style="text-align:right">@item.SumPrice</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#history').dataTable({
+            "iDisplayLength": 25,
+            "oLanguage": {
+                "sInfo": "Hiển thị từ _START_ đến _END_ của _TOTAL_ thiết bị",
+                "oPaginate": {
+                    "sPrevious": "Trước",
+                    "sNext": "Tiếp",
+                }
+            },
+            "aoColumnDefs": [
+                { "aTargets": [0], bSortable: false },
+            ]
+        });
+    });
+</script>
+<script>
+    $('.Statistical').addClass('active');
+    $('.StatisticalDevice').addClass('active');
+</script>
+<script>
+    function fnExcelReport() {
+        $.ajax({
+            url: "/Device/ExportStatisticalDevice",
+            data: {
+            },
+            success: function (response) {
+                response = response.replace("DeviceCode", "Mã Thiết Bị");
+                response = response.replace("DeviceName", "Tên Thiết Bị");
+                response = response.replace("TimeUse", "Số Lần Sử Dụng");
+                response = response.replace("TimeRepair", "Số Lần Sửa Chữa");
+                response = response.replace("SumPrice", "Tổng Tiền Sửa Chữa");
+                response = response.replace("PriceOne", "Giá");
+                var ua = window.navigator.userAgent;
+                var msie = ua.indexOf("MSIE ");
+                if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+                {
+                    txtArea1.document.open("txt/html", "replace");
+                    txtArea1.document.write(response);
+                    txtArea1.document.close();
+                    txtArea1.focus();
+                    sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
+                }
+                else                 //other browser not tested on IE 11
+                    sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(response));
+                console.log(response)
+            }
+        })
+    }
+</script>

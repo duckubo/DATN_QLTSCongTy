@@ -1,0 +1,118 @@
+﻿.TcssButton {
+    text-align: center;
+    padding-right: 10px;
+}
+.TcssButton a{
+    color:white;
+}
+.Tlabel-Edit h2 {
+    color: black;
+}
+.TcssSeach {
+    display: inline;
+    margin-right: -60px;
+    padding-top: 7px;
+}
+.TcssMarg {
+    margin-right: -20px;
+}
+#myModal.btn-primary a {
+    color: white;
+}
+.tkcs {
+    border: 1px solid #e2e2e4;
+}
+.tkcs ul li {
+    padding:10px;
+    text-align:center;
+    border-top: 1px solid #e2e2e4;
+}
+.tkcs ul li a h4{
+    font-size:initial;
+}
+.FontHeader{
+    text-align:center;
+}
+.TcssEditor{
+    border:1px solid #e2e2e4;
+}
+.Tcsspad{
+    border-top: 1px solid #e2e2e4;
+}
+.tcssLeft{
+    float:right;   
+}
+.tcsspadtop{
+    padding-top:0px;
+}
+.tcsspadbut{
+    padding-bottom: 0px;
+}
+.tcsspadR{
+    padding-right:30px;
+}
+.tcssMarT {
+    margin-top : -15px ;
+}
+.txtcolor{
+    color: white !important ;
+}
+.tcssMarL{
+    margin-left:-15px;
+}
+.tcssPadR0{
+    padding-right:0px;
+}
+.tcsspadl{
+    padding-left:0px;
+}
+.tcssPadb{
+    padding-bottom:15px; 
+}
+.styletext{
+    font-family:unset;
+    font-size:large;
+}
+.TcssPadT{
+    padding-top:15px;
+}
+.tcssmartop{
+    margin-top : 15px;
+}
+.tcsspading {
+    padding: 0px !important ;
+}
+.borderform{
+     border: 1px solid #DDDDDD;
+}
+.marleft {
+    margin-left : 4px !important ; 
+}
+.cssTableHeader {
+    width: auto ;
+}
+.textAlignR {
+    text-align:right;
+}
+.select2css .select2-container .select2-selection--single {
+    height:30px !important
+}
+.btn-primary a{
+    color:#FFFFFF;
+}
+.btn-white a{
+    color:black;
+}
+.btn-white:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9));
+	background:-moz-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:-webkit-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:-o-linear-gradient(top, #e9e9e9 5%, #f9f9f9 100%);
+	background:linear-gradient(to bottom, #e9e9e9 5%, #f9f9f9 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9',GradientType=0);
+	background-color:#e9e9e9;
+}
+
+.BackGroundDefault form-control[disabled], .form-control[readonly], fieldset[disabled] {
+    background-color:white ;
+}

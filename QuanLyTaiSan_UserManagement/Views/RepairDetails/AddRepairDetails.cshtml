@@ -1,0 +1,175 @@
+﻿@using QuanLyTaiSan_UserManagement.Models;
+@{
+    ViewBag.Title = "Thêm thiết bị cần sửa";
+    Layout = "~/Views/Share/_LayoutPage1.cshtml";
+}
+<!--Add css-->
+<link href="~/Content/css/TcssProject.css" rel="stylesheet" />
+<link href="~/Content/css/select2.min.css" rel="stylesheet" />
+<script src="~/Scripts/select2.min.js"></script>
+<script src="~/Content/ckeditor/ckeditor.js"></script>
+<!--the end Add css-->
+
+<section class="panel">
+    <div class="panel-heading m-bot15">
+        <a class="edit panel-default" style="margin-right:10px" href="@Url.Action("RepairDetails", "RepairDetails")">
+            <span class="icon-border">
+                <i class="icon-arrow-left"> </i>
+            </span>
+        </a>
+        Thêm thiết bị cần sửa
+    </div>
+    @using (Html.BeginForm("AddRepairDetails", "RepairDetails", FormMethod.Post, new { @enctype = "multipart/form-data", @class = "form-horizontal  editcontent" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="col-md-12">
+            <div class="panel-body tkcs m-bot15">
+                <div class="row">
+                    <div class="col-md-2">   <p> Thông tin thiết bị </p></div>
+                    <div class="col-md-10">  
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Tên thiết bị </label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="input-large form-control myctr" onchange="GetDetail()" name="DeviceId" id="DeviceId" required>
+                                    <option value="">Chọn thiết bị</option>
+                                    @foreach (var item in ViewData["Devices"] as IList<SearchDevice_Result>)
+                                    {
+                                        <option value="@item.Id"> @item.DeviceCode - @item.DeviceName</option>
+                                    }
+                                </select>
+                                <label class="label" style="display:none ; color:#ff6c60" id="TestNullRepairDv">Bạn phải chọn thiết bị </label>
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Nhà cung cấp</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control myctr form-control-inline input-large" disabled size="16" name="Supplier" id="Supplier" value="" autocomplete="off" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Giá thiết bị </label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control myctr form-control-inline input-large " disabled size="16" name="Price" id="Price" value="" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Loại thiết bị </label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control myctr form-control-inline input-large" disabled size="16" name="DeviceType" id="DeviceType" value="" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!---->
+            <div class="panel-body tkcs">
+                <div class="">
+                    <p> Thông tin sửa chữa </p>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Người đi sửa  </label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="m-bot15 form-control myctr " name="UserId" id="user" required>
+                                    <option value="">Người sửa chữa</option>
+                                    @foreach (var item in ViewData["User"] as IList<User>)
+                                    {
+                                        <option value="@item.Id"> @item.FullName </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Ngày sửa</label>
+                            </div>
+                            <div class="col-md-8 clearfix input-group">
+                                <input type="text" value="" class="form-control myctr form-control-inline input-medium default-date-picker" size="16" name="DateOfRepair" autocomplete="off" required />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-warning icon-calendar" style="line-height:inherit"></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group m-bot15 clearfix">
+                            <div class="col-md-4">
+                                <label>Mô tả</label>
+                            </div>
+                            <div class="col-md-8">
+                                <textarea class="cke_editable form-control form myctr" rows="3" id="Notes" name="Notes"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="form-group row form-body">
+                <div class="FontHeader">
+                    <button type="submit" onclick="CheckNullRepairDv()" class="btn btn-primary btn-large"> Lưu </button>
+                    <button type="button" class="btn btn-white"> @Html.ActionLink("Hủy", "RepairDetails", "RepairDetails")</button>
+                </div>
+            </div>
+            <input type="hidden" name="AddressOfRepair" id="AddressOfRepair" value="" />
+            <input type="hidden" name="TimeOrder" id="TimeOrder" value="" />
+            <input type="hidden" name="TypeOfRepair" id="TypeOfRepair" value="0" />
+            <input type="hidden" name="NextDateOfRepair" id="NextDateOfRepair" value="" />
+
+
+    }
+
+</section>
+
+
+
+<script>
+    $('#DeviceId').select2();
+    $('#user').select2();
+    //Get Data
+    var GetDetail = function () {
+        var id = $("#DeviceId").val();
+        $.ajax({
+            url: '/RepairDetails/GetDetail',
+            data: {
+                id: id
+            },
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                var data = response.data;
+
+                $('#Supplier').val(data.Name);
+                $('#Price').val(data.Price);
+                $('#DeviceType').val(data.TypeName);
+            },
+        });
+    }
+    $('.RepairDetails').addClass('active');
+    $('.AddRepairDetails').addClass('active');
+    CKEDITOR.replace('Notes')
+
+    var CheckNullRepairDv = function () {
+        var dvId = $("#DeviceId");
+        if (!dvId.val().trim()) {
+            $("#TestNullRepairDv").show();
+        }
+    }
+</script>
